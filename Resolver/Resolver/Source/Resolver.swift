@@ -24,9 +24,13 @@
 
 import Foundation
 
+public protocol ResolverRegistering {
+    static func registerAllServices()
+}
+
 public final class Resolver {
 
-    public static var main: Resolver = Resolver()   // default Resolver registry
+    public static var main: Resolver = Resolver()               // default Resolver registry
 
     public let args: Any?
 
@@ -58,14 +62,13 @@ public final class Resolver {
     }
 
     public func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service? {
-        if let registration = lookup(type, name: name) {
-            return registration.registeredServiceFromScope(resolver: self, args: args)
+        if let registration = lookup(type, name: name), let service = registration.registeredServiceFromScope(resolver: self, args: args) {
+            return service
         }
-        fatalError("RESOLVER: '\(Service.self):\(name ?? "")' not resolved")
+        return nil
     }
 
     private func lookup<Service>(_ type: Service.Type, name: String?) -> ResolverRegistration<Service>? {
-        registerAllServicesIfNeeded()
         if let registrations = registrations, let registration = registrations[generateKey(type, name)] as? ResolverRegistration<Service> {
             return registration
         }
@@ -82,45 +85,36 @@ public final class Resolver {
         return String(describing: type) + ":" + (name ?? "")
     }
 
-    private func registerAllServicesIfNeeded() {
-        if Resolver.initialized == false {
-            Resolver.initialized = true
-            if let registering = (self as Any) as? ResolverRegistering {
-                type(of: registering).registerAllServices()
-            }
-        }
-    }
-
     private let parent: Resolver?
     private var registrations: [String : Any]?
-
 }
 
-// Root Resolver and Initial Registration Services
-
-public protocol ResolverRegistering {
-    static func registerAllServices()
-}
+// Root resolver and automatic registration resolution
 
 extension Resolver {
-    public static var root: Resolver {              // root registry, defaults to main but may be replaced for mocking, etc.
+
+    public static var root: Resolver {
         get {
-            if Resolver.initialized == false {
-                Resolver.initialized = true
-                if let registering = (main as Any) as? ResolverRegistering {
-                    type(of: registering).registerAllServices()
-                } else {
-                    fatalError("RESOLVER: Extension Resolver:ResolverRegistering.registerAllServices() not implemented.")
-                }
-            }
-            return _root
+            Resolver.registerServicesIfNeeded()
+            return currentRoot
         }
         set {
-            _root = newValue
+            currentRoot = newValue
         }
     }
-    private static var initialized = false
-    private static var _root = main
+
+    static func registerServicesIfNeeded() {
+        guard Resolver.servicesRegistered == false else {
+            return
+        }
+        Resolver.servicesRegistered = true
+        if let registering = (Resolver.main as Any) as? ResolverRegistering {
+            type(of: registering).registerAllServices()
+        }
+    }
+
+    private static var currentRoot: Resolver = main
+    private static var servicesRegistered = false
 }
 
 // Registration Internals
@@ -212,6 +206,8 @@ public protocol ResolverScope: class {
 public final class ResolverScopeCache: ResolverScope {
 
     public func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
+        pthread_mutex_lock(&mutex)
+        defer { pthread_mutex_unlock(&mutex) }
         if let service = cachedServices[registration.key] as? Service {
             return service
         }
@@ -223,17 +219,22 @@ public final class ResolverScopeCache: ResolverScope {
     }
 
     public func reset() {
+        pthread_mutex_lock(&mutex)
         cachedServices.removeAll()
+        pthread_mutex_unlock(&mutex)
     }
 
     private var cachedServices = [String : Any]()
+    private var mutex = pthread_mutex_t()
 }
 
 public final class ResolverScopeGraph: ResolverScope {
 
     public func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
-        if let service = graph[registration.key] {
-            return service as? Service
+        pthread_mutex_lock(&mutex)
+        defer { pthread_mutex_unlock(&mutex) }
+        if let service = graph[registration.key] as? Service {
+            return service
         }
         resolutionDepth = resolutionDepth + 1
         let service = registration.registeredService(resolver: resolver, args: args)
@@ -246,14 +247,17 @@ public final class ResolverScopeGraph: ResolverScope {
         return service
     }
 
-    private var graph = [String : Any?]()
+    private var graph = [String : Any?](minimumCapacity: 10)
     private var resolutionDepth: Int = 0
+    private var mutex = pthread_mutex_t()
 }
 
 public final class ResolverScopeShare: ResolverScope {
 
     public func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
-        if let service = cachedServices[registration.key]?.service as? Service {
+        pthread_mutex_lock(&mutex)
+        defer { pthread_mutex_unlock(&mutex) }
+        if let service = cachedServices[registration.key] as? Service {
             return service
         }
         if let service = registration.registeredService(resolver: resolver, args: args) {
@@ -272,6 +276,7 @@ public final class ResolverScopeShare: ResolverScope {
     }
 
     private var cachedServices = [String : BoxWeak]()
+    private var mutex = pthread_mutex_t()
 }
 
 public final class ResolverScopeUnique: ResolverScope {
@@ -293,3 +298,4 @@ extension Resolving {
         return Resolver.root
     }
 }
+
