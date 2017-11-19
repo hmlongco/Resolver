@@ -224,7 +224,7 @@ public final class ResolverScopeCache: ResolverScope {
         pthread_mutex_unlock(&mutex)
     }
 
-    private var cachedServices = [String : Any]()
+    private var cachedServices = [String : Any](minimumCapacity: 32)
     private var mutex = pthread_mutex_t()
 }
 
@@ -247,7 +247,7 @@ public final class ResolverScopeGraph: ResolverScope {
         return service
     }
 
-    private var graph = [String : Any?](minimumCapacity: 10)
+    private var graph = [String : Any?](minimumCapacity: 32)
     private var resolutionDepth: Int = 0
     private var mutex = pthread_mutex_t()
 }
@@ -275,7 +275,7 @@ public final class ResolverScopeShare: ResolverScope {
         weak var service: AnyObject?
     }
 
-    private var cachedServices = [String : BoxWeak]()
+    private var cachedServices = [String : BoxWeak](minimumCapacity: 32)
     private var mutex = pthread_mutex_t()
 }
 
@@ -298,4 +298,3 @@ extension Resolving {
         return Resolver.root
     }
 }
-
