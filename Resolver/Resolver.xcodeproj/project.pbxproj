@@ -76,7 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				4CA30FE71FBB6C8500217883 /* Resolver.h */,
-				4CA30FFE1FBB6D5D00217883 /* Source */,
+				4CA30FFE1FBB6D5D00217883 /* Sources */,
 				4CA30FE81FBB6C8500217883 /* Info.plist */,
 			);
 			path = Resolver;
@@ -91,13 +91,14 @@
 			path = ResolverTests;
 			sourceTree = "<group>";
 		};
-		4CA30FFE1FBB6D5D00217883 /* Source */ = {
+		4CA30FFE1FBB6D5D00217883 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				4CA30FFF1FBB6DFA00217883 /* Resolver.swift */,
 				4CA310001FBB6DFA00217883 /* ResolverStoryboard.swift */,
 			);
-			path = Source;
+			name = Sources;
+			path = ../../Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

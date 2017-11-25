@@ -54,9 +54,25 @@ public final class Resolver {
     @discardableResult
     public func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
                                   factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
-        let registration = ResolverRegistration(resolver: self, key: generateKey(type, name), factory: factory)
-        registrations?[registration.key] = registration
-        return registration
+        let key = ObjectIdentifier(Service.self).hashValue
+        if let name = name {
+            let registration = ResolverRegistration(resolver: self, key: key, factory: factory)
+            if let container = registrations?[key] as? ResolverRegistration<Service> {
+                container.addRegistration(name, registration: registration)
+            } else {
+                let container = ResolverRegistration(resolver: self, key: key, factory: factory )
+                container.addRegistration(name, registration: registration)
+                registrations?[key] = container
+            }
+            return registration
+        } else if let registration = registrations?[key] as? ResolverRegistration<Service> {
+            registration.factory = factory
+            return registration
+        } else {
+            let registration = ResolverRegistration(resolver: self, key: key, factory: factory)
+            registrations?[key] = registration
+            return registration
+        }
     }
 
     public func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil) -> Service {
@@ -90,27 +106,24 @@ public final class Resolver {
     }
 
     private func lookup<Service>(_ type: Service.Type, name: String?) -> ResolverRegistration<Service>? {
-        if let registrations = registrations, let registration = registrations[generateKey(type, name)] as? ResolverRegistration<Service> {
-            return registration
+        if let registrations = registrations,
+            let registration = registrations[ObjectIdentifier(Service.self).hashValue] as? ResolverRegistration<Service> {
+            if let name = name {
+                if let registration = registration.namedRegistrations?[name] as? ResolverRegistration<Service> {
+                    return registration
+                }
+            } else {
+                return registration
+            }
         }
         if let parent = parent, let registration = parent.lookup(type, name: name) {
             return registration
         }
-        if let _ = name, parent == nil {
-            return lookup(type, name: nil) // attempt resolution without name
-        }
         return nil
     }
 
-    private func generateKey<Service>(_ type: Service.Type, _ name: String?) -> String {
-        if let name = name {
-            return String(describing: type) + ":" + name
-        }
-        return String(describing: type)
-    }
-
     private let parent: Resolver?
-    private var registrations: [String : Any]?
+    private var registrations: [Int : Any]?
 }
 
 // Registration Internals
@@ -154,11 +167,20 @@ public class ResolverOptions<Service> {
 
 public final class ResolverRegistration<Service>: ResolverOptions<Service> {
 
-    public var key: String
+    public var key: Int
+    public var namedRegistrations: [String : Any]?
 
-    public init(resolver: Resolver, key: String, factory: @escaping ResolverFactory<Service>) {
+    public init(resolver: Resolver, key: Int, factory: @escaping ResolverFactory<Service>) {
         self.key = key
         super.init(resolver: resolver, factory: factory)
+    }
+
+    public func addRegistration(_ name: String, registration: Any) {
+        if namedRegistrations == nil {
+            namedRegistrations = [name:registration]
+        } else {
+            namedRegistrations?[name] = registration
+        }
     }
 
     public func resolve(resolver: Resolver) -> Service? {
@@ -218,7 +240,7 @@ public final class ResolverScopeCache: ResolverScope {
         pthread_mutex_unlock(&mutex)
     }
 
-    private var cachedServices = [String : Any](minimumCapacity: 32)
+    private var cachedServices = [Int : Any](minimumCapacity: 32)
     private var mutex = pthread_mutex_t()
 }
 
@@ -242,7 +264,7 @@ public final class ResolverScopeGraph: ResolverScope {
         return service
     }
 
-    private var graph = [String : Any?](minimumCapacity: 32)
+    private var graph = [Int : Any?](minimumCapacity: 32)
     private var resolutionDepth: Int = 0
     private var mutex = pthread_mutex_t()
 }
@@ -272,7 +294,7 @@ public final class ResolverScopeShare: ResolverScope {
         weak var service: AnyObject?
     }
 
-    private var cachedServices = [String : BoxWeak](minimumCapacity: 32)
+    private var cachedServices = [Int : BoxWeak](minimumCapacity: 32)
     private var mutex = pthread_mutex_t()
 }
 
@@ -319,4 +341,3 @@ extension Resolving {
         return Resolver.root
     }
 }
-
