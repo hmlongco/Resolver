@@ -24,7 +24,7 @@
 
 import UIKit
 
-public protocol StoryboardResolving {
+public protocol StoryboardResolving: Resolving {
     func resolveViewController(_ resolver: Resolver)
 }
 
@@ -36,7 +36,7 @@ public extension UIViewController {
         }
         set {
             if let vc = self as? StoryboardResolving {
-                vc.resolveViewController(Resolver.root)
+                vc.resolveViewController(vc.resolver)
             }
         }
     }

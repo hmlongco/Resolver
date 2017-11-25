@@ -32,9 +32,15 @@ public protocol Resolving {
     var resolver: Resolver { get }
 }
 
+extension Resolving {
+    public var resolver: Resolver {
+        return Resolver.root
+    }
+}
 public final class Resolver {
 
-    public static var main: Resolver = Resolver()               // default Resolver registry
+    public static let main: Resolver = Resolver()               // default Resolver registry
+    public static var root: Resolver = main                     // default root registry used by Resolving protocol
     public static var defaultScope = Resolver.graph             // default scope used when registering new objects
 
     public let args: Any?
@@ -52,8 +58,8 @@ public final class Resolver {
     }
 
     @discardableResult
-    public func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
-                                  factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
+    public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+                                        factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
         let key = ObjectIdentifier(Service.self).hashValue
         if let name = name {
             let registration = ResolverRegistration(resolver: self, key: key, factory: factory)
@@ -75,14 +81,14 @@ public final class Resolver {
         }
     }
 
-    public func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil) -> Service {
+    public final func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil) -> Service {
         if let registration = lookup(type, name: name), let service = registration.scope.resolve(resolver: self, registration: registration) {
             return service
         }
         fatalError("RESOLVER: '\(Service.self):\(name ?? "")' not resolved")
     }
 
-    public func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any) -> Service {
+    public final func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any) -> Service {
         if let registration = lookup(type, name: name),
             let service = registration.scope.resolve(resolver: Resolver(parent: self, args: args), registration: registration) {
             return service
@@ -90,14 +96,14 @@ public final class Resolver {
         fatalError("RESOLVER: '\(Service.self):\(name ?? "")' not resolved")
     }
 
-    public func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil) -> Service? {
+    public final func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil) -> Service? {
         if let registration = lookup(type, name: name), let service = registration.scope.resolve(resolver: self, registration: registration) {
             return service
         }
         return nil
     }
 
-    public func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any) -> Service? {
+    public final func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any) -> Service? {
         if let registration = lookup(type, name: name),
             let service = registration.scope.resolve(resolver: Resolver(parent: self, args: args), registration: registration) {
             return service
@@ -105,7 +111,20 @@ public final class Resolver {
         return nil
     }
 
-    private func lookup<Service>(_ type: Service.Type, name: String?) -> ResolverRegistration<Service>? {
+    public final func registerServices() {
+        guard Resolver.registrationsNeeded else {
+            return
+        }
+        Resolver.registrationsNeeded = false
+        if let registering = (Resolver.main as Any) as? ResolverRegistering {
+            type(of: registering).registerAllServices()
+        }
+    }
+
+    private final func lookup<Service>(_ type: Service.Type, name: String?) -> ResolverRegistration<Service>? {
+        if Resolver.registrationsNeeded {
+            registerServices()
+        }
         if let registrations = registrations,
             let registration = registrations[ObjectIdentifier(Service.self).hashValue] as? ResolverRegistration<Service> {
             if let name = name {
@@ -124,6 +143,7 @@ public final class Resolver {
 
     private let parent: Resolver?
     private var registrations: [Int : Any]?
+    private static var registrationsNeeded = true
 }
 
 // Registration Internals
@@ -146,19 +166,19 @@ public class ResolverOptions<Service> {
     }
 
     @discardableResult
-    public func implements<Protocol>(_ type: Protocol.Type, name: String? = nil) -> ResolverOptions<Service> {
+    public final func implements<Protocol>(_ type: Protocol.Type, name: String? = nil) -> ResolverOptions<Service> {
         resolver?.register(type.self, name: name) { r in r.resolve(Service.self) as? Protocol }
         return self
     }
 
     @discardableResult
-    public func resolveProperties(_ block: @escaping ResolverFactoryMutator<Service>) -> ResolverOptions<Service> {
+    public final func resolveProperties(_ block: @escaping ResolverFactoryMutator<Service>) -> ResolverOptions<Service> {
         mutator = block
         return self
     }
 
     @discardableResult
-    public func scope(_ scope: ResolverScope) -> ResolverOptions<Service> {
+    public final func scope(_ scope: ResolverScope) -> ResolverOptions<Service> {
         self.scope = scope
         return self
     }
@@ -175,7 +195,7 @@ public final class ResolverRegistration<Service>: ResolverOptions<Service> {
         super.init(resolver: resolver, factory: factory)
     }
 
-    public func addRegistration(_ name: String, registration: Any) {
+    public final func addRegistration(_ name: String, registration: Any) {
         if namedRegistrations == nil {
             namedRegistrations = [name:registration]
         } else {
@@ -183,7 +203,7 @@ public final class ResolverRegistration<Service>: ResolverOptions<Service> {
         }
     }
 
-    public func resolve(resolver: Resolver) -> Service? {
+    public final func resolve(resolver: Resolver) -> Service? {
         if let service = factory(resolver)  {
             self.mutator?(resolver, service)
             return service
@@ -219,7 +239,7 @@ public protocol ResolverScope: class {
 
 public final class ResolverScopeCache: ResolverScope {
 
-    public func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>) -> Service? {
+    public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>) -> Service? {
         pthread_mutex_lock(&mutex)
         if let service = cachedServices[registration.key] as? Service {
             pthread_mutex_unlock(&mutex)
@@ -234,7 +254,7 @@ public final class ResolverScopeCache: ResolverScope {
         return nil
     }
 
-    public func reset() {
+    public final func reset() {
         pthread_mutex_lock(&mutex)
         cachedServices.removeAll()
         pthread_mutex_unlock(&mutex)
@@ -246,7 +266,7 @@ public final class ResolverScopeCache: ResolverScope {
 
 public final class ResolverScopeGraph: ResolverScope {
 
-    public func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>) -> Service? {
+    public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>) -> Service? {
         pthread_mutex_lock(&mutex)
         if let service = graph[registration.key] as? Service {
             pthread_mutex_unlock(&mutex)
@@ -271,7 +291,7 @@ public final class ResolverScopeGraph: ResolverScope {
 
 public final class ResolverScopeShare: ResolverScope {
 
-    public func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>) -> Service? {
+    public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>) -> Service? {
         pthread_mutex_lock(&mutex)
         if let service = cachedServices[registration.key] as? Service {
             pthread_mutex_unlock(&mutex)
@@ -300,44 +320,8 @@ public final class ResolverScopeShare: ResolverScope {
 
 public final class ResolverScopeUnique: ResolverScope {
 
-    public func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>) -> Service? {
+    public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>) -> Service? {
         return registration.resolve(resolver: resolver)
     }
 
-}
-
-// Root resolver and automatic registration resolution
-
-extension Resolver {
-
-    public static var root: Resolver {
-        get {
-            if Resolver.servicesRegistered == false {
-                Resolver.registerServices()
-            }
-            return currentRoot
-        }
-        set {
-            currentRoot = newValue
-        }
-    }
-
-    static func registerServices() {
-        guard Resolver.servicesRegistered == false else {
-            return
-        }
-        Resolver.servicesRegistered = true
-        if let registering = (Resolver.main as Any) as? ResolverRegistering {
-            type(of: registering).registerAllServices()
-        }
-    }
-
-    private static var currentRoot: Resolver = main
-    private static var servicesRegistered = false
-}
-
-extension Resolving {
-    public var resolver: Resolver {
-        return Resolver.root
-    }
 }
