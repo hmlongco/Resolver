@@ -293,7 +293,7 @@ public final class ResolverScopeShare: ResolverScope {
 
     public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>) -> Service? {
         pthread_mutex_lock(&mutex)
-        if let service = cachedServices[registration.key] as? Service {
+        if let service = cachedServices[registration.key]?.service as? Service {
             pthread_mutex_unlock(&mutex)
             return service
         }
