@@ -103,7 +103,7 @@ public final class Resolver {
 
     // MARK: - Resolver - Resolution
 
-    static func r<Service>(name: String? = nil) -> Service {
+    static func resolve<Service>(name: String? = nil) -> Service {
         return root.resolve(Service.self, name: name)
     }
 
@@ -122,7 +122,7 @@ public final class Resolver {
         fatalError("RESOLVER: '\(Service.self):\(name ?? "")' not resolved")
     }
 
-    static func o<Service>(name: String? = nil) -> Service? {
+    static func optional<Service>(name: String? = nil) -> Service? {
         return root.optional(Service.self, name: name)
     }
 
@@ -348,4 +348,3 @@ public final class ResolverScopeUnique: ResolverScope {
     }
 
 }
-
