@@ -45,6 +45,8 @@ public final class Resolver {
 
     public let args: Any?
 
+    // MARK: - Resolver - Lifecycle
+
     public init(parent: Resolver? = nil) {
         self.parent = parent
         self.registrations = [:]
@@ -57,16 +59,34 @@ public final class Resolver {
         self.args = args
     }
 
+    // MARK: - Resolver - Registration
+
+    public final func registerServices() {
+        guard Resolver.registrationsNeeded else {
+            return
+        }
+        Resolver.registrationsNeeded = false
+        if let registering = (Resolver.main as Any) as? ResolverRegistering {
+            type(of: registering).registerAllServices()
+        }
+    }
+
     @discardableResult
     public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
                                         factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
+        return register(type, name: name, factory: { (_) -> Service? in return factory() })
+    }
+
+    @discardableResult
+    public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+                                        factory: @escaping ResolverFactoryArguments<Service>) -> ResolverOptions<Service> {
         let key = ObjectIdentifier(Service.self).hashValue
         if let name = name {
             let registration = ResolverRegistration(resolver: self, key: key, factory: factory)
             if let container = registrations?[key] as? ResolverRegistration<Service> {
                 container.addRegistration(name, registration: registration)
             } else {
-                let container = ResolverRegistration(resolver: self, key: key, factory: factory )
+                let container = ResolverRegistration(resolver: self, key: key, factory: factory)
                 container.addRegistration(name, registration: registration)
                 registrations?[key] = container
             }
@@ -79,6 +99,12 @@ public final class Resolver {
             registrations?[key] = registration
             return registration
         }
+    }
+
+    // MARK: - Resolver - Resolution
+
+    static func r<Service>(name: String? = nil) -> Service {
+        return root.resolve(Service.self, name: name)
     }
 
     public final func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil) -> Service {
@@ -96,6 +122,10 @@ public final class Resolver {
         fatalError("RESOLVER: '\(Service.self):\(name ?? "")' not resolved")
     }
 
+    static func o<Service>(name: String? = nil) -> Service? {
+        return root.optional(Service.self, name: name)
+    }
+
     public final func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil) -> Service? {
         if let registration = lookup(type, name: name), let service = registration.scope.resolve(resolver: self, registration: registration) {
             return service
@@ -111,15 +141,7 @@ public final class Resolver {
         return nil
     }
 
-    public final func registerServices() {
-        guard Resolver.registrationsNeeded else {
-            return
-        }
-        Resolver.registrationsNeeded = false
-        if let registering = (Resolver.main as Any) as? ResolverRegistering {
-            type(of: registering).registerAllServices()
-        }
-    }
+    // MARK: - Resolver - Internal
 
     private final func lookup<Service>(_ type: Service.Type, name: String?) -> ResolverRegistration<Service>? {
         if Resolver.registrationsNeeded {
@@ -148,18 +170,19 @@ public final class Resolver {
 
 // Registration Internals
 
-public typealias ResolverFactory<Service> = (_ resolver: Resolver) -> Service?
+public typealias ResolverFactory<Service> = () -> Service?
+public typealias ResolverFactoryArguments<Service> = (_ resolver: Resolver) -> Service?
 public typealias ResolverFactoryMutator<Service> = (_ resolver: Resolver, _ service: Service) -> Void
 
 public class ResolverOptions<Service> {
 
     var scope: ResolverScope
 
-    fileprivate var factory: ResolverFactory<Service>
+    fileprivate var factory: ResolverFactoryArguments<Service>
     fileprivate var mutator: ResolverFactoryMutator<Service>?
     fileprivate weak var resolver: Resolver?
 
-    public init(resolver: Resolver, factory: @escaping ResolverFactory<Service>) {
+    public init(resolver: Resolver, factory: @escaping ResolverFactoryArguments<Service>) {
         self.factory = factory
         self.resolver = resolver
         self.scope = Resolver.defaultScope
@@ -190,7 +213,7 @@ public final class ResolverRegistration<Service>: ResolverOptions<Service> {
     public var key: Int
     public var namedRegistrations: [String : Any]?
 
-    public init(resolver: Resolver, key: Int, factory: @escaping ResolverFactory<Service>) {
+    public init(resolver: Resolver, key: Int, factory: @escaping ResolverFactoryArguments<Service>) {
         self.key = key
         super.init(resolver: resolver, factory: factory)
     }
@@ -325,3 +348,4 @@ public final class ResolverScopeUnique: ResolverScope {
     }
 
 }
+
