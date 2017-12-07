@@ -242,7 +242,7 @@ public protocol ResolverScope: class {
     func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service?
 }
 
-public final class ResolverScopeCache: ResolverScope {
+public class ResolverScopeApplication: ResolverScope {
 
     public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
         pthread_mutex_lock(&mutex)
@@ -259,14 +259,17 @@ public final class ResolverScopeCache: ResolverScope {
         return nil
     }
 
+    fileprivate var cachedServices = [Int : Any](minimumCapacity: 32)
+    fileprivate var mutex = pthread_mutex_t()
+}
+
+public final class ResolverScopeCache: ResolverScopeApplication {
+
     public final func reset() {
         pthread_mutex_lock(&mutex)
         cachedServices.removeAll()
         pthread_mutex_unlock(&mutex)
     }
-
-    fileprivate var cachedServices = [Int : Any](minimumCapacity: 32)
-    fileprivate var mutex = pthread_mutex_t()
 }
 
 public final class ResolverScopeGraph: ResolverScope {
