@@ -62,6 +62,18 @@ public final class Resolver {
     }
 
     @discardableResult
+    public static func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+                                         factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
+        return main.register(type, name: name, factory: { (_,_) -> Service? in return factory() })
+    }
+
+    @discardableResult
+    public static func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+                                         factory: @escaping ResolverFactoryArguments<Service>) -> ResolverOptions<Service> {
+        return main.register(type, name: name, factory: factory)
+    }
+
+    @discardableResult
     public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
                                         factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
         return register(type, name: name, factory: { (_,_) -> Service? in return factory() })
@@ -333,4 +345,3 @@ public final class ResolverScopeUnique: ResolverScope {
     }
 
 }
-
