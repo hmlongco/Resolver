@@ -93,7 +93,9 @@
 
                 </div>
               </div>
-            
+            <p>Resolver is a Dependency Injection registry that registers Services for later resolution and
+injection into newly constructed instances.</p>
+
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -286,6 +288,53 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Type of Service being registered. Optional, may be inferred by factory result type.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Named variant of Service being registered.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>factory</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure that constructs and returns instances of the Service.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>ResolverOptions instance that allows further customization of registered Service.</p>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -302,8 +351,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Static shortcut function used to register a specifc Service type and its instantiating factory method.
-The factory signature allows argments to be passed to the factory during resolution.</p>
+                        <p>Static shortcut function used to register a specifc Service type and its instantiating factory method.</p>
 
                       </div>
                       <div class="declaration">
@@ -314,6 +362,53 @@ The factory signature allows argments to be passed to the factory during resolut
                                      <span class="nv">factory</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">ResolverFactoryArguments</span><span class="o">&lt;</span><span class="kt">Service</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/ResolverOptions.html">ResolverOptions</a></span><span class="o">&lt;</span><span class="kt">Service</span><span class="o">&gt;</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Type of Service being registered. Optional, may be inferred by factory result type.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Named variant of Service being registered.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>factory</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure that accepts arguments and constructs and returns instances of the Service.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>ResolverOptions instance that allows further customization of registered Service.</p>
                       </div>
                     </section>
                   </div>
@@ -343,6 +438,53 @@ The factory signature allows argments to be passed to the factory during resolut
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Type of Service being registered. Optional, may be inferred by factory result type.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Named variant of Service being registered.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>factory</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure that constructs and returns instances of the Service.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>ResolverOptions instance that allows further customization of registered Service.</p>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -359,8 +501,7 @@ The factory signature allows argments to be passed to the factory during resolut
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Registers a specifc Service type and its instantiating factory method.
-The factory signature allows argments to be passed to the factory during resolution.</p>
+                        <p>Registers a specifc Service type and its instantiating factory method.</p>
 
                       </div>
                       <div class="declaration">
@@ -371,6 +512,53 @@ The factory signature allows argments to be passed to the factory during resolut
                                     <span class="nv">factory</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">ResolverFactoryArguments</span><span class="o">&lt;</span><span class="kt">Service</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/ResolverOptions.html">ResolverOptions</a></span><span class="o">&lt;</span><span class="kt">Service</span><span class="o">&gt;</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Type of Service being registered. Optional, may be inferred by factory result type.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Named variant of Service being registered.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>factory</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure that accepts arguments and constructs and returns instances of the Service.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>ResolverOptions instance that allows further customization of registered Service.</p>
                       </div>
                     </section>
                   </div>
@@ -399,7 +587,8 @@ The factory signature allows argments to be passed to the factory during resolut
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Resolves and returns an instance of the given Service type from the current registry or from its parent registries.</p>
+                        <p>Resolves and returns an instance of the given Service type from the current registry or from its
+parent registries.</p>
 
                       </div>
                       <div class="declaration">
@@ -409,6 +598,53 @@ The factory signature allows argments to be passed to the factory during resolut
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="n">resolve</span><span class="o">&lt;</span><span class="kt">Service</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">Service</span><span class="o">.</span><span class="k">Type</span> <span class="o">=</span> <span class="kt">Service</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">args</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Service</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Type of Service being resolved. Optional, may be inferred by assignment result type.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Named variant of Service being resolved.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>args</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional arguments that may be passed to registration factory.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Instance of specified Service.</p>
                       </div>
                     </section>
                   </div>
@@ -426,7 +662,8 @@ The factory signature allows argments to be passed to the factory during resolut
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Resolves and returns an optional instance of the given Service type from the current registry or from its parent registries.</p>
+                        <p>Resolves and returns an optional instance of the given Service type from the current registry or
+from its parent registries.</p>
 
                       </div>
                       <div class="declaration">
@@ -436,6 +673,53 @@ The factory signature allows argments to be passed to the factory during resolut
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="kd">optional</span><span class="o">&lt;</span><span class="kt">Service</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">Service</span><span class="o">.</span><span class="k">Type</span> <span class="o">=</span> <span class="kt">Service</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">args</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Service</span><span class="p">?</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Type of Service being resolved. Optional, may be inferred by assignment result type.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Named variant of Service being resolved.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>args</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional arguments that may be passed to registration factory.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Instance of specified Service.</p>
                       </div>
                     </section>
                   </div>
@@ -586,7 +870,7 @@ The factory signature allows argments to be passed to the factory during resolut
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2018-03-13)</p>
+          <p>&copy; 2018 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2018-03-14)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
