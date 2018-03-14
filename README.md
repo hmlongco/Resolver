@@ -32,4 +32,4 @@ main.register { XYZCombinedService() }
 }
 ```
 
-[API Documentation](./API/index.html)
+[API Documentation](./Documentation/API/index.html)
