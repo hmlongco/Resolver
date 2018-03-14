@@ -39,18 +39,22 @@ extension Resolving {
 }
 public final class Resolver {
 
-    public static let main: Resolver = Resolver()               // default Resolver registry
-    public static var root: Resolver = main                     // default root registry used by Resolving protocol
-    public static var defaultScope = Resolver.graph             // default scope used when registering new objects
+    // MARK: - Defaults
 
-    // MARK: - Resolver - Lifecycle
+    /// Default registry used by the static Registration functions.
+    public static let main: Resolver = Resolver()
+    /// Default registry used by the static Resolution functions and by the Resolving protocol.
+    public static var root: Resolver = main
+    /// Default scope applied when registering new objects.
+    public static var defaultScope = Resolver.graph
+
+    // MARK: - Lifecycle
 
     public init(parent: Resolver? = nil) {
         self.parent = parent
     }
 
-    // MARK: - Resolver - Registration
-
+    /// Called by the Resolution functions to perform one-time initialization of the Resolver registries.
     public final func registerServices() {
         guard Resolver.registrationsNeeded else {
             return
@@ -61,24 +65,32 @@ public final class Resolver {
         }
     }
 
+    // MARK: - Service Registration
+
+    /// Static shortcut function used to register a specifc Service type and its instantiating factory method.
     @discardableResult
     public static func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
                                          factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
         return main.register(type, name: name, factory: { (_,_) -> Service? in return factory() })
     }
 
+    /// Static shortcut function used to register a specifc Service type and its instantiating factory method.
+    /// The factory signature allows argments to be passed to the factory during resolution.
     @discardableResult
     public static func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
                                          factory: @escaping ResolverFactoryArguments<Service>) -> ResolverOptions<Service> {
         return main.register(type, name: name, factory: factory)
     }
 
+    /// Registers a specifc Service type and its instantiating factory method.
     @discardableResult
     public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
                                         factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
         return register(type, name: name, factory: { (_,_) -> Service? in return factory() })
     }
 
+    /// Registers a specifc Service type and its instantiating factory method.
+    /// The factory signature allows argments to be passed to the factory during resolution.
     @discardableResult
     public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
                                         factory: @escaping ResolverFactoryArguments<Service>) -> ResolverOptions<Service> {
@@ -103,12 +115,14 @@ public final class Resolver {
         }
     }
 
-    // MARK: - Resolver - Resolution
+    // MARK: - Service Resolution
 
+    /// Static function calls the root registry to resolve a given Service type.
     static func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
         return root.resolve(type, name: name, args: args)
     }
 
+    /// Resolves and returns an instance of the given Service type from the current registry or from its parent registries.
     public final func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
         if let registration = lookup(type, name: name),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
@@ -117,10 +131,12 @@ public final class Resolver {
         fatalError("RESOLVER: '\(Service.self):\(name ?? "")' not resolved")
     }
 
+    /// Static function calls the root registry to resolve an optional Service type.
     static func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service? {
         return root.optional(type, name: name, args: args)
     }
 
+    /// Resolves and returns an optional instance of the given Service type from the current registry or from its parent registries.
     public final func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service? {
         if let registration = lookup(type, name: name),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
@@ -129,8 +145,9 @@ public final class Resolver {
         return nil
     }
 
-    // MARK: - Resolver - Internal
+    // MARK: - Internal
 
+    /// Lookup searches the current and parent registries for a ResolverRegistration<Service> that matches the supplied type and name.
     private final func lookup<Service>(_ type: Service.Type, name: String?) -> ResolverRegistration<Service>? {
         if Resolver.registrationsNeeded {
             registerServices()
@@ -162,7 +179,10 @@ public typealias ResolverFactoryArguments<Service> = (_ resolver: Resolver, _ ar
 public typealias ResolverFactoryMutator<Service> = (_ resolver: Resolver, _ service: Service) -> Void
 public typealias ResolverFactoryMutatorArguments<Service> = (_ resolver: Resolver, _ args: Any?, _ service: Service) -> Void
 
+/// A ResolverOptions instance is returned by a registration function in order to allow additonal configuratiom. (e.g. scopes, etc.)
 public class ResolverOptions<Service> {
+
+    // MARK: - Parameters
 
     var scope: ResolverScope
 
@@ -170,11 +190,15 @@ public class ResolverOptions<Service> {
     fileprivate var mutator: ResolverFactoryMutatorArguments<Service>?
     fileprivate weak var resolver: Resolver?
 
+    // MARK: - Lifecycle
+
     public init(resolver: Resolver, factory: @escaping ResolverFactoryArguments<Service>) {
         self.factory = factory
         self.resolver = resolver
         self.scope = Resolver.defaultScope
     }
+
+    // MARK: - Fuctionality
 
     @discardableResult
     public final func implements<Protocol>(_ type: Protocol.Type, name: String? = nil) -> ResolverOptions<Service> {
@@ -202,15 +226,22 @@ public class ResolverOptions<Service> {
 
 }
 
+/// ResolverRegistration stores a service definition and its
 public final class ResolverRegistration<Service>: ResolverOptions<Service> {
+
+    // MARK: Parameters
 
     public var key: Int
     public var namedRegistrations: [String : Any]?
+
+    // MARK: Lifecycle
 
     public init(resolver: Resolver, key: Int, factory: @escaping ResolverFactoryArguments<Service>) {
         self.key = key
         super.init(resolver: resolver, factory: factory)
     }
+
+    // MARK: Functions
 
     public final func addRegistration(_ name: String, registration: Any) {
         if namedRegistrations == nil {
@@ -233,27 +264,22 @@ public final class ResolverRegistration<Service>: ResolverOptions<Service> {
 
 extension Resolver {
 
-    // All application scoped services exist for lifetime of the app. (e.g Singletons)
+    // MARK: - Scopes
+
     public static let application = ResolverScopeApplication()
-
-    // Cached services exist for lifetime of the app or until their cache is reset.
     public static let cached = ResolverScopeCache()
-
-    // Graph services are initialized once and only once during a given resolution cycle. This is the default scope.
     public static let graph = ResolverScopeGraph()
-
-    // Shared services persist while strong references to them exist. They're then deallocated until the next resolve.
     public static let shared = ResolverScopeShare()
-
-    // Unique services are created and initialized each and every time they're resolved.
     public static let unique = ResolverScopeUnique()
 
 }
 
+/// Resolver scopes exist to control when resolution occurs and how resolved instances are cached. (If at all.)
 public protocol ResolverScope: class {
     func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service?
 }
 
+/// All application scoped services exist for lifetime of the app. (e.g Singletons)
 public class ResolverScopeApplication: ResolverScope {
 
     public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
@@ -275,6 +301,7 @@ public class ResolverScopeApplication: ResolverScope {
     fileprivate var mutex = pthread_mutex_t()
 }
 
+/// Cached services exist for lifetime of the app or until their cache is reset.
 public final class ResolverScopeCache: ResolverScopeApplication {
 
     public final func reset() {
@@ -284,6 +311,7 @@ public final class ResolverScopeCache: ResolverScopeApplication {
     }
 }
 
+/// Graph services are initialized once and only once during a given resolution cycle. This is the default scope.
 public final class ResolverScopeGraph: ResolverScope {
 
     public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
@@ -309,6 +337,7 @@ public final class ResolverScopeGraph: ResolverScope {
     private var mutex = pthread_mutex_t()
 }
 
+/// Shared services persist while strong references to them exist. They're then deallocated until the next resolve.
 public final class ResolverScopeShare: ResolverScope {
 
     public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
@@ -338,6 +367,7 @@ public final class ResolverScopeShare: ResolverScope {
     private var mutex = pthread_mutex_t()
 }
 
+/// Unique services are created and initialized each and every time they're resolved.
 public final class ResolverScopeUnique: ResolverScope {
 
     public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
