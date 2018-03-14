@@ -28,6 +28,7 @@ public protocol ResolverRegistering {
     static func registerAllServices()
 }
 
+/// The Resolving protocol is used to make the Resolver registries available to a given class.
 public protocol Resolving {
     var resolver: Resolver { get }
 }
@@ -37,6 +38,9 @@ extension Resolving {
         return Resolver.root
     }
 }
+
+/// Resolver is a Dependency Injection registry that registers Services for later resolution and
+/// injection into newly constructed instances.
 public final class Resolver {
 
     // MARK: - Defaults
@@ -68,6 +72,13 @@ public final class Resolver {
     // MARK: - Service Registration
 
     /// Static shortcut function used to register a specifc Service type and its instantiating factory method.
+    ///
+    /// - parameter type: Type of Service being registered. Optional, may be inferred by factory result type.
+    /// - parameter name: Named variant of Service being registered.
+    /// - parameter factory: Closure that constructs and returns instances of the Service.
+    ///
+    /// - returns: ResolverOptions instance that allows further customization of registered Service.
+    ///
     @discardableResult
     public static func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
                                          factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
@@ -75,7 +86,13 @@ public final class Resolver {
     }
 
     /// Static shortcut function used to register a specifc Service type and its instantiating factory method.
-    /// The factory signature allows argments to be passed to the factory during resolution.
+    ///
+    /// - parameter type: Type of Service being registered. Optional, may be inferred by factory result type.
+    /// - parameter name: Named variant of Service being registered.
+    /// - parameter factory: Closure that accepts arguments and constructs and returns instances of the Service.
+    ///
+    /// - returns: ResolverOptions instance that allows further customization of registered Service.
+    ///
     @discardableResult
     public static func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
                                          factory: @escaping ResolverFactoryArguments<Service>) -> ResolverOptions<Service> {
@@ -83,6 +100,13 @@ public final class Resolver {
     }
 
     /// Registers a specifc Service type and its instantiating factory method.
+    ///
+    /// - parameter type: Type of Service being registered. Optional, may be inferred by factory result type.
+    /// - parameter name: Named variant of Service being registered.
+    /// - parameter factory: Closure that constructs and returns instances of the Service.
+    ///
+    /// - returns: ResolverOptions instance that allows further customization of registered Service.
+    ///
     @discardableResult
     public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
                                         factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
@@ -90,7 +114,13 @@ public final class Resolver {
     }
 
     /// Registers a specifc Service type and its instantiating factory method.
-    /// The factory signature allows argments to be passed to the factory during resolution.
+    ///
+    /// - parameter type: Type of Service being registered. Optional, may be inferred by factory result type.
+    /// - parameter name: Named variant of Service being registered.
+    /// - parameter factory: Closure that accepts arguments and constructs and returns instances of the Service.
+    ///
+    /// - returns: ResolverOptions instance that allows further customization of registered Service.
+    ///
     @discardableResult
     public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
                                         factory: @escaping ResolverFactoryArguments<Service>) -> ResolverOptions<Service> {
@@ -118,11 +148,25 @@ public final class Resolver {
     // MARK: - Service Resolution
 
     /// Static function calls the root registry to resolve a given Service type.
+    ///
+    /// - parameter type: Type of Service being resolved. Optional, may be inferred by assignment result type.
+    /// - parameter name: Named variant of Service being resolved.
+    /// - parameter args: Optional arguments that may be passed to registration factory.
+    ///
+    /// - returns: Instance of specified Service.
     static func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
         return root.resolve(type, name: name, args: args)
     }
 
-    /// Resolves and returns an instance of the given Service type from the current registry or from its parent registries.
+    /// Resolves and returns an instance of the given Service type from the current registry or from its
+    /// parent registries.
+    ///
+    /// - parameter type: Type of Service being resolved. Optional, may be inferred by assignment result type.
+    /// - parameter name: Named variant of Service being resolved.
+    /// - parameter args: Optional arguments that may be passed to registration factory.
+    ///
+    /// - returns: Instance of specified Service.
+    ///
     public final func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
         if let registration = lookup(type, name: name),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
@@ -132,11 +176,26 @@ public final class Resolver {
     }
 
     /// Static function calls the root registry to resolve an optional Service type.
+    ///
+    /// - parameter type: Type of Service being resolved. Optional, may be inferred by assignment result type.
+    /// - parameter name: Named variant of Service being resolved.
+    /// - parameter args: Optional arguments that may be passed to registration factory.
+    ///
+    /// - returns: Instance of specified Service.
+    ///
     static func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service? {
         return root.optional(type, name: name, args: args)
     }
 
-    /// Resolves and returns an optional instance of the given Service type from the current registry or from its parent registries.
+    /// Resolves and returns an optional instance of the given Service type from the current registry or
+    /// from its parent registries.
+    ///
+    /// - parameter type: Type of Service being resolved. Optional, may be inferred by assignment result type.
+    /// - parameter name: Named variant of Service being resolved.
+    /// - parameter args: Optional arguments that may be passed to registration factory.
+    ///
+    /// - returns: Instance of specified Service.
+    ///
     public final func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service? {
         if let registration = lookup(type, name: name),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
@@ -147,7 +206,8 @@ public final class Resolver {
 
     // MARK: - Internal
 
-    /// Lookup searches the current and parent registries for a ResolverRegistration<Service> that matches the supplied type and name.
+    /// Internal function searches the current and parent registries for a ResolverRegistration<Service> that matches
+    /// the supplied type and name.
     private final func lookup<Service>(_ type: Service.Type, name: String?) -> ResolverRegistration<Service>? {
         if Resolver.registrationsNeeded {
             registerServices()
@@ -200,24 +260,50 @@ public class ResolverOptions<Service> {
 
     // MARK: - Fuctionality
 
+    /// Indicates that the registered Service also implements a specific protocol that may be resolved on
+    /// its own.
+    ///
+    /// - parameter type: Type of protocol being registered.
+    /// - parameter name: Named variant of protocol being registered.
+    ///
+    /// - returns: ResolverOptions instance that allows further customization of registered Service.
+    ///
     @discardableResult
     public final func implements<Protocol>(_ type: Protocol.Type, name: String? = nil) -> ResolverOptions<Service> {
         resolver?.register(type.self, name: name) { r,_ in r.resolve(Service.self) as? Protocol }
         return self
     }
 
+    /// Allows easy assignment of injected properties into resolved Service.
+    ///
+    /// - parameter block: Resolution block.
+    ///
+    /// - returns: ResolverOptions instance that allows further customization of registered Service.
+    ///
     @discardableResult
     public final func resolveProperties(_ block: @escaping ResolverFactoryMutator<Service>) -> ResolverOptions<Service> {
         mutator = { r,_,s in block(r, s) }
         return self
     }
 
+    /// Allows easy assignment of injected properties into resolved Service.
+    ///
+    /// - parameter block: Resolution block that also receives resolution arguments.
+    ///
+    /// - returns: ResolverOptions instance that allows further customization of registered Service.
+    ///
     @discardableResult
     public final func resolveProperties(_ block: @escaping ResolverFactoryMutatorArguments<Service>) -> ResolverOptions<Service> {
         mutator = block
         return self
     }
 
+    /// Defines scope in which requested Service may be cached.
+    ///
+    /// - parameter block: Resolution block.
+    ///
+    /// - returns: ResolverOptions instance that allows further customization of registered Service.
+    ///
     @discardableResult
     public final func scope(_ scope: ResolverScope) -> ResolverOptions<Service> {
         self.scope = scope
@@ -226,7 +312,7 @@ public class ResolverOptions<Service> {
 
 }
 
-/// ResolverRegistration stores a service definition and its
+/// ResolverRegistration stores a service definition and its factory closure.
 public final class ResolverRegistration<Service>: ResolverOptions<Service> {
 
     // MARK: Parameters
