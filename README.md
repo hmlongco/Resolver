@@ -32,4 +32,4 @@ main.register { XYZCombinedService() }
 }
 ```
 
-[API Documentation](./Documentation/API/index.html)
+[API Documentation](https://hmlongco.github.io/Resolver/Documentation/API/Classes/Resolver.html)
