@@ -31,3 +31,5 @@ main.register { XYZCombinedService() }
 
 }
 ```
+
+[API Documentation](./Documentation/API/index.html)
