@@ -92,7 +92,7 @@ Note that the initializers for XYZViewModel and XYZService are each passed the o
 
 ## Registration
 
-So let's use Resolver to register some classes. 
+Let's use Resolver to register some classes. 
 
 Here we're extending the base Resolver class with the ResolverRegistering protcol, which pretty much just means that we've added the registerAllServices() function.
 
@@ -121,13 +121,13 @@ main.register { XYZSessionService() }
 }
 ```
 
-So the above code shows us registering XYZViewModel, the protocols XYZFetching and XYZUpdating, the XYZService, and the XYZSessionService.
+So, the above code shows us registering XYZViewModel, the protocols XYZFetching and XYZUpdating, the XYZService, and the XYZSessionService.
+
+Now we've registered all of the objects our app is going to use. But what starts the process? Who resolves first? 
 
 ## The Resolution Cycle
 
-So we have all of our objects registered. But what starts the process? Who resolves first? 
-
-Well, MyViewController is the one who wanted a XYZViewModel, so Let's rewrite it as follows...
+Well, MyViewController is the one who wanted a XYZViewModel, so let's rewrite it as follows...
 
 ```
 class MyViewController: UIViewController, Resolving {
@@ -139,10 +139,10 @@ Adopting the Resolving protocol injects the default resolver instance into MyVie
 
 To use more Dependency Injection lingo, resolver was added to MyViewController using *Interface Injection*, and resolver.resolve() acts as the *Service Locator* for MyViewController.
 
-Note that the viewModel parameter is lazy. So when it's first accessed, a *Resolution Cycle* kicks off.
+Note that the viewModel parameter is lazy, so when it's first accessed a *Resolution Cycle* kicks off.
 
 * Resolver infers the type of object being requested. (e.g. XYZViewModel)
-* Resolver searches the registry for that type to in order to find the correct object factory.
+* Resolver searches the registry for a registration of that type to in order to find the correct object factory.
 * Resolver tells the factory to resolve.
 * Resolving, the XYZViewModel factory inits an XYZViewModel, but first it needs a fetecher, an updater, and service object.
 * Resolving, the XYZFetcher factory creates and returns a fetcher.
@@ -158,12 +158,10 @@ Nor does it need to. It simply asks Resolver for an instance of type T, and Reso
 
 ## Type Inference
 
-### Registration
-
 Resolver's pretty smart, and it uses Swift type-inference to automatically detect the type of the class or struct being registered, based on the type of object returned by the factory function.
 
 ```
-main.register { ABCService() } // Registering an instance of ABCService
+main.register { ABCService() } // Returns an ABCService, so we're registering an instance of ABCService
 ```
 
 Resolver can also automatically infer the instance type for method parameters, as shown in the earlier XYZViewModel factory closure.
@@ -177,8 +175,6 @@ In order to be initialized, XYZViewModel needs a fetcher of type XYZFetching, an
 Instead of creating those objects directly, the factory method passes the buck back to Resolver, asking it to "resolve" those parameters as well.
 
 The same chain of events occurs for every object requested during a give resolution cycle, until every dependent object has the resources it needs to be properly initialized.
-
-### Resolution
 
 Next, Resolver can automatically infer the instance type of the object being requested (resolved). 
 
