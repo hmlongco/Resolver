@@ -133,9 +133,9 @@ The same chain of events occurs for every object requested during a resolution p
 
 ## Resolution
 
-So we have all of our object registered. But what starts the process? Who's resolving first? 
+So we have all of our objects registered. But what starts the process? Who resolves first? 
 
-Let's rewrite MyViewController as follows...
+Well, MyViewController is the one who wants a XYZViewModel, so Let's rewrite it as follows...
 
 ```
 class MyViewController: UIViewController, Resolving {
@@ -145,17 +145,26 @@ class MyViewController: UIViewController, Resolving {
 
 Adopting the Resolving protocol allows MyViewController to request a XYZViewModel from Resolver. 
 
-When the viewModel parameter is first accessed, Resolver infers the type of object being requested, and uses the list of pre-registered object factories to construct an XYZViewModel.
+Or to put it another way, resolver is the *Service Locator* for MyViewController.
 
+## The Resolution Cycle
+
+Note that the viewModel parameter is lazy. 
+
+So when it's first accessed, a *Resolution Cycle* kicks off.
+
+* Resolver infers the type of object being requested. (e.g. XYZViewModel)
+* Resolver searches the registry for that type to in order to find the correct object factory.
+* Resolver tells the factory to resolve.
 * Resolving, the XYZViewModel factory inits an XYZViewModel, but first it needs a fetecher, an updater, and service object.
 * Resolving, the XYZFetcher factory creates and returns a fetcher.
 * Resolving, the XYZUpdater factory creates and returns an updater.
-* Resolving, the XYZUpdater factory creates and returns an XYZService, but first it needs an XYZSessionService.
+* Resolving, the XYZService factory creates and returns an XYZService, but first it needs an XYZSessionService.
 * Resolving, the XYZSessionService factory creates and returns a session.
 * The XYZService gets its XYZSessionService and inits.
 * The XYZViewModel gets a XYZFetching instance, a XYZUpdating instance, and a XYZService instance and inits.
 
-And MyViewController gets its XYZViewModel. It doesn't know the internals of XYZViewModel.
+And MyViewController gets its XYZViewModel. It doesn't know the internals of XYZViewModel, nor does it know about XYZFetcher's, XYZUpdater's, XYZService's, or XYZSessionService's.
 
 Nor does it need to.
 
@@ -163,32 +172,19 @@ Nor does it need to.
 
 Note the resolution factories for XYZFetching and XYZUpdating demonstrated above each return their own object, even though both interfaces were implemented in the same object.
 
-To have XYZViewModel resolve both interfaces to the same object in the same graph (more on graphs later) you could do the following:
+To have XYZViewModel resolve both interfaces to the same object during a given resolution cycle, you could...
 
 ```
-extension Resolver: ResolverRegistering {
+// Replace the following lines of code...
+main.register { XYZCombinedService() as XYZFetching }
+main.register { XYZCombinedService() as XYZUpdating }
 
-public static func registerAllServices() {
-
-// Register instance with injected parameters
-main.register { XYZViewModel(fetcher: resolve(), updater: resolve(), service: resolve()) }
-
-// Register service instance that implements both protocols 
+// With this...
 main.register { XYZCombinedService() }
 .implements(XYZFetching.self)
 .implements(XYZUpdating.self)
-
-// Register XYZService and cache result for lifetime of application
-main.register { XYZService() }
-    .scope(application)
-
-// Register XYZSessionService and return shared instance in factory closure
-main.register { XYZSessionService() }
-    .scope(shared)
-
-}
-
-}
 ```
+
+Now both the XYZFetching and XYZUpdating protocols are tied to the same object, and given the default scope, only one instance of XYZCombinedService will be constructed during a specific resolution cycle.
 
 [API Documentation](https://hmlongco.github.io/Resolver/Documentation/API/Classes/Resolver.html)
