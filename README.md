@@ -1,9 +1,9 @@
 # Resolver ![icon](https://user-images.githubusercontent.com/709283/32858974-cce8282a-ca12-11e7-944b-c8046156290b.png)
 Swift Ultralight Dependency Injection / Service Locator framework
 
-## The Basics
+## The basics
 
-Resolver is a Dependency Injection system that allows you to register the objects and protocols that other objects will need during the lifetime of your application.
+Resolver is a *Dependency Injection* system that allows you to register the objects and protocols that other objects will need during the lifetime of your application.
 
 Here, Resolver is being asked to register the type ABCService.
 
@@ -18,27 +18,31 @@ Once registered, any object can ask Resolver to provide (resolve) an object of t
     var abc: ABCService = Resolver.resolve()
 ```
 
-# Why Bother?
+# Why bother?
 
 So we registered a factory, and asked Resolver to resolve it, and it worked... but why go to the extra trouble? 
 
-Why we don't just instantiate an ABCService and be done with it?
+Why we don't just directly instantiate an ABCService and be done with it?
 ```
     let abc = ABCService()
 ```
-You could do so, but that adds its own problems to the mix.
+Well, there are several reasons why this is a bad idea, but let's start with two:
 
 First, what happens if ABCService in turn requires other classes or objects to do its job? And what happens if those objects need references to other objects, services, and system resources?
 ```
-    let abc = ABCService(JKLFetcher(XYZSession()))
+    let session = XYZSession()
+    let fetcher = JKLFetcher(session)
+    let abc = ABCService(fetcher)
 ```
 You're literally left with needing to construct the objects needed... to build the objects needed... to build the single instance of the object that you actually wanted in the first place.
 
-Worse, the constructing class now knows the internals and requirements for ABCService, and for JKLFetcher, and it also knows about XYZSession. It's now tightly coupled to the behavior and implementations of all of those classes... when all it really needed was an ABCService.
+Those additonal objects are known as *dependencies*.
 
-There are other reasons, but let's run with these two for awhile.
+Second, and worse, the constructing class now knows the internals and requirements for ABCService, and for JKLFetcher, and it also knows about XYZSession. 
 
-## ViewModels and ViewControllers
+It's now tightly *coupled* to the behavior and distinct implementations of all of those classes... when all it really wanted to do was talk to an ABCService.
+
+## ViewControllers, ViewModel, and Services. Oh, my.
 
 To demonstrate, let's use a more complex example.
 
@@ -50,7 +54,7 @@ class MyViewController: UIViewController {
 }
 ```
 
-The XYZViewModel needs an instance of an object that implements a XYZFetching protocol, one that implements XYZUpdating, and it also wants to use a XYZService for good measure.
+The XYZViewModel needs an instance of an object that implements a XYZFetching protocol, one that implements XYZUpdating, and it also wants access to a XYZService for good measure.
 
 The XYZService, in turn, needs a reference to an XYZSessionService to do its job.
 
@@ -71,7 +75,7 @@ class XYZCombinedService: XYZFetching, XYZUpdating {
     // Implements protocols
 }
 
-class XYZService {
+struct XYZService {
     private var session: XYZSessionService
     init(_ session: XYZSessionService) {
         self.session = session
@@ -83,6 +87,8 @@ class XYZSessionService {
 }
 
 ```
+
+Note that the initializers for XYZViewModel and XYZService are each passed the objects they need to do their jobs. To use Dependency Injection lingo, this is known as *Initialization Injection* and it's the recommended approach to object construction.
 
 ## Registration
 
@@ -115,27 +121,13 @@ main.register { XYZSessionService() }
 }
 ```
 
-So the code above shows us registering XYZViewModel, the protocols XYZFetching and XYZUpdating, the XYZService, and the XYZSessionService.
+So the above code shows us registering XYZViewModel, the protocols XYZFetching and XYZUpdating, the XYZService, and the XYZSessionService.
 
-## Type Inference
-
-Resolver automatically infers the type of the class or struct being registered based on the type of object returned by the factory function.
-
-Resolver can also automatically infer the instance type of the object being requested, as shown in the XYZViewModel factory closure. 
-
-```
-main.register { XYZViewModel(fetcher: resolve(), updater: resolve(), service: resolve()) }
-```
-
-In order to be initialized, XYZViewModel needs a fetcher of type XYZFetching, an updater of type XYZUpdating, and a servic of type XYZService. Instead of creating those objects directly, the factory method passes the buck back to Resolver, asking it to "resolve" those parameters as well.
-
-The same chain of events occurs for every object requested during a resolution pass, until every dependent object has the resources it needs to be properly initialized.
-
-## Resolution
+## The Resolution Cycle
 
 So we have all of our objects registered. But what starts the process? Who resolves first? 
 
-Well, MyViewController is the one who wants a XYZViewModel, so Let's rewrite it as follows...
+Well, MyViewController is the one who wanted a XYZViewModel, so Let's rewrite it as follows...
 
 ```
 class MyViewController: UIViewController, Resolving {
@@ -143,15 +135,11 @@ class MyViewController: UIViewController, Resolving {
 }
 ```
 
-Adopting the Resolving protocol allows MyViewController to request a XYZViewModel from Resolver. 
+Adopting the Resolving protocol injects the default resolver instance into MyViewController. Calling resolve on that instance allows it to request a XYZViewModel from Resolver. 
 
-Or to put it another way, resolver is the *Service Locator* for MyViewController.
+To use more Dependency Injection lingo, resolver was added to MyViewController using *Interface Injection*, and resolver.resolve() acts as the *Service Locator* for MyViewController.
 
-## The Resolution Cycle
-
-Note that the viewModel parameter is lazy. 
-
-So when it's first accessed, a *Resolution Cycle* kicks off.
+Note that the viewModel parameter is lazy. So when it's first accessed, a *Resolution Cycle* kicks off.
 
 * Resolver infers the type of object being requested. (e.g. XYZViewModel)
 * Resolver searches the registry for that type to in order to find the correct object factory.
@@ -166,20 +154,63 @@ So when it's first accessed, a *Resolution Cycle* kicks off.
 
 And MyViewController gets its XYZViewModel. It doesn't know the internals of XYZViewModel, nor does it know about XYZFetcher's, XYZUpdater's, XYZService's, or XYZSessionService's.
 
-Nor does it need to.
+Nor does it need to. It simply asks Resolver for an instance of type T, and Resolver complies.
 
-## Better Registration
+## Type Inference
 
-Note the resolution factories for XYZFetching and XYZUpdating demonstrated above each return their own object, even though both interfaces were implemented in the same object.
+### Registration
 
-To have XYZViewModel resolve both interfaces to the same object during a given resolution cycle, you could...
+Resolver's pretty smart, and it uses Swift type-inference to automatically detect the type of the class or struct being registered, based on the type of object returned by the factory function.
 
 ```
-// Replace the following lines of code...
+main.register { ABCService() } // Registering an instance of ABCService
+```
+
+Resolver can also automatically infer the instance type for method parameters, as shown in the earlier XYZViewModel factory closure.
+
+```
+main.register { XYZViewModel(fetcher: resolve(), updater: resolve(), service: resolve()) }
+```
+
+In order to be initialized, XYZViewModel needs a fetcher of type XYZFetching, an updater of type XYZUpdating, and a servic of type XYZService. 
+
+Instead of creating those objects directly, the factory method passes the buck back to Resolver, asking it to "resolve" those parameters as well.
+
+The same chain of events occurs for every object requested during a give resolution cycle, until every dependent object has the resources it needs to be properly initialized.
+
+### Resolution
+
+Next, Resolver can automatically infer the instance type of the object being requested (resolved). 
+
+```
+    var abc: ABCService = Resolver.resolve()!
+```
+
+Finally, you can also explicity tell Resolver the type of object or protocol you want to register or resolve.
+
+```
+    Resolver.register(ABCServicing.self) { ABCService() }
+    var abc = Resolver.resolve(ABCServicing.self)!
+```
+
+We'll get into why that might be useful later on.
+
+## Better Protocol registration
+
+Note that in our more complex example code the resolution factories for XYZFetching and XYZUpdating each returned their own object, even though both interfaces were actually implemented in the same object.
+
+Sometimes this is what you want. 
+
+But if not, and in order to have XYZViewModel resolve both interfaces to the same object during a given resolution cycle, you can simply replace the following lines of code...
+
+```
 main.register { XYZCombinedService() as XYZFetching }
 main.register { XYZCombinedService() as XYZUpdating }
+```
 
-// With this...
+With these...
+
+```
 main.register { XYZCombinedService() }
 .implements(XYZFetching.self)
 .implements(XYZUpdating.self)
