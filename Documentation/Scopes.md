@@ -12,7 +12,7 @@ How long? Well, that depends on the scope.
 
 ## Scope: Graph
 
-This scope will reuse any instances resolved during a given resolution cycle.
+This scope will reuse any object instances resolved during a given resolution cycle.
 
 When all objects are resolved the cached instances will be discarded and the next call to resolve them will produce new instances.
 
@@ -41,6 +41,8 @@ The graph tracks all objects resolved by all objects that are resolved by all ob
 
 If you don't want this behavior, and if every request should get its own `unique` copy, specify it using the `unique` scope.
 
+**Note that value types, including structs, are not cached.**
+
 ## Scope: Unique
 
 This is the simplist scope, in that Resolver calls the registration factory to create a new instance of your type each and every time you call resolve.
@@ -54,14 +56,16 @@ main.register { XYZCombinedService() }
 
 ## Scope: Application
 
-The `application` scope will make Resolver retain a given instance once resolved the first time, and any subsequent resolutions will always return the inital instance.
+The `application` scope will make Resolver retain a given object instance once resolved the first time, and any subsequent resolutions will always return the inital instance.
 
 ```
 main.register { XYZApplicationService() }
     .scope(application)
 ```
 
-This is basically a `Singleton`.
+This effectively makes the object a `Singleton`.
+
+**Note that value types, including structs, are not cached.**
 
 ## Scope: Shared
 
@@ -77,6 +81,8 @@ While a strong reference to the resolved instance exists any subsequent calls to
 However, once all strong references are released, the shared instance is released, and the next call to resolve will produce a new instance.
 
 This is useful in cases like Master/Detail view controllers, where it's possible that both the MasterViewController and the DetailViewController would like to "share" the same instance of a specific view model.
+
+**Note that value types, including structs, are not shared.**
 
 ## Scope: Cached
 
@@ -94,6 +100,8 @@ This is useful if you need, say, a session-level scope that caches specific info
 ```
 Resolver.cached.reset()
 ```
+
+**Note that value types, including structs, are not cached.**
 
 ## Custom Scopes
 
