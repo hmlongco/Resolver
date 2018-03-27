@@ -25,6 +25,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4C87FCFD2069D2F700BF6798 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		4C87FD01206A6BAB00BF6798 /* Introduction.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Introduction.md; sourceTree = "<group>"; };
+		4C87FD02206A6F9C00BF6798 /* TypeInference.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TypeInference.md; sourceTree = "<group>"; };
+		4C87FD03206A791100BF6798 /* Optionals.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Optionals.md; sourceTree = "<group>"; };
 		4CA30FE41FBB6C8500217883 /* Resolver.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Resolver.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CA30FE71FBB6C8500217883 /* Resolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Resolver.h; sourceTree = "<group>"; };
 		4CA30FE81FBB6C8500217883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -54,9 +58,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C87FD00206A6AFA00BF6798 /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				4C87FD01206A6BAB00BF6798 /* Introduction.md */,
+				4C87FD02206A6F9C00BF6798 /* TypeInference.md */,
+				4C87FD03206A791100BF6798 /* Optionals.md */,
+			);
+			name = Documentation;
+			path = ../Documentation;
+			sourceTree = "<group>";
+		};
 		4CA30FDA1FBB6C8500217883 = {
 			isa = PBXGroup;
 			children = (
+				4C87FD00206A6AFA00BF6798 /* Documentation */,
+				4C87FCFD2069D2F700BF6798 /* README.md */,
 				4CA30FE61FBB6C8500217883 /* Resolver */,
 				4CA30FF11FBB6C8500217883 /* ResolverTests */,
 				4CA30FE51FBB6C8500217883 /* Products */,
