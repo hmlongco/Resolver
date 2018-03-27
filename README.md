@@ -13,16 +13,16 @@ Computer Science definitions aside, Dependency Injection pretty much boils down 
 
 Dependency Injection allows us to write code that's loosely coupled, and as such, easier to reuse, to mock, and  to test.
 
-For more, read: [A Gentle Introduction to Dependency Injection](https://hmlongco.github.io/Resolver/Documentation/Introduction.md)
+For more, read: [A Gentle Introduction to Dependency Injection](https://github.com/hmlongco/Resolver/blob/master/Documentation/Introduction.md)
 
 ## Features
 
 Resolver is just over 300 lines of actual code, but it packs a ton of features into those 300 lines.
 
 * Dependency Registration & Resolution
-* [Automatic Type Inference](https://hmlongco.github.io/Resolver/Documentation/TypeInference.md)
-* [Protocols](https://hmlongco.github.io/Resolver/Documentation/TypeInference.md#Protocols)
-* [Optionals](https://hmlongco.github.io/Resolver/Documentation/Optionals.md)
+* [Automatic Type Inference](https://github.com/hmlongco/Resolver/blob/master/Documentation/TypeInference.md)
+* [Protocols](https://github.com/hmlongco/Resolver/blob/master/Documentation/TypeInference.md#Protocols)
+* [Optionals](https://github.com/hmlongco/Resolver/blob/master/Documentation/Optionals.md)
 * Named Instances
 * Scopes: Application, Cached, Custom, Graph, Shared, and Unique
 * Custom Containers & Nested Containers
