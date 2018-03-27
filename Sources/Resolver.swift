@@ -375,7 +375,9 @@ public class ResolverScopeApplication: ResolverScope {
             return service
         }
         if let service = registration.resolve(resolver: resolver, args: args) {
-            cachedServices[registration.key] = service
+            if type(of:service) is AnyClass {
+                cachedServices[registration.key] = service
+            }
             pthread_mutex_unlock(&mutex)
             return service
         }
@@ -411,7 +413,7 @@ public final class ResolverScopeGraph: ResolverScope {
         resolutionDepth = resolutionDepth - 1
         if resolutionDepth == 0 {
             graph.removeAll()
-        } else {
+        } else if type(of:service) is AnyClass {
             graph[registration.key] = service
         }
         pthread_mutex_unlock(&mutex)
@@ -435,8 +437,6 @@ public final class ResolverScopeShare: ResolverScope {
         if let service = registration.resolve(resolver: resolver, args: args) {
             if type(of:service) is AnyClass {
                 cachedServices[registration.key] = BoxWeak(service: service as AnyObject)
-            } else {
-                fatalError("RESOLVER: '\(registration.key)' not a class/reference type")
             }
             pthread_mutex_unlock(&mutex)
             return service
