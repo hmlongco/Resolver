@@ -23,7 +23,7 @@ Resolver is just over 300 lines of actual code, but it packs a ton of features i
 * [Automatic Type Inference](https://github.com/hmlongco/Resolver/blob/master/Documentation/TypeInference.md)
 * [Protocols](https://github.com/hmlongco/Resolver/blob/master/Documentation/TypeInference.md#Protocols)
 * [Optionals](https://github.com/hmlongco/Resolver/blob/master/Documentation/Optionals.md)
-* Named Instances
+* [Named Instances](https://github.com/hmlongco/Resolver/blob/master/Documentation/Names.md)
 * [Scopes: Application, Cached, Graph, Shared, and Unique](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md)
 * Custom Containers & Nested Containers
 * Parameter Passing

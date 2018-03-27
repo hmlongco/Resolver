@@ -22,7 +22,7 @@ In order to be initialized, XYZViewModel needs a fetcher of type XYZFetching, an
 
 Instead of creating those objects directly, the factory method passes the buck back to Resolver, asking it to "resolve" those parameters as well.
 
-The same chain of events occurs for every object requested during a give resolution cycle, until every dependent object has the resources it needs to be properly initialized.
+The same chain of events occurs for every object requested during a given resolution cycle, until every dependent object has the resources it needs to be properly initialized.
 
 ## Resolution
 
