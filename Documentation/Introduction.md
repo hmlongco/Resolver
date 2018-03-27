@@ -1,4 +1,4 @@
-#  Introduction
+#  Resolver: Introduction
 
 ## Definitions
 

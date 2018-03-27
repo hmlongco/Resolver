@@ -24,7 +24,7 @@ Resolver is just over 300 lines of actual code, but it packs a ton of features i
 * [Protocols](https://github.com/hmlongco/Resolver/blob/master/Documentation/TypeInference.md#Protocols)
 * [Optionals](https://github.com/hmlongco/Resolver/blob/master/Documentation/Optionals.md)
 * Named Instances
-* Scopes: Application, Cached, Custom, Graph, Shared, and Unique
+* [Scopes: Application, Cached, Graph, Shared, and Unique](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md)
 * Custom Containers & Nested Containers
 * Parameter Passing
 * Storyboard Support

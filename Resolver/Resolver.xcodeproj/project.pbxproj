@@ -29,6 +29,8 @@
 		4C87FD01206A6BAB00BF6798 /* Introduction.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Introduction.md; sourceTree = "<group>"; };
 		4C87FD02206A6F9C00BF6798 /* TypeInference.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TypeInference.md; sourceTree = "<group>"; };
 		4C87FD03206A791100BF6798 /* Optionals.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Optionals.md; sourceTree = "<group>"; };
+		4C87FD04206A979600BF6798 /* Names.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Names.md; sourceTree = "<group>"; };
+		4C87FD05206A97A600BF6798 /* Scopes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Scopes.md; sourceTree = "<group>"; };
 		4CA30FE41FBB6C8500217883 /* Resolver.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Resolver.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CA30FE71FBB6C8500217883 /* Resolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Resolver.h; sourceTree = "<group>"; };
 		4CA30FE81FBB6C8500217883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -62,8 +64,10 @@
 			isa = PBXGroup;
 			children = (
 				4C87FD01206A6BAB00BF6798 /* Introduction.md */,
-				4C87FD02206A6F9C00BF6798 /* TypeInference.md */,
+				4C87FD04206A979600BF6798 /* Names.md */,
 				4C87FD03206A791100BF6798 /* Optionals.md */,
+				4C87FD05206A97A600BF6798 /* Scopes.md */,
+				4C87FD02206A6F9C00BF6798 /* TypeInference.md */,
 			);
 			name = Documentation;
 			path = ../Documentation;

@@ -1,4 +1,4 @@
-# Type Inference
+# Resolver: Type Inference
 
 ## Registration
 
