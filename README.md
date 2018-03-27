@@ -5,7 +5,7 @@
 
 ## Introduction
 
-Resolver is Dependency Injection framework for Swift that supports the Inversion of Control design pattern.
+Resolver is a Dependency Injection framework for Swift that supports the Inversion of Control design pattern.
 
 Computer Science definitions aside, Dependency Injection pretty much boils down to:
 
@@ -30,21 +30,23 @@ Resolver is just over 300 lines of actual code, but it packs a ton of features i
 * Storyboard Support
 * Thread Safe
 
-## Installation
+## Using Resolver
 
-The plan is for Resolver to be Carthage, Cocoapods, and Swift Framework compliant.
+Using Resolver is a simple, three-step process:
 
-That's the plan. For now, however, just checkout the project and add `Resolver.swift` to your project's Third Party Software folder.
-
-Add `ResolverStoryboard.swift` for optional Storyboard support.
+1. [Add Resolver to your project.](https://github.com/hmlongco/Resolver/blob/master/Documentation/Installation.md)
+2. [Register the classes and services your app requires.](https://github.com/hmlongco/Resolver/blob/master/Documentation/Registration.md)
+3. [Use Resolver to resolve those instances when needed.](https://github.com/hmlongco/Resolver/blob/master/Documentation/Resolution.md)
 
 ## Why Resolver?
 
 As mentioned, Resolver is an ultralight Dependency Injection / Service Locator framework, weighing in at just over 300 lines of actual code.
 
-Resolver is also highly performant. SwinjectStoryboard, for example, is a great DI system, but Resolver clocks out to be about 800% faster than Swinject.
+Resolver is written in 100% Swift 4, with no Objective-C code, method swizzling, or dependencies on the Objective-C runtime.
 
-You also write about 60% less code using Resolver.
+Resolver is also highly performant. SwinjectStoryboard, for example, is a great DI system, but Resolver clocks out to be about 800% faster at resolving dependcy chains than Swinject.
+
+And not to save the best for last, but you also write about 60% less Dependency Injection management code using Resolver.
 
 ## Additional Resouces
 
