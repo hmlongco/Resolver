@@ -39,7 +39,7 @@ All resolution methods available in Resolver (e.g. `resolve()`, `optional()`) ar
 
 If you're a bit more of a Dependency Injection purist, you can wrap Resolver as follows.
 
-Add the following to your section's `xxxxx+Injection.swift` file:
+Add the following to your section's [xxxxx+Injection.swift file](Registration.md#files):
 
 ```
 extension MyViewController: Resolving {
@@ -116,5 +116,5 @@ Note the second line of code. You should also remember that Explicitly Unwrapped
 
 You can also have Resolver *automatically* resolve view controllers instantiated from Storyboards. (Well, automatically from the view controller's standpoint, anyway.)
 
-See: *ResolverStoryboard*
+[See: Storyboard support.](Storyboards.md)
 

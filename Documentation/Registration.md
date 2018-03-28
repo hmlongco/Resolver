@@ -16,7 +16,7 @@ That's it. You've added the basic level of intergration.
 
 But as is, it's not very useful until you actually register some classes.
 
-## Add Injection Files
+## Add Injection Files<a name=files></a>
 
 It's a common practice with Resolver, Swinject, and other DI systems to add addtional "injection" files to your project to support the dependencies needed by a particular part of the code base.
 

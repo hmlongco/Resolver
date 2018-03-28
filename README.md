@@ -27,7 +27,7 @@ Resolver is just over 300 lines of actual code, but it packs a ton of features i
 * [Special supprt for Optionals](https://github.com/hmlongco/Resolver/blob/master/Documentation/Optionals.md)
 * [Custom Containers & Nested Containers](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md)
 * [Parameter Passing](https://github.com/hmlongco/Resolver/blob/master/Documentation/Parameters.md)
-* [Storyboard Support](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md)
+* [Storyboard Support](https://github.com/hmlongco/Resolver/blob/master/Documentation/Storyboards.md)
 * Thread Safe
 
 ## Using Resolver
