@@ -21,10 +21,10 @@ Resolver is just over 300 lines of actual code, but it packs a ton of features i
 
 * Dependency Registration & Resolution
 * [Automatic Type Inference](https://github.com/hmlongco/Resolver/blob/master/Documentation/Types.md)
-* [Protocol Support](https://github.com/hmlongco/Resolver/blob/master/Documentation/Protocols.md)
-* [Optional Support](https://github.com/hmlongco/Resolver/blob/master/Documentation/Optionals.md)
-* [Named Instances](https://github.com/hmlongco/Resolver/blob/master/Documentation/Names.md)
 * [Scopes: Application, Cached, Graph, Shared, and Unique](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md)
+* [Named Instances](https://github.com/hmlongco/Resolver/blob/master/Documentation/Names.md)
+* [Special supprt for Protocols](https://github.com/hmlongco/Resolver/blob/master/Documentation/Protocols.md)
+* [Special supprt for Optionals](https://github.com/hmlongco/Resolver/blob/master/Documentation/Optionals.md)
 * [Custom Containers & Nested Containers](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md)
 * [Parameter Passing](https://github.com/hmlongco/Resolver/blob/master/Documentation/Parameters.md)
 * [Storyboard Support](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md)

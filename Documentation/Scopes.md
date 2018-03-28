@@ -109,7 +109,7 @@ To create your own session cache, add the following to your code:
 
 ```
 extension Resolver {
-static let session = ResolverScopeCache()
+    static let session = ResolverScopeCache()
 }
 ```
 It can then be used and specified like any built-in scope.
@@ -119,4 +119,21 @@ main.register { UserManager() }
     .scope(session)
 ```
 
+
+## The Default Scope
+
+The default scope used by Resolver when registering an object is `graph`.
+
+But you can change that if you wish, with the only caveat being that you need to do so **before** you do your first registration.
+
+As such, changing the default scope behavior to `unique` would best be done as follows:
+
+```
+extension Resolver: ResolverRegistering {
+    static func registerAllServices() {
+        Resolver.defaultScope = Resolver.unique
+        registerMyNetworkServices()
+    }
+}
+```
 
