@@ -34,8 +34,6 @@ var abc: ABCService = Resolver.resolve()
 
 Here the variable type is ABCService, so Resolver will lookup the registration for that type and call its factory closure to resolve it to a specific instance.
 
-```
-
 ## Explicit Type Specification
 
 You can also explicity tell Resolver the type of object or protocol you want to register or resolve.
