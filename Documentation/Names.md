@@ -4,7 +4,7 @@
 
 Because named registrations and resolutions let you change the behavior of the app.
 
-## Quick Example #1
+## Example: Mocking Data
 
 Consider the following set of registrations.
 
@@ -32,7 +32,7 @@ And as long as XYXMockService complies with the XYZServicing protocol, the clien
 
 Nor should it.
 
-## Quick Example #2
+## Example: Changing Behavior
 
 Now, consider the next pair of registrations:
 
@@ -54,4 +54,19 @@ class ViewController: UIViewController, Resolving {
 ```
 
 Now the view controller gets the proper view model for the job. The `lazy var` ensures that the viewModel resolution doesn't occur until after the viewController is instantiated and `prepareForSegue` has had a chance to correctly set `editMode`.
+
+## Example: Named Value Types
+
+You can register value types and paramters for later resolution. However, since Resolver registers object by type, the only way to tell one String from another String is to name it.
+
+```
+register(name: "appKey") { "12345" }
+register { XYZSessionService(key: resolve(name: "appKey")) }
+```
+
+The first line registers a String named `appKey`.
+
+The factory in the second line resolves a String parameter named `appKey`, and passes it to the `XYZSessionService` initialization function.
+
+This is a good way to get authentication keys, application keys, and other values to the objects that need them.
 

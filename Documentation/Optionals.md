@@ -8,7 +8,7 @@ Consider the following:
 
 ```
 Resolver.register() { ABCService() }
-var abc: ABCService? = Resolver.resolve()!
+var abc: ABCService? = Resolver.resolve()
 ```
 
 Try the above, and the expected resolution will fail. Why? Well, remember that Resolver depends on Swift to infer the correct type, based on the type of the expected result.
@@ -46,11 +46,11 @@ var abc: ABCService! = Resolver.optional()
 You can also punt and explicity tell Resolver the type of object or protocol you want to resolve.
 
 ```
-var abc: ABCService? = Resolver.resolve(ABCService.self)!
+var abc: ABCService? = Resolver.resolve(ABCService.self)
 ```
 
 This could be helpful if for some reason you wanted to resolve to a specific instance.
 
 ```
-var abc: ABCServicing? = Resolver.resolve(ABCService.self)!
+var abc: ABCServicing? = Resolver.resolve(ABCService.self)
 ```

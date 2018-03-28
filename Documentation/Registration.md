@@ -56,6 +56,7 @@ Just as an example:
 
 ```
 extension Resolver {
+
     static func registerMyNetworkServices() {
 
         // Register protocols XYZFetching and XYZUpdating and create implementation object
@@ -63,13 +64,21 @@ extension Resolver {
             .implements(XYZFetching.self)
             .implements(XYZUpdating.self)
 
-        // Register XYZService and return instance in factory closure
+        // Register XYZNetworkService and return instance in factory closure
         register { XYZNetworkService(session: resolve()) }
 
         // Register XYZSessionService and return instance in factory closure
         register { XYZSessionService() }
     }
+    
 }
 ```
 
-That's it.
+That's it. Resolver uses  Swift [type inference](Types.md) to automatically determine and register the type of object being returned by the registration factory.
+
+And in the case of `XYZNetworkService`, Resolver is used to infer the type of the session parameter that's needed to initialize a `XYZNetworkService`.
+
+This works with classes, structs, and protocols, though there are a few special cases and considerations for [protocols](Protocols.md).
+
+You can also register [value types](Names.md), though that too has a few special considerations.
+

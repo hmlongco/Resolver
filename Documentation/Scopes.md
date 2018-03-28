@@ -24,7 +24,7 @@ main.register { resolve() as XYZCombinedService as XYZFetching }
 main.register { resolve() as XYZCombinedService as XYZUpdating }
 main.register { XYZCombinedService() }
 
-var viewModel: XYZViewModel = resolver.resolve()!
+var viewModel: XYZViewModel = resolver.resolve()
 ```
 
 When the call to `resolve` is made, Resolver needs to create an instance of `XYZViewModel`, so it locates and calls the proper factory. That factory is happy to comply, but in order to make a XYZViewModel it's first going to need to resolve all of that object's initialization parameters.

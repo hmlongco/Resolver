@@ -189,7 +189,7 @@ Well, MyViewController is the one who wanted a XYZViewModel, so let's rewrite it
 
 ```
 class MyViewController: UIViewController, Resolving {
-    lazy var viewModel: XYZViewModel = resolver.resolve()!
+    lazy var viewModel: XYZViewModel = resolver.resolve()
 }
 ```
 

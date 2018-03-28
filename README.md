@@ -20,14 +20,14 @@ For more, read: [A Gentle Introduction to Dependency Injection](https://github.c
 Resolver is just over 300 lines of actual code, but it packs a ton of features into those 300 lines.
 
 * Dependency Registration & Resolution
-* [Automatic Type Inference](https://github.com/hmlongco/Resolver/blob/master/Documentation/TypeInference.md)
-* [Protocols](https://github.com/hmlongco/Resolver/blob/master/Documentation/TypeInference.md#Protocols)
-* [Optionals](https://github.com/hmlongco/Resolver/blob/master/Documentation/Optionals.md)
+* [Automatic Type Inference](https://github.com/hmlongco/Resolver/blob/master/Documentation/Types.md)
+* [Protocol Support](https://github.com/hmlongco/Resolver/blob/master/Documentation/Protocols.md)
+* [Optional Support](https://github.com/hmlongco/Resolver/blob/master/Documentation/Optionals.md)
 * [Named Instances](https://github.com/hmlongco/Resolver/blob/master/Documentation/Names.md)
 * [Scopes: Application, Cached, Graph, Shared, and Unique](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md)
-* Custom Containers & Nested Containers
-* Parameter Passing
-* Storyboard Support
+* [Custom Containers & Nested Containers](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md)
+* [Parameter Passing](https://github.com/hmlongco/Resolver/blob/master/Documentation/Parameters.md)
+* [Storyboard Support](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md)
 * Thread Safe
 
 ## Using Resolver
