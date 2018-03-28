@@ -48,10 +48,10 @@ But one view model appears to be specific to adding things, while the other's be
 
 ```
 class ViewController: UIViewController, Resolving {
-var editMode: Bool = true // set, perhaps, by calling segue
-lazy var viewModel: XYZViewModelProtocol = resolver.resolve(name: editMode ? "edit" : "add")!
+    var editMode: Bool = true // set, perhaps, by calling segue
+    lazy var viewModel: XYZViewModelProtocol = resolver.resolve(name: editMode ? "edit" : "add")!
 }
 ```
 
-Now the view controller gets the proper view model for the job. The `lazy var` ensures that the viewModel resolution doesn't occur until after the viewController is instantiated and `prepareForSegue` has had a change to correctly set `editMode`.
+Now the view controller gets the proper view model for the job. The `lazy var` ensures that the viewModel resolution doesn't occur until after the viewController is instantiated and `prepareForSegue` has had a chance to correctly set `editMode`.
 

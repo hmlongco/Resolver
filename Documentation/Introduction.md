@@ -107,7 +107,7 @@ Here we have a UIViewController named MyViewController that requires an instance
 
 ```
 class MyViewController: UIViewController {
-var viewModel: XYZViewModel!
+    var viewModel: XYZViewModel!
 }
 ```
 
@@ -117,32 +117,31 @@ The XYZService, in turn, needs a reference to an XYZSessionService to do its job
 
 ```
 class XYZViewModel {
-private var fetcher: XYZFetching
-private var updater: XYZUpdating
-private var service: XYZService
+    private var fetcher: XYZFetching
+    private var updater: XYZUpdating
+    private var service: XYZService
 
-init(fetcher: XYZFetching, updater: XYZUpdating, service: XYZService) {
-self.fetcher = fetcher
-self.updater = updater
-self.service = service
-}
+    init(fetcher: XYZFetching, updater: XYZUpdating, service: XYZService) {
+        self.fetcher = fetcher
+        self.updater = updater
+        self.service = service
+    }
 }
 
 class XYZCombinedService: XYZFetching, XYZUpdating {
-// Implements protocols
+    // Implements protocols
 }
 
 struct XYZService {
-private var session: XYZSessionService
-init(_ session: XYZSessionService) {
-self.session = session
-}
+    private var session: XYZSessionService
+    init(_ session: XYZSessionService) {
+        self.session = session
+    }
 }
 
 class XYZSessionService {
-// Implmentation
+    // Implmentation
 }
-
 ```
 
 Note that the initializers for XYZViewModel and XYZService are each passed the objects they need to do their jobs. To use Dependency Injection lingo, this is known as *Initialization Injection* and it's the recommended approach to object construction.
@@ -158,37 +157,39 @@ Here we're extending the base Resolver class with the ResolverRegistering protco
 ```
 extension Resolver: ResolverRegistering {
 
-public static func registerAllServices() {
+    public static func registerAllServices() {
 
-// Register instance with injected parameters
-main.register { XYZViewModel(fetcher: resolve(), updater: resolve(), service: resolve()) }
+        // Register instance with injected parameters
+        main.register { XYZViewModel(fetcher: resolve(), updater: resolve(), service: resolve()) }
 
-// Register protocols XYZFetching and XYZUpdating
-main.register { XYZCombinedService() as XYZFetching }
-main.register { XYZCombinedService() as XYZUpdating }
+        // Register protocols XYZFetching and XYZUpdating
+        main.register { XYZCombinedService() as XYZFetching }
+        main.register { XYZCombinedService() as XYZUpdating }
 
-// Register XYZService and return instance in factory closure
-main.register { XYZService() }
+        // Register XYZService and return instance in factory closure
+        main.register { XYZService() }
 
-// Register XYZSessionService and return instance in factory closure
-main.register { XYZSessionService() }
+        // Register XYZSessionService and return instance in factory closure
+        main.register { XYZSessionService() }
 
-}
+    }
 
 }
 ```
 
 So, the above code shows us registering XYZViewModel, the protocols XYZFetching and XYZUpdating, the XYZService, and the XYZSessionService.
 
-Now we've registered all of the objects our app is going to use. But what starts the process? Who resolves first?
+[Learn more about Registration](Registration.md)
 
-## The Resolution Cycle
+## Resolving
+
+Now we've registered all of the objects our app is going to use. But what starts the process? Who resolves first?
 
 Well, MyViewController is the one who wanted a XYZViewModel, so let's rewrite it as follows...
 
 ```
 class MyViewController: UIViewController, Resolving {
-lazy var viewModel: XYZViewModel = resolver.resolve()!
+    lazy var viewModel: XYZViewModel = resolver.resolve()!
 }
 ```
 
@@ -200,4 +201,5 @@ It doesn't know the internals of XYZViewModel, nor does it know about XYZFetcher
 
 Nor does it need to. It simply asks Resolver for an instance of type T, and Resolver complies.
 
+[Learn more about Resolving](Resolving.md)
 
