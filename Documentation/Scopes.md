@@ -4,17 +4,53 @@
 
 Scopes are used to control the lifecycle of a given object instance.
 
-Resolver has five built-in scopes: Application, Cached, Graph, Shared, and Unique.
+Resolver has five built-in scopes:
+
+* [Application](#application)
+* [Cached](#cached)
+* [Graph](#graph) (default)
+* [Shared](#shared)
+* [Unique](#unique)
 
 All scopes, with the exception of `unique`, are basically caches, and those caches are used to keep track of the objects they create.
 
 How long? Well, that depends on the scope.
 
-## Scope: Graph
+## Scope: Application<a name=application></a>
 
-This scope will reuse any object instances resolved during a given resolution cycle.
+The `application` scope will make Resolver retain a given object instance once it's been resolved the first time, and any subsequent resolutions will always return the inital instance.
 
-When all objects are resolved the cached instances will be discarded and the next call to resolve them will produce new instances.
+```
+main.register { XYZApplicationService() }
+    .scope(application)
+```
+
+This effectively makes the object a `Singleton`.
+
+## Scope: Cached<a name=cached></a>
+
+This scope stores a strong reference to the resolved instance. Once created, every subsequent call to resolve will return the same instance.
+
+```
+main.register { MyViewModel() }
+    .scope(cached)
+```
+
+This is similar to how an application scope behaves, but unlike an application scope, cached scopes can be `reset`, releasing their cached objects.
+
+This is useful if you need, say, a session-level scope that caches specific information until a user logs out.
+
+```
+Resolver.cached.reset()
+```
+
+You can also add your own [custom caches](#custom) to Resolver.
+
+## Scope: Graph<a name=graph></a>
+
+This scope will reuse any object instances resolved during a given [resolution cycle](Cycle.md).
+
+Once the requested object is resolved any internally cached instances will be discarded and the next call to resolve them will produce new instances.
 
 Graph is Resolver's **default** scope, so check out the following code:
 
@@ -43,29 +79,7 @@ If you don't want this behavior, and if every request should get its own `unique
 
 **Note that value types, including structs, are never cached in the graph.**
 
-## Scope: Unique
-
-This is the simplist scope, in that Resolver calls the registration factory to create a new instance of your type each and every time you call resolve.
-
-It's specified like this:
-
-```
-main.register { XYZCombinedService() }
-    .scope(unique)
-```
-
-## Scope: Application
-
-The `application` scope will make Resolver retain a given object instance once resolved the first time, and any subsequent resolutions will always return the inital instance.
-
-```
-main.register { XYZApplicationService() }
-    .scope(application)
-```
-
-This effectively makes the object a `Singleton`.
-
-## Scope: Shared
+## Scope: Shared<a name=shared></a>
 
 This scope stores a *weak* reference to the resolved instance.
 
@@ -84,45 +98,20 @@ This is useful in cases like Master/Detail view controllers, where it's possible
 
 Only class types can have weak references, and as such only class types can be shared.
 
-## Scope: Cached
+## Scope: Unique<a name=unique></a>
 
-This scope stores a strong reference to the resolved instance. Once created, every subsequent call to resolve will return the same instance.
+This is the simplist scope, in that Resolver calls the registration factory to create a new instance of your type each and every time you call resolve.
 
-```
-main.register { MyViewModel() }
-    .scope(cached)
-```
-
-This is similar to how an application scope behaves, but unlike an application scope, cached scopes can be `reset`, releasing their cached objects.
-
-This is useful if you need, say, a session-level scope that caches specific information until a user logs out.
+It's specified like this:
 
 ```
-Resolver.cached.reset()
+main.register { XYZCombinedService() }
+    .scope(unique)
 ```
 
-## Custom Scopes
+## The Default Scope<a name=default></a>
 
-You can add and use your own scopes. Usually, and as mentioned above, you might want your own session-level scope to cache information that's needed for as long as a given user is logged in.
-
-To create your own session cache, add the following to your code:
-
-```
-extension Resolver {
-    static let session = ResolverScopeCache()
-}
-```
-It can then be used and specified like any built-in scope.
-
-```
-main.register { UserManager() }
-    .scope(session)
-```
-
-
-## The Default Scope
-
-The default scope used by Resolver when registering an object is `graph`.
+The default scope used by Resolver when registering an object is [graph](#graph).
 
 But you can change that if you wish, with the only caveat being that you need to do so **before** you do your first registration.
 
@@ -137,3 +126,33 @@ extension Resolver: ResolverRegistering {
 }
 ```
 
+## Custom Caches<a name=custom></a>
+
+You can add and use your own scopes. As mentioned above, you might want your own session-level scope to cache information that's needed for as long as a given user is logged in.
+
+To create your own distinct session cache, add the following to your main `AppDelegate+Injection.swift` file:
+
+```
+extension Resolver {
+    static let session = ResolverScopeCache()
+}
+```
+
+Your session scope can then be used and specified just like any built-in scope.
+
+```
+main.register { UserManager() }
+    .scope(session)
+```
+
+And it can be reset as needed.
+
+```
+Resolver.session.reset()
+```
+
+## The ResolverScope Protocol
+
+Finally, if you need some behavior not supported by the built in scopes, you can roll your own using the `ResolverScope` protocol and add it to Resolver as shown in [Custom Caches](#custom).
+
+Just use the existing implementations as your guides. **In particular, pay attention to how pthread_mutex_lock/unlock is used to keep resolutions thread safe**.
