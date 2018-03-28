@@ -375,9 +375,7 @@ public class ResolverScopeApplication: ResolverScope {
             return service
         }
         if let service = registration.resolve(resolver: resolver, args: args) {
-            if type(of:service) is AnyClass {
-                cachedServices[registration.key] = service
-            }
+            cachedServices[registration.key] = service
             pthread_mutex_unlock(&mutex)
             return service
         }

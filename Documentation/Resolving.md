@@ -12,11 +12,11 @@ class MyViewController: UIViewController {
 
 Used in this fashion, Resolver would technically be acting as a *Service Locator*.
 
-There are pros and cons to the Service Locator approach, the primary two being less code vs having your view controllers "know" about Resolver.
+There are pros and cons to the Service Locator approach, the primary two being writing less code vs having your view controllers and other objects "know" about Resolver.
 
 ## Resolve using the Resolving protocol
 
-Any object can implement and user the Resolving protocol, as shown in the folllowing two examples:
+Any object can implement and use the Resolving protocol, as shown in the folllowing two examples:
 
 ```
 class MyViewController: UIViewController, Resolving {
@@ -81,12 +81,6 @@ class MyViewController: UIViewController, Resolving {
 
 This will generate a Swift compiler error: *Cannot use instance member 'resolver' within property initializer; property initializers run before 'self' is available.*
 
-```
-class MyViewController: UIViewController, Resolving {
-    lazy var viewModel: XYZViewModel = resolver.resolve()!
-}
-```
-
 Adding `lazy` fixes the problem, and also gives us the fexibility to do things like the following:
 
 ```
@@ -96,28 +90,30 @@ class ViewController: UIViewController, Resolving {
 }
 ```
 
-Here, the `lazy var` ensures that the viewModel resolution doesn't occur until after the viewController is instantiated and `prepareForSegue` has had a chance to correctly set `editMode`.
+Here, the `lazy var` ensures that the viewModel resolution doesn't occur until after the viewController and it's properties are instantiated and after `prepareForSegue` has had a chance to correctly set `editMode`.
 
-[Read more about Named Instances.](Names.md)
+Named Intances are valuable tools to have in your toolkit [Learn more..](Names.md)
 
 ## Optionals
 
-Resolver can also automatically resolver optionals... with a little help.
+Resolver can also automatically resolve optionals... with one minor change.
 
 ```
 var abc: ABCService? = resolver.optional()
 var abc: ABCService! = resolver.optional()
 ```
 
-Due to the way Swift type-inference works, we need to give Resolver a clue that the type we're attempting to resolve is an optional, hence we use `resolver.optional()` and not `resolver.resolve()`.
+Due to the way Swift type inference works, we need to give Resolver a clue that the type we're attempting to resolve is an optional, hence we use `resolver.optional()` and not `resolver.resolve()`.
 
-You should also remember that Explicitly Unwrapped Optionals are still optionals.
+Note the second line of code. You should also remember that Explicitly Unwrapped Optionals are still optionals at heart, and as such also need the hint.
+
+**If a resolution is failing and you know you've registered the class, check to make sure your variable or parameter isn't an Optional or an Explicitly Unwrapped Optional!**
 
 [Read more about Optionals.](Optionals.md)
 
 ## The Resolution Cycle
 
-Let's assume the following registrations.
+Let's assume the following registrations and code.
 
 ```
 extension Resolver: ResolverRegistering {
@@ -138,9 +134,13 @@ extension Resolver: ResolverRegistering {
 
     }
 }
+
+class MyViewController: UIViewController {
+    var xyz: XYZViewModel = Resolver.resolve()!
+}
 ```
 
-When `lazy var viewModel: XYZViewModel = resolver.resolve()` is executed, the following occurs:
+When `resolver.resolve()` is executed on MyViewController, the following occurs:
 
 * Resolver infers the type of object being requested. (e.g. XYZViewModel)
 * Resolver searches the registry for a registration of that type to in order to find the correct object factory.
@@ -153,9 +153,13 @@ When `lazy var viewModel: XYZViewModel = resolver.resolve()` is executed, the fo
 * The XYZService gets its XYZSessionService, initializes, and returns.
 * The XYZViewModel gets a XYZFetching instance, a XYZUpdating instance, and a XYZService instance and initializes and returns.
 
-And MyViewController gets its XYZViewModel. It doesn't know the internals of XYZViewModel, nor does it know about XYZFetcher's, XYZUpdater's, XYZService's, or XYZSessionService's.
+And MyViewController gets its XYZViewModel.
+
+It doesn't know the internals of XYZViewModel, nor does it know about XYZFetcher's, XYZUpdater's, XYZService's, or XYZSessionService's.
 
 Nor does it need to. It simply asks Resolver for an instance of type T, and Resolver complies.
+
+This chain of events is known as a *Resolution Cycle*.
 
 ## ResolverStoryboard
 

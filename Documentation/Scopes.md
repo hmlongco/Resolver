@@ -37,11 +37,11 @@ But since we've already resolved `XYZCombinedService` once during this cycle, th
 
 Resolver then resolves the `service` object, and the code initializes a copy of `XYZViewModel` and returns it.
 
-The graph tracks all objects resolved by all objects that are resolved by all objects... until the final result is returned.
+The graph tracks all of the objects that are resolved by all of the objects that are resolved by all of the objects... until the final result is returned.
 
 If you don't want this behavior, and if every request should get its own `unique` copy, specify it using the `unique` scope.
 
-**Note that value types, including structs, are not cached.**
+**Note that value types, including structs, are never cached in the graph.**
 
 ## Scope: Unique
 
@@ -65,8 +65,6 @@ main.register { XYZApplicationService() }
 
 This effectively makes the object a `Singleton`.
 
-**Note that value types, including structs, are not cached.**
-
 ## Scope: Shared
 
 This scope stores a *weak* reference to the resolved instance.
@@ -82,7 +80,9 @@ However, once all strong references are released, the shared instance is release
 
 This is useful in cases like Master/Detail view controllers, where it's possible that both the MasterViewController and the DetailViewController would like to "share" the same instance of a specific view model.
 
-**Note that value types, including structs, are not shared.**
+**Note that value types, including structs, are never shared.**
+
+Only class types can have weak references, and as such only class types can be shared.
 
 ## Scope: Cached
 
@@ -100,8 +100,6 @@ This is useful if you need, say, a session-level scope that caches specific info
 ```
 Resolver.cached.reset()
 ```
-
-**Note that value types, including structs, are not cached.**
 
 ## Custom Scopes
 
