@@ -16,10 +16,10 @@ Here's an object that needs  to talk to an NetworkService.
 
 ```
 class MyViewModel {
-let service = NetworkService()
-func load() {
-let data = NetworkService.getData()
-}
+    let service = NetworkService()
+    func load() {
+        let data = NetworkService.getData()
+    }
 }
 ```
 
@@ -39,10 +39,10 @@ Now, consider an object that depends upon an instance of NetworkService being pa
 
 ```
 class MyViewModel {
-var service: NetworkServicing!
-func load() {
-let data = NetworkService.getData()
-}
+    var service: NetworkServicing!
+    func load() {
+        let data = NetworkService.getData()
+    }
 }
 ```
 
@@ -149,7 +149,7 @@ Note that the initializers for XYZViewModel and XYZService are each passed the o
 
 ## Registration
 
-Let's use Resolver to register some classes.
+Let's use Resolver to register these classes.
 
 Here we're extending the base Resolver class with the ResolverRegistering protcol, which pretty much just tells Resolver that we've added the registerAllServices() function.
 
@@ -194,21 +194,10 @@ lazy var viewModel: XYZViewModel = resolver.resolve()!
 
 Adopting the Resolving protocol injects the default resolver instance into MyViewController. Calling resolve on that instance allows it to request a XYZViewModel from Resolver.
 
-To use more Dependency Injection lingo, resolver was added to MyViewController using *Interface Injection*, and resolver.resolve() acts as the *Service Locator* for MyViewController.
+Resolver processes the request, returns the correct instance, and MyViewController gets its XYZViewModel.
 
-Note that the viewModel parameter is lazy, so when it's first accessed a *Resolution Cycle* kicks off.
-
-* Resolver infers the type of object being requested. (e.g. XYZViewModel)
-* Resolver searches the registry for a registration of that type to in order to find the correct object factory.
-* Resolver tells the factory to resolve.
-* Resolving, the XYZViewModel factory inits an XYZViewModel, but first it needs a fetecher, an updater, and service object.
-* Resolving, the XYZFetcher factory creates and returns a fetcher.
-* Resolving, the XYZUpdater factory creates and returns an updater.
-* Resolving, the XYZService factory creates and returns an XYZService, but first it needs an XYZSessionService.
-* Resolving, the XYZSessionService factory creates and returns a session.
-* The XYZService gets its XYZSessionService and inits.
-* The XYZViewModel gets a XYZFetching instance, a XYZUpdating instance, and a XYZService instance and inits.
-
-And MyViewController gets its XYZViewModel. It doesn't know the internals of XYZViewModel, nor does it know about XYZFetcher's, XYZUpdater's, XYZService's, or XYZSessionService's.
+It doesn't know the internals of XYZViewModel, nor does it know about XYZFetcher's, XYZUpdater's, XYZService's, or XYZSessionService's.
 
 Nor does it need to. It simply asks Resolver for an instance of type T, and Resolver complies.
+
+

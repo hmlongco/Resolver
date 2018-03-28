@@ -32,7 +32,7 @@
 		4C87FD04206A979600BF6798 /* Names.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Names.md; sourceTree = "<group>"; };
 		4C87FD05206A97A600BF6798 /* Scopes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Scopes.md; sourceTree = "<group>"; };
 		4C87FD06206AD6FD00BF6798 /* Registration.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Registration.md; sourceTree = "<group>"; };
-		4C87FD07206ADDBD00BF6798 /* Resolution.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Resolution.md; sourceTree = "<group>"; };
+		4C87FD07206ADDBD00BF6798 /* Resolving.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Resolving.md; sourceTree = "<group>"; };
 		4C87FD08206ADE2A00BF6798 /* Installation.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Installation.md; sourceTree = "<group>"; };
 		4CA30FE41FBB6C8500217883 /* Resolver.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Resolver.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CA30FE71FBB6C8500217883 /* Resolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Resolver.h; sourceTree = "<group>"; };
@@ -71,7 +71,7 @@
 				4C87FD04206A979600BF6798 /* Names.md */,
 				4C87FD03206A791100BF6798 /* Optionals.md */,
 				4C87FD06206AD6FD00BF6798 /* Registration.md */,
-				4C87FD07206ADDBD00BF6798 /* Resolution.md */,
+				4C87FD07206ADDBD00BF6798 /* Resolving.md */,
 				4C87FD05206A97A600BF6798 /* Scopes.md */,
 				4C87FD02206A6F9C00BF6798 /* TypeInference.md */,
 			);
