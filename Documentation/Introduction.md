@@ -18,7 +18,7 @@ Here's an object that needs  to talk to an NetworkService.
 class MyViewModel {
     let service = NetworkService()
     func load() {
-        let data = NetworkService.getData()
+        let data = service.getData()
     }
 }
 ```
@@ -41,7 +41,7 @@ Now, consider an object that depends upon an instance of NetworkService being pa
 class MyViewModel {
     var service: NetworkServicing!
     func load() {
-        let data = NetworkService.getData()
+        let data = service.getData()
     }
 }
 ```

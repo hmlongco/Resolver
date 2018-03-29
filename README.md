@@ -5,15 +5,27 @@
 
 ## Introduction
 
-Resolver is a Dependency Injection framework for Swift that supports the Inversion of Control design pattern.
-
-Computer Science definitions aside, Dependency Injection pretty much boils down to:
+Resolver is a Dependency Injection framework for Swift that supports the Inversion of Control design pattern. Computer Science definitions aside, Dependency Injection pretty much boils down to:
 
 | **Giving an object the things it needs to do its job.**
 
 Dependency Injection allows us to write code that's loosely coupled, and as such, easier to reuse, to mock, and  to test.
 
-For more, read: [A Gentle Introduction to Dependency Injection](https://github.com/hmlongco/Resolver/blob/master/Documentation/Introduction.md)
+For more information on the topic, see:
+
+* [A Gentle Introduction to Dependency Injection](https://github.com/hmlongco/Resolver/blob/master/Documentation/Introduction.md)
+*  [Inversion of Control Containers and the Dependency Injection pattern ~ Martin Fowler](https://martinfowler.com/articles/injection.html)
+
+## Dependency Injection Strategies
+
+The four classic methods of performing dependency injection are:
+
+1. [Interface Injection](https://github.com/hmlongco/Resolver/blob/master/Documentation/Injection.md#interface)
+2. [Property Injection](https://github.com/hmlongco/Resolver/blob/master/Documentation/Injection.md#property)
+3. [Constructor Injection](https://github.com/hmlongco/Resolver/blob/master/Documentation/Injection.md#constructor)
+4. [Service Locator](https://github.com/hmlongco/Resolver/blob/master/Documentation/Injection.md#locator)
+
+Resolver supports them all. Follow the links for a brief description and examples.
 
 ## Features
 
@@ -22,11 +34,11 @@ Resolver is just over 300 lines of actual code, but it packs a ton of features i
 * Dependency Registration & Resolution
 * [Automatic Type Inference](https://github.com/hmlongco/Resolver/blob/master/Documentation/Types.md)
 * [Scopes: Application, Cached, Graph, Shared, and Unique](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md)
+* [Protocols](https://github.com/hmlongco/Resolver/blob/master/Documentation/Protocols.md)
+* [Optionals](https://github.com/hmlongco/Resolver/blob/master/Documentation/Optionals.md)
 * [Named Instances](https://github.com/hmlongco/Resolver/blob/master/Documentation/Names.md)
-* [Special supprt for Protocols](https://github.com/hmlongco/Resolver/blob/master/Documentation/Protocols.md)
-* [Special supprt for Optionals](https://github.com/hmlongco/Resolver/blob/master/Documentation/Optionals.md)
-* [Custom Containers & Nested Containers](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md)
 * [Parameter Passing](https://github.com/hmlongco/Resolver/blob/master/Documentation/Parameters.md)
+* [Custom Containers & Nested Containers](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md)
 * [Storyboard Support](https://github.com/hmlongco/Resolver/blob/master/Documentation/Storyboards.md)
 * Thread Safe
 
@@ -46,7 +58,7 @@ Resolver is written in 100% Swift 4, with no Objective-C code, method swizzling,
 
 Resolver is also highly performant. SwinjectStoryboard, for example, is a great DI system, but Resolver clocks out to be about 800% faster at resolving dependcy chains than Swinject.
 
-And not to save the best for last, but you also write about 60% less Dependency Injection management code using Resolver.
+And not to save the best for last, but you also write about 40-60% less Dependency Injection management code using Resolver.
 
 ## Additional Resouces
 

@@ -40,6 +40,7 @@
 		4C87FD0C206BFA0F00BF6798 /* Parameters.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Parameters.md; sourceTree = "<group>"; };
 		4C87FD0D206BFBBC00BF6798 /* Protocols.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Protocols.md; sourceTree = "<group>"; };
 		4C87FD0E206BFD5800BF6798 /* Cycle.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Cycle.md; sourceTree = "<group>"; };
+		4C87FD0F206D207600BF6798 /* Injection.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Injection.md; sourceTree = "<group>"; };
 		4CA30FE41FBB6C8500217883 /* Resolver.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Resolver.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CA30FE71FBB6C8500217883 /* Resolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Resolver.h; sourceTree = "<group>"; };
 		4CA30FE81FBB6C8500217883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -75,6 +76,7 @@
 				4C87FD09206BF53A00BF6798 /* Containers.md */,
 				4C87FD0E206BFD5800BF6798 /* Cycle.md */,
 				4C87FD08206ADE2A00BF6798 /* Installation.md */,
+				4C87FD0F206D207600BF6798 /* Injection.md */,
 				4C87FD01206A6BAB00BF6798 /* Introduction.md */,
 				4C87FD04206A979600BF6798 /* Names.md */,
 				4C87FD03206A791100BF6798 /* Optionals.md */,
