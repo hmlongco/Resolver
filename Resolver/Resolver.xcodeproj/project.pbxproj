@@ -11,7 +11,6 @@
 		4CA30FF31FBB6C8500217883 /* ResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA30FF21FBB6C8500217883 /* ResolverTests.swift */; };
 		4CA30FF51FBB6C8500217883 /* Resolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CA30FE71FBB6C8500217883 /* Resolver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4CA310011FBB6DFA00217883 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA30FFF1FBB6DFA00217883 /* Resolver.swift */; };
-		4CA310021FBB6DFA00217883 /* ResolverStoryboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA310001FBB6DFA00217883 /* ResolverStoryboard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +36,7 @@
 		4C87FD09206BF53A00BF6798 /* Containers.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Containers.md; sourceTree = "<group>"; };
 		4C87FD0A206BF56300BF6798 /* Storyboards.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Storyboards.md; sourceTree = "<group>"; };
 		4C87FD0B206BF58900BF6798 /* Swinject.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Swinject.md; sourceTree = "<group>"; };
-		4C87FD0C206BFA0F00BF6798 /* Parameters.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Parameters.md; sourceTree = "<group>"; };
+		4C87FD0C206BFA0F00BF6798 /* Arguments.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Arguments.md; sourceTree = "<group>"; };
 		4C87FD0D206BFBBC00BF6798 /* Protocols.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Protocols.md; sourceTree = "<group>"; };
 		4C87FD0E206BFD5800BF6798 /* Cycle.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Cycle.md; sourceTree = "<group>"; };
 		4C87FD0F206D207600BF6798 /* Injection.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Injection.md; sourceTree = "<group>"; };
@@ -48,7 +47,6 @@
 		4CA30FF21FBB6C8500217883 /* ResolverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverTests.swift; sourceTree = "<group>"; };
 		4CA30FF41FBB6C8500217883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4CA30FFF1FBB6DFA00217883 /* Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
-		4CA310001FBB6DFA00217883 /* ResolverStoryboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResolverStoryboard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +78,7 @@
 				4C87FD01206A6BAB00BF6798 /* Introduction.md */,
 				4C87FD04206A979600BF6798 /* Names.md */,
 				4C87FD03206A791100BF6798 /* Optionals.md */,
-				4C87FD0C206BFA0F00BF6798 /* Parameters.md */,
+				4C87FD0C206BFA0F00BF6798 /* Arguments.md */,
 				4C87FD0D206BFBBC00BF6798 /* Protocols.md */,
 				4C87FD06206AD6FD00BF6798 /* Registration.md */,
 				4C87FD07206ADDBD00BF6798 /* Resolving.md */,
@@ -136,7 +134,6 @@
 			isa = PBXGroup;
 			children = (
 				4CA30FFF1FBB6DFA00217883 /* Resolver.swift */,
-				4CA310001FBB6DFA00217883 /* ResolverStoryboard.swift */,
 			);
 			name = Sources;
 			path = ../../Sources;
@@ -253,7 +250,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CA310021FBB6DFA00217883 /* ResolverStoryboard.swift in Sources */,
 				4CA310011FBB6DFA00217883 /* Resolver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

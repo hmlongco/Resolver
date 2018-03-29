@@ -22,7 +22,7 @@
 // THE SOFTWARE.
 //
 
-import Foundation
+import UIKit
 
 public protocol ResolverRegistering {
     static func registerAllServices()
@@ -460,4 +460,21 @@ public final class ResolverScopeUnique: ResolverScope {
 
 }
 
+/// Storyboard Automatic Resolution Protocol
+public protocol StoryboardResolving: Resolving {
+    func resolveViewController()
+}
 
+/// Storyboard Automatic Resolution Trigger
+public extension UIViewController {
+    @objc public dynamic var resolving: Bool {
+        get {
+            return true
+        }
+        set {
+            if let vc = self as? StoryboardResolving {
+                vc.resolveViewController()
+            }
+        }
+    }
+}
