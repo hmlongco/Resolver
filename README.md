@@ -5,7 +5,7 @@
 
 ## Introduction
 
-Dependency Injection frameworks support the [Inversion of Control](https://en.wikipedia.org/wiki/Inversion_of_control) design pattern. Technical definitions aside, dependency injection pretty much boils down to:
+Dependency Injection frameworks support the [Inversion of Control](https://en.wikipedia.org/wiki/Inversion_of_control) design pattern. Technical definitions aside, dependency injection is a $5 term that pretty much boils down to:
 
 | **Giving an object the things it needs to do its job.**
 

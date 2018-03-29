@@ -13,7 +13,7 @@ The names and numbers come from the *Inversion of Control* design pattern. For a
 
 Here I'll simply provide a brief description and an example of implementing each using Resolver.
 
-## 1. Interface Injection<a name=interface></a>
+## <a name=interface></a>1. Interface Injection
 
 #### Definition
 
@@ -22,20 +22,45 @@ The first injection technique is to define a interface for the injection, and in
 #### The Class
 
 ```
-class MyViewController: UIViewController {
-    lazy var viewModel = makeViewModel()
+class XYZViewModel {
+
+    lazy var fetcher: XYZFetching = getFetcher()
+    lazy var service: XYZService = getService()
+
+    func load() -> Data {
+        return fetcher.getData(service)
+    }
+
 }
 ```
 
-#### The Factory
+#### The Dependency Injection Code
 
 ```
-extension MyViewController: Resolving {
-    func makeViewModel() -> XYZViewModel { return resolver.resolve() }
+extension XYZViewModel: Resolving {
+    func getFetcher() -> XYZFetching { return resolver.resolve() }
+    func getService() -> XYZService { return resolver.resolve() }
+}
+
+func setupMyRegistrations {
+    register { XYZFetcher() as XYZFetching }
+    register { XYZService() }
 }
 ```
 
-## 2. Property Injection<a name=property></a>
+Note that you still want to call `resolve()` within `getFetcher()` and `getService()` , otherwise you're back to tightly-coupling the dependent classes and bypassing the resolution registration system.
+
+#### Pros
+
+* Lightweight.
+* Hides dependency injection system from class.
+* Useful for classes like UIViewController where you don't have access during the initialization process.
+
+#### Cons
+
+* Writing an accessor function for every service that needs to be injected.
+
+## <a name=property></a>2. Property Injection
 
 #### Definition
 
@@ -56,18 +81,37 @@ class XYZViewModel {
 }
 ```
 
-#### The Factory
+#### The Dependency Injection Code
 
 ```
-register { XYZViewModel()
-    .resolveProperties { (resolver, model) in
-        model.fetcher = resolver.optional()
-        model.service = resolver.optional()
+func setupMyRegistrations {
+    register { XYZViewModel()
+        .resolveProperties { (resolver, model) in
+            model.fetcher = resolver.optional() // Note property is an ExplicitlyUnwrappedOptional
+            model.service = resolver.optional() // Ditto
+        }
     }
+}
+
+
+func setupMyRegistrations {
+    register { XYZFetcher() as XYZFetching }
+    register { XYZService() }
 }
 ```
 
-## 3. Constructor Injection<a name=constructor></a>
+#### Pros
+
+* Clean.
+* Also fairly lightweight.
+
+#### Cons
+
+* Exposes internals as public variables.
+* Harder to ensure that an object has been given everything it needs to do its job.
+* More work on the registration side of the fence.
+
+## <a name=constructor></a>3. Constructor Injection
 
 #### Definition
 
@@ -93,13 +137,28 @@ class XYZViewModel {
 }
 ```
 
-#### The Factory
+#### The Dependency Injection Code
 
 ```
-register { XYZViewModel(fetcher: resolve(), service: resolve()) }
+func setupMyRegistrations {
+    register { XYZViewModel(fetcher: resolve(), service: resolve()) }
+    register { XYZFetcher() as XYZFetching }
+    register { XYZService() }
+}
 ```
 
-## 4. Service Locator<a name=locator></a>
+#### Pros
+
+* Ensures that the object has everything it needs to do its job, as the object can't be constructed otherwise.
+* Hides dependencies as private or internal.
+* Less code needed for the registration factory.
+
+#### Cons
+
+* Requires object to have initializer with all parameters needed.
+* More boilerplace code needed in the object initializer to transfer parameters to object properties.
+
+## <a name=locator></a>4. Service Locator
 
 #### Definition
 
@@ -108,11 +167,33 @@ Finally, a Service Locator is basically a service that locates the resources and
 #### The Class
 
 ```
-class MyViewController: UIViewController {
-    lazy var viewModel: XYZViewModel = Ressolver.resolve()
+class XYZViewModel {
+
+    var fetcher: XYZFetching = Resolver.resolve()
+    var service: XYZService = Resolver.resolve()
+
+    func load() -> Data {
+        return fetcher.getData(service)
+    }
+
 }
 ```
 
-#### The Factory
+#### The Dependency Injection Code
 
-Since the class is reaching out to the Service Locator directly (Resolver), no registration factory is needed.
+```
+func setupMyRegistrations {
+    register { XYZFetcher() as XYZFetching }
+    register { XYZService() }
+}
+```
+
+#### Pros
+
+* Less code.
+* Useful for classes like UIViewController where you don't have access during the initialization process.
+
+
+#### Cons
+
+* Exposes the dependency injection system to all of the classes that use it.
