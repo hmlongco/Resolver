@@ -71,14 +71,14 @@
 		4C87FD00206A6AFA00BF6798 /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
+				4C87FD0C206BFA0F00BF6798 /* Arguments.md */,
 				4C87FD09206BF53A00BF6798 /* Containers.md */,
 				4C87FD0E206BFD5800BF6798 /* Cycle.md */,
-				4C87FD08206ADE2A00BF6798 /* Installation.md */,
 				4C87FD0F206D207600BF6798 /* Injection.md */,
+				4C87FD08206ADE2A00BF6798 /* Installation.md */,
 				4C87FD01206A6BAB00BF6798 /* Introduction.md */,
 				4C87FD04206A979600BF6798 /* Names.md */,
 				4C87FD03206A791100BF6798 /* Optionals.md */,
-				4C87FD0C206BFA0F00BF6798 /* Arguments.md */,
 				4C87FD0D206BFBBC00BF6798 /* Protocols.md */,
 				4C87FD06206AD6FD00BF6798 /* Registration.md */,
 				4C87FD07206ADDBD00BF6798 /* Resolving.md */,

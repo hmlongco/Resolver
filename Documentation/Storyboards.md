@@ -23,7 +23,7 @@ extension MyViewController: StoryboardResolving {
 }
 ```
 
-Note that we're using `.optional()` here, since XYZViewModel is an ExplicitlyUnwrappedOptional.
+Note that we're using `.optional()` here, since XYZViewModel is an *ExplicitlyUnwrappedOptional*.
 
 ### Step 2: Tell the Storyboard that your view controller needs to be resolved.
 
@@ -61,7 +61,7 @@ Try the two different approaches, and use the one that feels best. I tend to pre
 
 ### Other Dependency Injection Systems
 
-Some Dependency Injection systems like SwinjectStoryboard still require some variant of Step 1, but can do without Step 2.
+Some Dependency Injection systems like [SwinjectStoryboard](https://github.com/Swinject/SwinjectStoryboard) still require some variant of Step 1, but can do without Step 2.
 
 Here's the equivalent Step 1 code in SwinjectStoryboard.
 

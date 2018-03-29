@@ -197,3 +197,7 @@ func setupMyRegistrations {
 #### Cons
 
 * Exposes the dependency injection system to all of the classes that use it.
+
+## Additonal Resources
+
+This just skims the surface. For a more in-depth look at the pros and cons, see: [Inversion of Control Containers and the Dependency Injection pattern ~ Martin Fowler](https://martinfowler.com/articles/injection.html).
