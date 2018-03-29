@@ -237,7 +237,7 @@ public final class Resolver {
 public typealias ResolverFactory<Service> = () -> Service?
 public typealias ResolverFactoryArguments<Service> = (_ resolver: Resolver, _ args: Any?) -> Service?
 public typealias ResolverFactoryMutator<Service> = (_ resolver: Resolver, _ service: Service) -> Void
-public typealias ResolverFactoryMutatorArguments<Service> = (_ resolver: Resolver, _ args: Any?, _ service: Service) -> Void
+public typealias ResolverFactoryMutatorArguments<Service> = (_ resolver: Resolver, _ service: Service, _ args: Any?) -> Void
 
 /// A ResolverOptions instance is returned by a registration function in order to allow additonal configuratiom. (e.g. scopes, etc.)
 public class ResolverOptions<Service> {
@@ -282,7 +282,7 @@ public class ResolverOptions<Service> {
     ///
     @discardableResult
     public final func resolveProperties(_ block: @escaping ResolverFactoryMutator<Service>) -> ResolverOptions<Service> {
-        mutator = { r,_,s in block(r, s) }
+        mutator = { r,s,_ in block(r, s) }
         return self
     }
 
@@ -339,7 +339,7 @@ public final class ResolverRegistration<Service>: ResolverOptions<Service> {
 
     public final func resolve(resolver: Resolver, args: Any?) -> Service? {
         if let service = factory(resolver, args)  {
-            self.mutator?(resolver, args, service)
+            self.mutator?(resolver, service, args)
             return service
         }
         return nil
@@ -459,3 +459,5 @@ public final class ResolverScopeUnique: ResolverScope {
     }
 
 }
+
+
