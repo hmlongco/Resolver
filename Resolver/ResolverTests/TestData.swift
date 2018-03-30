@@ -7,6 +7,14 @@
 //
 
 import Foundation
+import Resolver
+
+extension Resolver: ResolverRegistering {
+    public static func registerAllServices() {
+        register { XYZSessionService() }
+        register { XYZService( optional() ) }
+    }
+}
 
 class XYZViewModel {
 
@@ -67,7 +75,7 @@ class XYZGraphService {
 class XYZSessionService {
     static var counter = 0
     let count: Int
-    var name: String { return "XYZSessionService" }
+    var name: String = "XYZSessionService"
     init() {
         XYZSessionService.counter += 1
         count = XYZSessionService.counter
@@ -79,6 +87,9 @@ class XYZNameService {
     init(_ name: String) {
         self.name = name
     }
+}
+
+class XYZNeverService {
 }
 
 class XYZValueService {
