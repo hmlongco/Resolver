@@ -11,6 +11,7 @@
 		4CA30FF31FBB6C8500217883 /* ResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA30FF21FBB6C8500217883 /* ResolverTests.swift */; };
 		4CA30FF51FBB6C8500217883 /* Resolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CA30FE71FBB6C8500217883 /* Resolver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4CA310011FBB6DFA00217883 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA30FFF1FBB6DFA00217883 /* Resolver.swift */; };
+		4CD4F800206E99440090669A /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD4F7FF206E99440090669A /* TestData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		4CA30FF21FBB6C8500217883 /* ResolverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverTests.swift; sourceTree = "<group>"; };
 		4CA30FF41FBB6C8500217883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4CA30FFF1FBB6DFA00217883 /* Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
+		4CD4F7FF206E99440090669A /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 			children = (
 				4CA30FF21FBB6C8500217883 /* ResolverTests.swift */,
 				4CA30FF41FBB6C8500217883 /* Info.plist */,
+				4CD4F7FF206E99440090669A /* TestData.swift */,
 			);
 			path = ResolverTests;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CA30FF31FBB6C8500217883 /* ResolverTests.swift in Sources */,
+				4CD4F800206E99440090669A /* TestData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
