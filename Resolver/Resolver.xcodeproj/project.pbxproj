@@ -15,6 +15,7 @@
 		4CD4F802206EA9DA0090669A /* ResolverScopeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD4F801206EA9DA0090669A /* ResolverScopeTests.swift */; };
 		4CD4F804206EAC1E0090669A /* ResolverNameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD4F803206EAC1E0090669A /* ResolverNameTests.swift */; };
 		4CD4F806206EB3940090669A /* ResolverProtocolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD4F805206EB3940090669A /* ResolverProtocolTests.swift */; };
+		4CD4F808206EB7930090669A /* ResolverContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD4F807206EB7930090669A /* ResolverContainerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		4CD4F801206EA9DA0090669A /* ResolverScopeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverScopeTests.swift; sourceTree = "<group>"; };
 		4CD4F803206EAC1E0090669A /* ResolverNameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverNameTests.swift; sourceTree = "<group>"; };
 		4CD4F805206EB3940090669A /* ResolverProtocolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverProtocolTests.swift; sourceTree = "<group>"; };
+		4CD4F807206EB7930090669A /* ResolverContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverContainerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 			children = (
 				4CA30FF21FBB6C8500217883 /* ResolverBasicTests.swift */,
 				4CD4F801206EA9DA0090669A /* ResolverScopeTests.swift */,
+				4CD4F807206EB7930090669A /* ResolverContainerTests.swift */,
 				4CD4F803206EAC1E0090669A /* ResolverNameTests.swift */,
 				4CD4F805206EB3940090669A /* ResolverProtocolTests.swift */,
 				4CA30FF41FBB6C8500217883 /* Info.plist */,
@@ -273,6 +276,7 @@
 				4CD4F804206EAC1E0090669A /* ResolverNameTests.swift in Sources */,
 				4CA30FF31FBB6C8500217883 /* ResolverBasicTests.swift in Sources */,
 				4CD4F806206EB3940090669A /* ResolverProtocolTests.swift in Sources */,
+				4CD4F808206EB7930090669A /* ResolverContainerTests.swift in Sources */,
 				4CD4F800206E99440090669A /* TestData.swift in Sources */,
 				4CD4F802206EA9DA0090669A /* ResolverScopeTests.swift in Sources */,
 			);
