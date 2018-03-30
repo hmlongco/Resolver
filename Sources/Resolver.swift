@@ -411,7 +411,7 @@ public final class ResolverScopeGraph: ResolverScope {
         resolutionDepth = resolutionDepth - 1
         if resolutionDepth == 0 {
             graph.removeAll()
-        } else if Service.self is AnyClass {
+        } else {
             graph[registration.key] = service
         }
         pthread_mutex_unlock(&mutex)
