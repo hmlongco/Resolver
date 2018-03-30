@@ -411,7 +411,7 @@ public final class ResolverScopeGraph: ResolverScope {
         resolutionDepth = resolutionDepth - 1
         if resolutionDepth == 0 {
             graph.removeAll()
-        } else if type(of:service) is AnyClass {
+        } else if Service.self is AnyClass {
             graph[registration.key] = service
         }
         pthread_mutex_unlock(&mutex)
@@ -433,7 +433,7 @@ public final class ResolverScopeShare: ResolverScope {
             return service
         }
         if let service = registration.resolve(resolver: resolver, args: args) {
-            if type(of:service) is AnyClass {
+            if Service.self is AnyClass {
                 cachedServices[registration.key] = BoxWeak(service: service as AnyObject)
             }
             pthread_mutex_unlock(&mutex)
