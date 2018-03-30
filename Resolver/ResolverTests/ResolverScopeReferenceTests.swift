@@ -9,7 +9,7 @@
 import XCTest
 @testable import Resolver
 
-class ResolverScopeTests: XCTestCase {
+class ResolverScopeReferenceTests: XCTestCase {
 
     var resolver: Resolver!
 

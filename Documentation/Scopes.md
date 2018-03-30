@@ -77,8 +77,6 @@ The graph tracks all of the objects that are resolved by all of the objects that
 
 If you don't want this behavior, and if every request should get its own `unique` copy, specify it using the `unique` scope.
 
-**Note that value types, including structs, are never cached in the graph.**
-
 ## Scope: Shared<a name=shared></a>
 
 This scope stores a *weak* reference to the resolved instance.
@@ -94,7 +92,7 @@ However, once all strong references are released, the shared instance is release
 
 This is useful in cases like Master/Detail view controllers, where it's possible that both the MasterViewController and the DetailViewController would like to "share" the same instance of a specific view model.
 
-**Note that value types, including structs, are never shared.**
+**Note that value types, including structs, are never shared since the concept of a weak reference to them doesn't apply.**
 
 Only class types can have weak references, and as such only class types can be shared.
 

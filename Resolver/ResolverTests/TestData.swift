@@ -80,3 +80,22 @@ class XYZNameService {
         self.name = name
     }
 }
+
+class XYZValueService {
+    let value1: XYZValue?
+    let value2: XYZValue?
+    init(_ value1: XYZValue?, _ value2: XYZValue?) {
+        self.value1 = value1
+        self.value2 = value2
+    }
+}
+
+struct XYZValue {
+    static var counter = 0
+    let count: Int
+    var name: String { return "XYZValueService" }
+    init() {
+        XYZValue.counter += 1
+        count = XYZValue.counter
+    }
+}
