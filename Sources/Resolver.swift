@@ -154,7 +154,7 @@ public final class Resolver {
     /// - parameter args: Optional arguments that may be passed to registration factory.
     ///
     /// - returns: Instance of specified Service.
-    static func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
+    public static func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
         return root.resolve(type, name: name, args: args)
     }
 
@@ -183,7 +183,7 @@ public final class Resolver {
     ///
     /// - returns: Instance of specified Service.
     ///
-    static func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service? {
+    public static func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service? {
         return root.optional(type, name: name, args: args)
     }
 
