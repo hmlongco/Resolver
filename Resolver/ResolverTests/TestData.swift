@@ -36,13 +36,6 @@ protocol XYZUpdating {
     func update()
 }
 
-class XYZViewModelAdding: XYZViewModel {
-}
-
-class XYZViewModelEditing: XYZViewModel  {
-}
-
-
 class XYZCombinedService: XYZFetching, XYZUpdating {
     var session: XYZSessionService!
     var name: String { return "XYZCombinedService" }
@@ -78,5 +71,12 @@ class XYZSessionService {
     init() {
         XYZSessionService.counter += 1
         count = XYZSessionService.counter
+    }
+}
+
+class XYZNameService {
+    var name: String
+    init(_ name: String) {
+        self.name = name
     }
 }

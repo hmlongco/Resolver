@@ -9,7 +9,7 @@
 import XCTest
 @testable import Resolver
 
-class ResolverTests: XCTestCase {
+class ResolverScopeTests: XCTestCase {
 
     var resolver: Resolver!
 
@@ -17,49 +17,18 @@ class ResolverTests: XCTestCase {
         super.setUp()
         resolver = Resolver()
     }
-    
+
     override func tearDown() {
         super.tearDown()
-    }
-    
-    func testRegistrationAndExplicitResolution() {
-        resolver.register { XYZSessionService() }
-        let session: XYZSessionService? = resolver.resolve(XYZSessionService.self)
-        XCTAssert(session != nil)
-    }
-
-    func testRegistrationAndInferedResolution() {
-        resolver.register { XYZSessionService() }
-        let session: XYZSessionService? = resolver.resolve() as XYZSessionService
-        XCTAssert(session != nil)
-    }
-
-    func testRegistrationAndOptionalResolution() {
-        resolver.register { XYZSessionService() }
-        let session: XYZSessionService? = resolver.optional()
-        XCTAssert(session != nil)
-    }
-
-    func testRegistrationAndOptionalResolutionFailure() {
-        let session: XYZSessionService? = resolver.optional()
-        XCTAssert(session == nil)
-    }
-
-    func testRegistrationAndResolutionChain() {
-        resolver.register { XYZSessionService() }
-        resolver.register { XYZService( self.resolver.optional() ) }
-        let service: XYZService? = resolver.optional()
-        XCTAssert(service != nil)
-        XCTAssert(service?.session != nil)
     }
 
     func testResolverScopeGraph() {
         resolver.register { XYZSessionService() }
         resolver.register { XYZGraphService( self.resolver.optional(), self.resolver.optional() ) }
         let service: XYZGraphService? = resolver.optional()
-        XCTAssert(service != nil)
-        XCTAssert(service?.session1 != nil)
-        XCTAssert(service?.session2 != nil)
+        XCTAssertNotNil(service)
+        XCTAssertNotNil(service?.session1)
+        XCTAssertNotNil(service?.session2)
         if let s1 = service?.session1, let s2 = service?.session2 {
             XCTAssert(s1.count == s2.count)
         } else {
@@ -71,8 +40,8 @@ class ResolverTests: XCTestCase {
         resolver.register { XYZSessionService() }.scope(Resolver.shared)
         var service1: XYZSessionService? = resolver.optional()
         var service2: XYZSessionService? = resolver.optional()
-        XCTAssert(service1 != nil)
-        XCTAssert(service2 != nil)
+        XCTAssertNotNil(service1)
+        XCTAssertNotNil(service2)
         if let s1 = service1, let s2 = service2 {
             XCTAssert(s1.count == s2.count)
         } else {
@@ -90,12 +59,25 @@ class ResolverTests: XCTestCase {
 
     }
 
+    func testResolverScopeApplication() {
+        resolver.register { XYZSessionService() }.scope(Resolver.application)
+        let service1: XYZSessionService? = resolver.optional()
+        let service2: XYZSessionService? = resolver.optional()
+        XCTAssertNotNil(service1)
+        XCTAssertNotNil(service2)
+        if let s1 = service1, let s2 = service2 {
+            XCTAssert(s1.count == s2.count)
+        } else {
+            XCTFail("sessions not cached")
+        }
+    }
+
     func testResolverScopeCached() {
         resolver.register { XYZSessionService() }.scope(Resolver.cached)
         let service1: XYZSessionService? = resolver.optional()
         let service2: XYZSessionService? = resolver.optional()
-        XCTAssert(service1 != nil)
-        XCTAssert(service2 != nil)
+        XCTAssertNotNil(service1)
+        XCTAssertNotNil(service2)
         if let s1 = service1, let s2 = service2 {
             XCTAssert(s1.count == s2.count)
         } else {
@@ -111,5 +93,19 @@ class ResolverTests: XCTestCase {
         }
 
     }
+
+    func testResolverScopeUnique() {
+        resolver.register { XYZSessionService() }.scope(Resolver.unique)
+        let service1: XYZSessionService? = resolver.optional()
+        let service2: XYZSessionService? = resolver.optional()
+        XCTAssertNotNil(service1)
+        XCTAssertNotNil(service2)
+        if let s1 = service1, let s2 = service2 {
+            XCTAssert(s1.count != s2.count)
+        } else {
+            XCTFail("sessions not resolved")
+        }
+    }
+
 
 }
