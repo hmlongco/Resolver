@@ -36,9 +36,8 @@ Resolver is implemented in just over 300 lines of actual code, but it packs a to
 * [Argument Passing](https://github.com/hmlongco/Resolver/blob/master/Documentation/Arguments.md)
 * [Custom Containers & Nested Containers](https://github.com/hmlongco/Resolver/blob/master/Documentation/Containers.md)
 * [Storyboard Support](https://github.com/hmlongco/Resolver/blob/master/Documentation/Storyboards.md)
-* Thread safe.
 
-TLDR: If nothing else, make sure you read about [Automatic Type Inference](https://github.com/hmlongco/Resolver/blob/master/Documentation/Types.md) and [Scopes](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md).
+TLDR: If nothing else, make sure you read about [Automatic Type Inference](https://github.com/hmlongco/Resolver/blob/master/Documentation/Types.md), [Scopes](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md), and [Optionals](https://github.com/hmlongco/Resolver/blob/master/Documentation/Optionals.md).
 
 ## Using Resolver
 
@@ -52,9 +51,16 @@ Using Resolver is a simple, three-step process:
 
 As mentioned, Resolver is an ultralight Dependency Injection system, implemented in just over 300 lines of code and contained in a single file.
 
-Further, and unlike some other systems, Resolver is written in 100% Swift 4, with no Objective-C code, method swizzling, or internal dependencies on the Objective-C runtime.
-
 Resolver is also designed for performance. [SwinjectStoryboard](https://github.com/Swinject/SwinjectStoryboard), for example, is a great dependency injection system, but Resolver clocks out to be about 800% faster at resolving dependency chains than Swinject.
+
+And unlike some other systems, Resolver is written in 100% Swift 4, with no Objective-C code, method swizzling, or internal dependencies on the Objective-C runtime.
+
+Further, Resolver:
+
+* Is tested in production code.
+* Is thread safe (assuming your objects are thread safe).
+* Has a complete set of unit tests.
+* Is well-documented.
 
 Finally, with  [Automatic Type Inference](https://github.com/hmlongco/Resolver/blob/master/Documentation/Types.md) you also tend to write about 40-60% less dependency injection code using Resolver.
 
