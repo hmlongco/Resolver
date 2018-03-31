@@ -34,8 +34,9 @@ Resolver is implemented in just over 300 lines of actual code, but it packs a to
 * [Optionals](https://github.com/hmlongco/Resolver/blob/master/Documentation/Optionals.md)
 * [Named Instances](https://github.com/hmlongco/Resolver/blob/master/Documentation/Names.md)
 * [Argument Passing](https://github.com/hmlongco/Resolver/blob/master/Documentation/Arguments.md)
-* [Custom Containers & Nested Containers](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md)
+* [Custom Containers & Nested Containers](https://github.com/hmlongco/Resolver/blob/master/Documentation/Containers.md)
 * [Storyboard Support](https://github.com/hmlongco/Resolver/blob/master/Documentation/Storyboards.md)
+* Thread safe.
 
 TLDR: If nothing else, make sure you read about [Automatic Type Inference](https://github.com/hmlongco/Resolver/blob/master/Documentation/Types.md) and [Scopes](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md).
 
