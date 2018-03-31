@@ -1,8 +1,18 @@
 #  Resolver: Installation
 
-## Not yet Implemented
+## CocoaPods
 
-The plan is for Resolver to be Carthage, Cocoapods, and Swift Framework compliant.
+Resolver is available through CocoaPods. To install it, simply add the following line to your Podfile:
+
+```
+pod "Resolver"
+```
+
+Special thanks to [Khoa Pham](https://github.com/onmyway133) for making the *Resolver* repo available on CocoaPods.
+
+### Carthage / Swift Frameworks
+
+The plan is for Resolver to be Carthage and Swift Framework compliant.
 
 That's the plan. For now, however, just checkout the project and add `Resolver.swift` to your project's Third Party Software folder.
 

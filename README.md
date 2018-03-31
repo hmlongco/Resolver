@@ -64,6 +64,17 @@ Further, Resolver:
 
 Finally, with  [Automatic Type Inference](https://github.com/hmlongco/Resolver/blob/master/Documentation/Types.md) you also tend to write about 40-60% less dependency injection code using Resolver.
 
+## Author
+
+Resolver was designed, implemented, and documented by [Michael Long](https://www.linkedin.com/in/hmlong/), a Senior Lead iOS engineer at [CRi Solutions](https://www.clientresourcesinc.com/solutions/). CRi is a leader in developing cutting edge iOS, Android, and mobile web applications and solutions for our corporate and financial clients.
+
+* Email: [mlong@clientresourcesinc.com](mailto:mlong@clientresourcesinc.com)
+* Twitter: @hmlco
+
+## License
+
+Resolver is available under the MIT license. See the LICENSE file for more info.
+
 ## Additional Resouces
 
 * [API Documentation](https://hmlongco.github.io/Resolver/Documentation/API/Classes/Resolver.html)
