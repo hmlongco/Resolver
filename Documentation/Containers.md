@@ -17,7 +17,7 @@ public final class Resolver {
 }
 ```
 
-Resolver creates a main container that it uses as it's default container for all static registrations. It also defines a *root* contrainer that defaults to pointing to the *main* container.
+Resolver creates a *main* container that it uses as its default container for all static registrations. It also defines a *root* contrainer that defaults to pointing to the *main* container.
 
 ## Static Registration Functions
 
@@ -104,7 +104,9 @@ extension Resolver {
 
 Now, when in DEBUG more, *root* is switched out and points to *mock*. When a service is resolved, **mock will now be searched first.**
 
-This means that the `XYZSessionService` service we just defined in *mock* will be used over any matching service defined in *main*.  If a service is *not* found in *mock*,  the *main* parent container will be searched automatically. 
+This means that the `XYZSessionService` service we just defined in *mock* will be used over any matching service defined in *main*.  
+
+If a service is **not** found in *mock*,  the *main* parent container will be searched automatically, thanks to our adding the parent parameter to `mock = Resolver(parent: main)`.
 
 ## Party Trick?
 
@@ -168,5 +170,5 @@ Now the app behaves normally up until we enter that section of our app. It then 
 
 Returning, we switch back and the app again behaves normally.
 
-Nice party trick, yes?
+Nice party trick, don't you think?
 
