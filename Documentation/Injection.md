@@ -2,12 +2,13 @@
 
 ## Terminology
 
-There are four primary ways of performing dependency injection using Resolver:
+There are five primary ways of performing dependency injection using Resolver:
 
 1. [Interface Injection](#interface)
 2. [Property Injection](#property)
 3. [Constructor Injection](#constructor)
-4. [Service Locator](#locator)
+4. [Method Injection](#method)
+5. [Service Locator](#locator)
 
 The names and numbers come from the *Inversion of Control* design pattern. For a more thorough discussion, see the classic arcticle by [Martin Fowler](https://martinfowler.com/articles/injection.html).
 
@@ -115,7 +116,7 @@ func setupMyRegistrations {
 
 #### Definition
 
-A Constructor is the Java term for a Swift Initializers, but the idea is the same: Pass all of the dependencies an object needs through its initialization function.
+A Constructor is the Java term for a Swift Initializer, but the idea is the same: Pass all of the dependencies an object needs through its initialization function.
 
 #### The Class
 
@@ -130,9 +131,10 @@ class XYZViewModel {
         self.service = service
     }
 
-    func load() -> Data {
-        return fetcher.getData(service)
-    }
+    func load() -> Image {
+        let data = fetcher.getData(token)
+        return service.decompress(data)
+   }
 
 }
 ```
@@ -158,11 +160,50 @@ func setupMyRegistrations {
 * Requires object to have initializer with all parameters needed.
 * More boilerplace code needed in the object initializer to transfer parameters to object properties.
 
-## <a name=locator></a>4. Service Locator
+## <a name=method></a>4. Method Injection
+
+#### Definition
+
+This is listed for competeness, even though it's not a pattern that uses Resolver directly.
+
+Method Injection is pretty much what it says, injecting the object needed into a given method.
+
+#### The Class
+
+```
+class XYZViewModel {
+
+    func load() -> Data {
+        return fetcher.getData(service)
+    }
+
+}
+```
+
+#### The Dependency Injection Code
+
+You've already seen it. In the load function, the service object is passed into the fetcher's getData method.
+
+#### Pros
+
+* Allows callers to configure the behavior of a method on the fly.
+* Allows callers to construct their own behaviors and pass them into the method.
+
+#### Cons
+
+* Exposes those behaviors to all of the classes that use it.
+
+#### Note
+
+In Swift, passing a closure into a method could also be considered a form of Method Injection.
+
+## <a name=locator></a>5. Service Locator
 
 #### Definition
 
 Finally, a Service Locator is basically a service that locates the resources and dependencies an object needs.
+
+Technically, Service Locator is its own Design Pattern, distinct from Dependency Injection, but Resolver supports both and the Service Locator pattern is particularly useful when supporting view controllers and other classes where the initialization process is outside of your control. (See [Storyboards](https://github.com/hmlongco/Resolver/blob/master/Documentation/Storyboards.md).)
 
 #### The Class
 
@@ -192,7 +233,6 @@ func setupMyRegistrations {
 
 * Less code.
 * Useful for classes like UIViewController where you don't have access during the initialization process.
-
 
 #### Cons
 

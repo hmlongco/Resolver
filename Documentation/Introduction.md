@@ -239,7 +239,7 @@ extension Resolver {
 
 This is just one approach, but it illustrates the concept. Now when MyViewController asks for a XYZViewModel, it gets one. The resolved XYZViewModel, in turn has its fetcher, updater, and service.
 
-However, if we're in debug mode the fetcher and updater now have a XYZMockSessionService, which pulls mock data from embedded files instead of going out to the server as normal.
+However, if we're in debug mode the fetcher and updater now have a XYZMockSessionService, which could pull mock data from embedded files instead of going out to the server as normal.
 
 And both MyViewController and XYZViewModel are none the wiser.
 

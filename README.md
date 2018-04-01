@@ -80,5 +80,6 @@ Resolver is available under the MIT license. See the LICENSE file for more info.
 * [API Documentation](https://hmlongco.github.io/Resolver/Documentation/API/Classes/Resolver.html)
 * [Inversion of Control Design Pattern ~ Wikipedia](https://en.wikipedia.org/wiki/Inversion_of_control)
 * [Inversion of Control Containers and the Dependency Injection pattern ~ Martin Fowler](https://martinfowler.com/articles/injection.html)
-* [Nuts and Bolts of Dependency Injection in Swift](https://cocoacasts.com/nuts-and-bolts-of-dependency-injection-in-swift/)
+* [Nuts and Bolts of Dependency Injection in Swift](https://cocoacasts.com/nuts-and-bolts-of-dependency-injection-in-swift/)\
+* [Dependency Injection in Swift](https://cocoacasts.com/dependency-injection-in-swift)
 * [SwinjectStoryboard](https://github.com/Swinject/SwinjectStoryboard)
