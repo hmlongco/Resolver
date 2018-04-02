@@ -15,12 +15,13 @@ For more, see: [A Gentle Introduction to Dependency Injection.](https://github.c
 
 ## Dependency Injection Strategies
 
-There are four classic dependency injection strategies:
+There are five classic dependency injection strategies:
 
 1. [Interface Injection](https://github.com/hmlongco/Resolver/blob/master/Documentation/Injection.md#interface)
 2. [Property Injection](https://github.com/hmlongco/Resolver/blob/master/Documentation/Injection.md#property)
 3. [Constructor Injection](https://github.com/hmlongco/Resolver/blob/master/Documentation/Injection.md#constructor)
-4. [Service Locator](https://github.com/hmlongco/Resolver/blob/master/Documentation/Injection.md#locator)
+4. [Method Injection](https://github.com/hmlongco/Resolver/blob/master/Documentation/Injection.md#method)
+5. [Service Locator](https://github.com/hmlongco/Resolver/blob/master/Documentation/Injection.md#locator)
 
 Resolver supports them all. Follow the links for a brief description, examples, and the pros and cons of each.
 
