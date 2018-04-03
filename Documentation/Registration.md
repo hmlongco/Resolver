@@ -5,12 +5,16 @@
 Add a file named `AppDelegate+Injection.swift` to your project and add the following code:
 
 ```
+import Resolver
+
 extension Resolver: ResolverRegistering {
     static func registerAllServices() {
 
     }
 }
 ```
+
+If you're using frameworks, CocoaPods or Carthage, you'll need the `import Resolver` line. If you added Resolver.swift directly to your project, just delete that line.
 
 That's it. You've added the basic level of intergration.
 
@@ -55,6 +59,8 @@ Now, housekeeping completed, return to  `NetworkServices+Injection.swift` and ad
 Just as an example:
 
 ```
+import Resolver
+
 extension Resolver {
 
     static func registerMyNetworkServices() {
