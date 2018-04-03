@@ -32,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4C76F88A2073B39C00F9E784 /* CHANGELOG */ = {isa = PBXFileReference; lastKnownFileType = text; name = CHANGELOG; path = ../CHANGELOG; sourceTree = "<group>"; };
 		4C87FCFD2069D2F700BF6798 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		4C87FD01206A6BAB00BF6798 /* Introduction.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Introduction.md; sourceTree = "<group>"; };
 		4C87FD02206A6F9C00BF6798 /* Types.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Types.md; sourceTree = "<group>"; };
@@ -110,6 +111,7 @@
 		4CA30FDA1FBB6C8500217883 = {
 			isa = PBXGroup;
 			children = (
+				4C76F88A2073B39C00F9E784 /* CHANGELOG */,
 				4C87FD00206A6AFA00BF6798 /* Documentation */,
 				4C87FCFD2069D2F700BF6798 /* README.md */,
 				4CA30FE61FBB6C8500217883 /* Resolver */,

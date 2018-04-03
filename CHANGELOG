@@ -1,0 +1,10 @@
+# Resolver Changelog
+
+### 1.0.1
+
+* Make ResolverScopeCache intializer visible
+
+### 1.0.0
+
+* Inital Open Source Release
+* Inital Cocoapods Release

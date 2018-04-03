@@ -244,7 +244,7 @@ public class ResolverOptions<Service> {
 
     // MARK: - Parameters
 
-    var scope: ResolverScope
+    public var scope: ResolverScope
 
     fileprivate var factory: ResolverFactoryArguments<Service>
     fileprivate var mutator: ResolverFactoryMutatorArguments<Service>?
@@ -389,6 +389,10 @@ public class ResolverScopeApplication: ResolverScope {
 
 /// Cached services exist for lifetime of the app or until their cache is reset.
 public final class ResolverScopeCache: ResolverScopeApplication {
+
+    override public init() {
+        // make init visible outside of model
+    }
 
     public final func reset() {
         pthread_mutex_lock(&mutex)
