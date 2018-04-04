@@ -33,7 +33,7 @@ The `optional()` method has a different type signature, and using it allows Swif
 var abc: ABCService! = Resolver.resolve()
 ```
 
-This will also fail to resolve, and for the same reason. To Swift, `ABCService` is not an `ABCService`, but an `ExpliciltyUnwrappedOptional(ABCService)`.
+This will also fail to resolve, and for the same reason. To Swift, `ABCService` is not an `ABCService`, but an `ImplicitlyUnwrappedOptional(ABCService)`.
 
 Fortunately, the solution is the same.
 
