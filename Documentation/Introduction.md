@@ -70,7 +70,7 @@ Registration consists of registering the classes and objects we're going to need
 Resolver.register { NetworkService() as NetworkServicing }
 
 Resolver.register { MyViewModel() }.resolveProperties { (_, model) in
-    model.service = optional() // note NetworkServicing was defined as an ExplicitlyUnwrappedOptional
+    model.service = optional() // note NetworkServicing was defined as an ImplicitlyUnwrappedOptional
 }
 ```
 

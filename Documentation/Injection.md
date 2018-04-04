@@ -88,7 +88,7 @@ class XYZViewModel {
 func setupMyRegistrations {
     register { XYZViewModel()
         .resolveProperties { (resolver, model) in
-            model.fetcher = resolver.optional() // Note property is an ExplicitlyUnwrappedOptional
+            model.fetcher = resolver.optional() // Note property is an ImplicitlyUnwrappedOptional
             model.service = resolver.optional() // Ditto
         }
     }

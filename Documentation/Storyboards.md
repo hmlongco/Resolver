@@ -23,7 +23,7 @@ extension MyViewController: StoryboardResolving {
 }
 ```
 
-Note that we're using `.optional()` here, since XYZViewModel is an *ExplicitlyUnwrappedOptional*.
+Note that we're using `.optional()` here, since XYZViewModel is an *ImplicitlyUnwrappedOptional*.
 
 ### Step 2: Tell the Storyboard that your view controller needs to be resolved.
 
