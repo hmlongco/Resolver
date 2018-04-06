@@ -1,5 +1,9 @@
 # Resolver Changelog
 
+### 1.0.2
+
+* Add debug message to resolve in case of Optionals and ImplicitlyUnrwappedOptionals.
+
 ### 1.0.1
 
 * Make ResolverScopeCache initializer visible
