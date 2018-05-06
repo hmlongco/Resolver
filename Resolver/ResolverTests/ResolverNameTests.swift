@@ -77,8 +77,7 @@ class ResolverNameTests: XCTestCase {
 
         let base: XYZNameService? = resolver.optional()
         
-        XCTAssertNotNil(base)
-        XCTAssert(base?.name == "Fred" || base?.name == "Barney")
+        XCTAssertNil(base)
     }
 
 }
