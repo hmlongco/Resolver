@@ -103,4 +103,17 @@ class ResolverBasicTests: XCTestCase {
         let service: XYZService = Resolver.resolve(args: true)
         XCTAssertNotNil(service.session)
     }
+
+    func testStaticRegistrationAndResolution() {
+        Resolver.register { XYZSessionService() }
+        let service: XYZService = Resolver.resolve()
+        XCTAssertNotNil(service.session)
+    }
+
+    func testStaticRegistrationWithArgsAndResolution() {
+        Resolver.register { _, _ in XYZSessionService() }
+        let service: XYZService = Resolver.resolve()
+        XCTAssertNotNil(service.session)
+    }
+
 }
