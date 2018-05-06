@@ -83,8 +83,12 @@ class XYZSessionService {
 }
 
 class XYZNameService {
+    static var counter = 0
+    let count: Int
     var name: String
     init(_ name: String) {
+        XYZNameService.counter += 1
+        count = XYZNameService.counter
         self.name = name
     }
 }
