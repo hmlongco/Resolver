@@ -30,7 +30,7 @@ class ResolverScopeValueTests: XCTestCase {
         XCTAssertNotNil(service?.value1)
         XCTAssertNotNil(service?.value2)
         if let s1 = service?.value1, let s2 = service?.value2 {
-            XCTAssert(s1.count == s2.count)
+            XCTAssert(s1.count != s2.count)
         } else {
             XCTFail("values not resolved")
         }

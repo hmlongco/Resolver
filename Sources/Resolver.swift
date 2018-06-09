@@ -388,7 +388,7 @@ public final class ResolverScopeGraph: ResolverScope {
         resolutionDepth = resolutionDepth - 1
         if resolutionDepth == 0 {
             graph.removeAll()
-        } else {
+        } else if Service.self is AnyClass {
             graph[registration.cacheKey] = service
         }
         return service
