@@ -60,7 +60,7 @@ public final class Resolver {
 
     /// Called by the Resolution functions to perform one-time initialization of the Resolver registries.
     public final func registerServices() {
-        Resolver.registrationsNeeded = false
+        Resolver.performInitialRegistrations = nil
         if let registering = (Resolver.main as Any) as? ResolverRegistering {
             type(of: registering).registerAllServices()
         }
@@ -155,6 +155,7 @@ public final class Resolver {
     /// - returns: Instance of specified Service.
     ///
     public final func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
+        Resolver.performInitialRegistrations?()
         if let registration = lookup(type, name: name ?? NONAME),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
@@ -184,6 +185,7 @@ public final class Resolver {
     /// - returns: Instance of specified Service.
     ///
     public final func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service? {
+        Resolver.performInitialRegistrations?()
         if let registration = lookup(type, name: name ?? NONAME),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
@@ -196,9 +198,6 @@ public final class Resolver {
     /// Internal function searches the current and parent registries for a ResolverRegistration<Service> that matches
     /// the supplied type and name.
     private final func lookup<Service>(_ type: Service.Type, name: String) -> ResolverRegistration<Service>? {
-        if Resolver.registrationsNeeded {
-            registerServices()
-        }
         if let container = registrations[ObjectIdentifier(Service.self).hashValue] {
             return container[name] as? ResolverRegistration<Service>
         }
@@ -211,7 +210,8 @@ public final class Resolver {
     private let NONAME = "*"
     private let parent: Resolver?
     private var registrations = [Int : [String : Any]]()
-    private static var registrationsNeeded = true
+
+    private static var performInitialRegistrations: (()->())? = { () in Resolver.main.registerServices() }
 }
 
 // Registration Internals
