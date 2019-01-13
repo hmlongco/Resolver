@@ -2,7 +2,7 @@
 
 ## Definitions
 
-Resolver is Dependency Injection framework for Swift that supports the Inversion of Control design pattern.
+Resolver is a Dependency Injection framework for Swift that supports the Inversion of Control design pattern.
 
 Computer Science definitions aside, Dependency Injection pretty much boils down to:
 
@@ -56,7 +56,7 @@ Pass the right implementation of NetworkServicing to MyViewModel, and the data c
 
 Okay, fine. But doesn't this approach just kick the can further down the road?
 
-How do I get MyViewModel and how does MyViewModel get the right version of NetworkServicing? Don't I have to create it and set it's property myself?
+How do I get MyViewModel and how does MyViewModel get the right version of NetworkServicing? Don't I have to create it and set its property myself?
 
 Well, you could, but the better answer is to use Dependency Injection.
 
