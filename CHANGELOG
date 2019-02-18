@@ -1,5 +1,23 @@
 # Resolver Changelog
 
+### 1.0.6
+
+* Fix bug resolving shared protocols
+* Add passed resolver option to factories
+
+### 1.0.5
+
+* Value types should not be cached during graph resolution
+* Changed registrationsNeeded to performInitialRegistrations closure
+
+### 1.0.4
+
+* Add tests to ensure correct handling of named cached values
+
+### 1.0.3
+
+* Fix issue with caching named instances.
+
 ### 1.0.2
 
 * Add debug message to resolve in case of Optionals and ImplicitlyUnrwappedOptionals.
