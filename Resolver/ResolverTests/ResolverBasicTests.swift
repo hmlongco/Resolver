@@ -126,4 +126,10 @@ class ResolverBasicTests: XCTestCase {
         XCTAssertNotNil(service.session)
     }
 
+    func testRegistrationWithArgsCodeCoverage() {
+        resolver.register(XYZSessionProtocol.self) { return nil } // induce internal error
+        let session: XYZSessionProtocol? = resolver.optional()
+        XCTAssertNil(session)
+    }
+
 }
