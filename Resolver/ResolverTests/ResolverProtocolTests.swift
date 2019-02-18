@@ -92,4 +92,20 @@ class ResolverProtocolTests: XCTestCase {
         XCTAssert(updater?.name == "XYZCombinedService")
     }
 
+    func testScopeSharedProtocols() {
+        resolver.register { XYZSessionService() }
+            .implements(XYZSessionProtocol.self)
+            .scope(Resolver.shared)
+        let service1: XYZSessionService? = resolver.optional()
+        let protocol1: XYZSessionProtocol? = resolver.optional()
+        XCTAssertNotNil(service1)
+        XCTAssertNotNil(protocol1)
+        if let s1 = service1, let p1 = protocol1 {
+            XCTAssert(s1.count == p1.count)
+        } else {
+            XCTFail("sessions not shared")
+        }
+    }
+
+
 }

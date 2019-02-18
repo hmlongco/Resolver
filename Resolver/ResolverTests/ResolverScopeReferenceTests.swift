@@ -37,7 +37,8 @@ class ResolverScopeReferenceTests: XCTestCase {
     }
 
     func testResolverScopeShared() {
-        resolver.register { XYZSessionService() }.scope(Resolver.shared)
+        resolver.register { XYZSessionService() }
+            .scope(Resolver.shared)
         var service1: XYZSessionService? = resolver.optional()
         var service2: XYZSessionService? = resolver.optional()
         XCTAssertNotNil(service1)

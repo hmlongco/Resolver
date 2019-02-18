@@ -61,6 +61,16 @@ class ResolverBasicTests: XCTestCase {
         XCTAssert(service?.name == "Barney")
     }
 
+    func testRegistrationAndPassedResolver() {
+        resolver.register { XYZSessionService() }
+        resolver.register { (r) -> XYZService in
+            return XYZService( r.optional() )
+        }
+        let service: XYZService? = resolver.optional()
+        XCTAssertNotNil(service)
+        XCTAssertNotNil(service?.session)
+    }
+
     func testRegistrationAndResolutionArguments() {
         resolver.register { XYZSessionService() }
         resolver.register { (r, a) -> XYZService in

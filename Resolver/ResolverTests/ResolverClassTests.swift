@@ -55,7 +55,17 @@ class ResolverClassTests: XCTestCase {
         XCTAssert(service?.name == "Barney")
     }
 
-    func testRegistrationAndResolutionProperties() {
+    func testRegistrationAndPassedResolver() {
+        Resolver.register { XYZSessionService() }
+        Resolver.register { (r) -> XYZService in
+            return XYZService( r.optional() )
+        }
+        let service: XYZService? = Resolver.optional()
+        XCTAssertNotNil(service)
+        XCTAssertNotNil(service?.session)
+    }
+
+   func testRegistrationAndResolutionProperties() {
         Resolver.register(name: "Props") { XYZSessionService() }
             .resolveProperties { (r, s) in
                 s.name = "updated"

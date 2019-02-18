@@ -72,7 +72,11 @@ class XYZGraphService {
     }
 }
 
-class XYZSessionService {
+protocol XYZSessionProtocol {
+    var count: Int { get }
+}
+
+class XYZSessionService: XYZSessionProtocol {
     static var counter = 0
     let count: Int
     var name: String = "XYZSessionService"
