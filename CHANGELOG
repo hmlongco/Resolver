@@ -1,5 +1,9 @@
 # Resolver Changelog
 
+### 1.0.7
+
+* Update project settings for Swift 4.2
+
 ### 1.0.6
 
 * Fix bug resolving shared protocols
