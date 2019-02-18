@@ -79,7 +79,21 @@ public final class Resolver {
     @discardableResult
     public static func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
                                          factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
-        return main.register(type, name: name, factory: { (_,_) -> Service? in return factory() })
+        return main.register(type, name: name, factory: { (_, _) -> Service? in return factory() })
+    }
+
+    /// Static shortcut function used to register a specifc Service type and its instantiating factory method.
+    ///
+    /// - parameter type: Type of Service being registered. Optional, may be inferred by factory result type.
+    /// - parameter name: Named variant of Service being registered.
+    /// - parameter factory: Closure that constructs and returns instances of the Service.
+    ///
+    /// - returns: ResolverOptions instance that allows further customization of registered Service.
+    ///
+    @discardableResult
+    public static func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+                                         factory: @escaping ResolverFactoryResolver<Service>) -> ResolverOptions<Service> {
+        return main.register(type, name: name, factory: { (r, _) -> Service? in return factory(r) })
     }
 
     /// Static shortcut function used to register a specifc Service type and its instantiating factory method.
@@ -107,7 +121,21 @@ public final class Resolver {
     @discardableResult
     public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
                                         factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
-        return register(type, name: name, factory: { (_,_) -> Service? in return factory() })
+        return register(type, name: name, factory: { (_, _) -> Service? in return factory() })
+    }
+
+    /// Registers a specifc Service type and its instantiating factory method.
+    ///
+    /// - parameter type: Type of Service being registered. Optional, may be inferred by factory result type.
+    /// - parameter name: Named variant of Service being registered.
+    /// - parameter factory: Closure that constructs and returns instances of the Service.
+    ///
+    /// - returns: ResolverOptions instance that allows further customization of registered Service.
+    ///
+    @discardableResult
+    public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+                                        factory: @escaping ResolverFactoryResolver<Service>) -> ResolverOptions<Service> {
+        return register(type, name: name, factory: { (r, _) -> Service? in return factory(r) })
     }
 
     /// Registers a specifc Service type and its instantiating factory method.
@@ -160,7 +188,8 @@ public final class Resolver {
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
         }
-        fatalError("RESOLVER: '\(Service.self):\(name ?? "")' not resolved. To disambiguate optionals use resover.optional().")
+        print("RESOLVER: '\(Service.self):\(name ?? "")' not resolved. To disambiguate optionals use resover.optional().")
+        fatalError()
     }
 
     /// Static function calls the root registry to resolve an optional Service type.
@@ -211,12 +240,13 @@ public final class Resolver {
     private let parent: Resolver?
     private var registrations = [Int : [String : Any]]()
 
-    private static var performInitialRegistrations: (()->())? = { () in Resolver.main.registerServices() }
+    private static var performInitialRegistrations: (() -> Void)? = { () in Resolver.main.registerServices() }
 }
 
 // Registration Internals
 
 public typealias ResolverFactory<Service> = () -> Service?
+public typealias ResolverFactoryResolver<Service> = (_ resolver: Resolver) -> Service?
 public typealias ResolverFactoryArguments<Service> = (_ resolver: Resolver, _ args: Any?) -> Service?
 public typealias ResolverFactoryMutator<Service> = (_ resolver: Resolver, _ service: Service) -> Void
 public typealias ResolverFactoryMutatorArguments<Service> = (_ resolver: Resolver, _ service: Service, _ args: Any?) -> Void
@@ -252,7 +282,7 @@ public class ResolverOptions<Service> {
     ///
     @discardableResult
     public final func implements<Protocol>(_ type: Protocol.Type, name: String? = nil) -> ResolverOptions<Service> {
-        resolver?.register(type.self, name: name) { r,_ in r.resolve(Service.self) as? Protocol }
+        resolver?.register(type.self, name: name) { r, _ in r.resolve(Service.self) as? Protocol }
         return self
     }
 
@@ -264,7 +294,7 @@ public class ResolverOptions<Service> {
     ///
     @discardableResult
     public final func resolveProperties(_ block: @escaping ResolverFactoryMutator<Service>) -> ResolverOptions<Service> {
-        mutator = { r,s,_ in block(r, s) }
+        mutator = { r, s, _ in block(r, s) }
         return self
     }
 
