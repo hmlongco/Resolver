@@ -1,6 +1,8 @@
 //
 // Resolver.swift
 //
+// GitHub Repo and Documentation: https://github.com/hmlongco/Resolver
+//
 // Copyright © 2017 Michael Long. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -347,7 +349,9 @@ public final class ResolverRegistration<Service>: ResolverOptions<Service> {
     // MARK: Functions
 
     public final func resolve(resolver: Resolver, args: Any?) -> Service? {
-        guard let service = factory(resolver, args) else { return nil }
+        guard let service = factory(resolver, args) else {
+            return nil
+        }
         self.mutator?(resolver, service, args)
         return service
     }
@@ -359,10 +363,15 @@ extension Resolver {
 
     // MARK: - Scopes
 
+    /// All application scoped services exist for lifetime of the app. (e.g Singletons)
     public static let application = ResolverScopeApplication()
+    /// Cached services exist for lifetime of the app or until their cache is reset.
     public static let cached = ResolverScopeCache()
+    /// Graph services are initialized once and only once during a given resolution cycle. This is the default scope.
     public static let graph = ResolverScopeGraph()
+    /// Shared services persist while strong references to them exist. They're then deallocated until the next resolve.
     public static let shared = ResolverScopeShare()
+    /// Unique services are created and initialized each and every time they're resolved.
     public static let unique = ResolverScopeUnique()
 
 }
@@ -381,8 +390,10 @@ public class ResolverScopeApplication: ResolverScope {
         if let service = cachedServices[registration.cacheKey] as? Service {
             return service
         }
-        guard let service = registration.resolve(resolver: resolver, args: args) else { return nil }
-        cachedServices[registration.cacheKey] = service
+        let service = registration.resolve(resolver: resolver, args: args)
+        if let service = service{
+            cachedServices[registration.cacheKey] = service
+        }
         return service
     }
 
@@ -438,8 +449,8 @@ public final class ResolverScopeShare: ResolverScope {
         if let service = cachedServices[registration.cacheKey]?.service as? Service {
             return service
         }
-        guard let service = registration.resolve(resolver: resolver, args: args) else { return nil }
-        if type(of: service as Any) is AnyClass {
+        let service = registration.resolve(resolver: resolver, args: args)
+        if let service = service, type(of: service as Any) is AnyClass {
             cachedServices[registration.cacheKey] = BoxWeak(service: service as AnyObject)
         }
         return service
