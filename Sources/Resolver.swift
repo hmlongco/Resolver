@@ -388,7 +388,7 @@ public final class ResolverScopeGraph: ResolverScope {
         resolutionDepth = resolutionDepth - 1
         if resolutionDepth == 0 {
             graph.removeAll()
-        } else if Service.self is AnyClass {
+        } else if let service = service, type(of: service as Any) is AnyClass {
             graph[registration.cacheKey] = service
         }
         return service
@@ -409,7 +409,7 @@ public final class ResolverScopeShare: ResolverScope {
             return service
         }
         guard let service = registration.resolve(resolver: resolver, args: args) else { return nil }
-        if Service.self is AnyClass {
+        if type(of: service as Any) is AnyClass {
             cachedServices[registration.cacheKey] = BoxWeak(service: service as AnyObject)
         }
         return service
