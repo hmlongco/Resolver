@@ -12,6 +12,8 @@
 		4CA30FF51FBB6C8500217883 /* Resolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CA30FE71FBB6C8500217883 /* Resolver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4CA310011FBB6DFA00217883 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA30FFF1FBB6DFA00217883 /* Resolver.swift */; };
 		4CA310021FBB6DFA00217883 /* ResolverStoryboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA310001FBB6DFA00217883 /* ResolverStoryboard.swift */; };
+		8B3F85752322EAB70060B3C5 /* TestApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3F85742322EAB70060B3C5 /* TestApplication.swift */; };
+		8BB9701E23220E8C008657B7 /* ResolverPropertyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB9701D23220E8C008657B7 /* ResolverPropertyWrapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +35,8 @@
 		4CA30FF41FBB6C8500217883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4CA30FFF1FBB6DFA00217883 /* Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
 		4CA310001FBB6DFA00217883 /* ResolverStoryboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResolverStoryboard.swift; sourceTree = "<group>"; };
+		8B3F85742322EAB70060B3C5 /* TestApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestApplication.swift; sourceTree = "<group>"; };
+		8BB9701D23220E8C008657B7 /* ResolverPropertyWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverPropertyWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				4CA30FF21FBB6C8500217883 /* ResolverTests.swift */,
+				8B3F85742322EAB70060B3C5 /* TestApplication.swift */,
 				4CA30FF41FBB6C8500217883 /* Info.plist */,
 			);
 			path = ResolverTests;
@@ -95,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				4CA30FFF1FBB6DFA00217883 /* Resolver.swift */,
+				8BB9701D23220E8C008657B7 /* ResolverPropertyWrapper.swift */,
 				4CA310001FBB6DFA00217883 /* ResolverStoryboard.swift */,
 			);
 			name = Sources;
@@ -158,16 +164,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0910;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = com.hmlong;
 				TargetAttributes = {
 					4CA30FE31FBB6C8500217883 = {
 						CreatedOnToolsVersion = 9.1;
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = 1100;
 						ProvisioningStyle = Automatic;
 					};
 					4CA30FEC1FBB6C8500217883 = {
 						CreatedOnToolsVersion = 9.1;
+						LastSwiftMigration = 1100;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -212,6 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BB9701E23220E8C008657B7 /* ResolverPropertyWrapper.swift in Sources */,
 				4CA310021FBB6DFA00217883 /* ResolverStoryboard.swift in Sources */,
 				4CA310011FBB6DFA00217883 /* Resolver.swift in Sources */,
 			);
@@ -221,6 +229,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B3F85752322EAB70060B3C5 /* TestApplication.swift in Sources */,
 				4CA30FF31FBB6C8500217883 /* ResolverTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -250,6 +259,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -257,6 +267,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -310,6 +321,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -317,6 +329,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -367,7 +380,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -389,7 +402,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hmlong.Resolver;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -404,7 +417,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hmlong.ResolverTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -419,7 +432,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hmlong.ResolverTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
