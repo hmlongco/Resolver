@@ -388,6 +388,7 @@ public protocol ResolverScope: class {
 /// All application scoped services exist for lifetime of the app. (e.g Singletons)
 public class ResolverScopeApplication: ResolverScope {
 
+    public init() {}
     public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
         pthread_mutex_lock(&mutex)
         defer { pthread_mutex_unlock(&mutex) }
@@ -422,6 +423,7 @@ public final class ResolverScopeCache: ResolverScopeApplication {
 /// Graph services are initialized once and only once during a given resolution cycle. This is the default scope.
 public final class ResolverScopeGraph: ResolverScope {
 
+    public init() {}
     public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
         pthread_mutex_lock(&mutex)
         defer { pthread_mutex_unlock(&mutex) }
@@ -447,6 +449,7 @@ public final class ResolverScopeGraph: ResolverScope {
 /// Shared services persist while strong references to them exist. They're then deallocated until the next resolve.
 public final class ResolverScopeShare: ResolverScope {
 
+    public init() {}
     public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
         pthread_mutex_lock(&mutex)
         defer { pthread_mutex_unlock(&mutex) }
@@ -471,6 +474,7 @@ public final class ResolverScopeShare: ResolverScope {
 /// Unique services are created and initialized each and every time they're resolved.
 public final class ResolverScopeUnique: ResolverScope {
 
+    public init() {}
     public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
         return registration.resolve(resolver: resolver, args: args)
     }
