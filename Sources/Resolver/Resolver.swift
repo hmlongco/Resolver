@@ -56,7 +56,7 @@ public final class Resolver {
     /// Default registry used by the static Resolution functions and by the Resolving protocol.
     public static var root: Resolver = main
     /// Default scope applied when registering new objects.
-    public static var defaultScope = Resolver.graph
+    public static var defaultScope: ResolverScope = Resolver.graph
 
     // MARK: - Lifecycle
 
