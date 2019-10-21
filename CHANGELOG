@@ -1,0 +1,46 @@
+# Resolver Changelog
+
+### 1.1.0
+
+* Update project for Swift 5.1 and SPM
+* Add @Injected property wrapper for Swift 5.1
+* Revise unit tests for more code coverage
+
+### 1.0.8
+
+* Update project settings for Swift 5
+
+### 1.0.7
+
+* Update project settings for Swift 4.2
+
+### 1.0.6
+
+* Fix bug resolving shared protocols
+* Add passed resolver option to factories
+
+### 1.0.5
+
+* Value types should not be cached during graph resolution
+* Changed registrationsNeeded to performInitialRegistrations closure
+
+### 1.0.4
+
+* Add tests to ensure correct handling of named cached values
+
+### 1.0.3
+
+* Fix issue with caching named instances.
+
+### 1.0.2
+
+* Add debug message to resolve in case of Optionals and ImplicitlyUnrwappedOptionals.
+
+### 1.0.1
+
+* Make ResolverScopeCache initializer visible
+
+### 1.0.0
+
+* Initial Open Source Release
+* Initial Cocoapods Release

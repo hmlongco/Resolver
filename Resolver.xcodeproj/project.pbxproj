@@ -1,0 +1,548 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		"Resolver::ResolverPackageTests::ProductTarget" /* ResolverPackageTests */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = OBJ_49 /* Build configuration list for PBXAggregateTarget "ResolverPackageTests" */;
+			buildPhases = (
+			);
+			dependencies = (
+				OBJ_52 /* PBXTargetDependency */,
+			);
+			name = ResolverPackageTests;
+			productName = ResolverPackageTests;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		4C9BFB0C2357D98800E6FB80 /* ResolverInjectedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9BFB0B2357D98800E6FB80 /* ResolverInjectedTests.swift */; };
+		OBJ_40 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Resolver.swift */; };
+		OBJ_47 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
+		OBJ_58 /* ResolverBasicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ResolverBasicTests.swift */; };
+		OBJ_59 /* ResolverClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* ResolverClassTests.swift */; };
+		OBJ_60 /* ResolverContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* ResolverContainerTests.swift */; };
+		OBJ_61 /* ResolverNameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* ResolverNameTests.swift */; };
+		OBJ_62 /* ResolverProtocolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* ResolverProtocolTests.swift */; };
+		OBJ_63 /* ResolverScopeNameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* ResolverScopeNameTests.swift */; };
+		OBJ_64 /* ResolverScopeReferenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* ResolverScopeReferenceTests.swift */; };
+		OBJ_65 /* ResolverScopeValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* ResolverScopeValueTests.swift */; };
+		OBJ_66 /* ResolverStoryboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* ResolverStoryboardTests.swift */; };
+		OBJ_68 /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* TestData.swift */; };
+		OBJ_69 /* XCTestManifests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* XCTestManifests.swift */; };
+		OBJ_71 /* Resolver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Resolver::Resolver::Product" /* Resolver.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4C93707F22C5695D004DC55A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Resolver::Resolver";
+			remoteInfo = Resolver;
+		};
+		4C93708022C5695D004DC55A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Resolver::ResolverTests";
+			remoteInfo = ResolverTests;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4C9BFB0B2357D98800E6FB80 /* ResolverInjectedTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResolverInjectedTests.swift; sourceTree = "<group>"; };
+		OBJ_12 /* ResolverBasicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverBasicTests.swift; sourceTree = "<group>"; };
+		OBJ_13 /* ResolverClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverClassTests.swift; sourceTree = "<group>"; };
+		OBJ_14 /* ResolverContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverContainerTests.swift; sourceTree = "<group>"; };
+		OBJ_15 /* ResolverNameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverNameTests.swift; sourceTree = "<group>"; };
+		OBJ_16 /* ResolverProtocolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverProtocolTests.swift; sourceTree = "<group>"; };
+		OBJ_17 /* ResolverScopeNameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverScopeNameTests.swift; sourceTree = "<group>"; };
+		OBJ_18 /* ResolverScopeReferenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverScopeReferenceTests.swift; sourceTree = "<group>"; };
+		OBJ_19 /* ResolverScopeValueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverScopeValueTests.swift; sourceTree = "<group>"; };
+		OBJ_20 /* ResolverStoryboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverStoryboardTests.swift; sourceTree = "<group>"; };
+		OBJ_22 /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
+		OBJ_23 /* XCTestManifests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
+		OBJ_27 /* Documentation */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Documentation; sourceTree = SOURCE_ROOT; };
+		OBJ_29 /* CODE_OF_CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CODE_OF_CONDUCT.md; sourceTree = "<group>"; };
+		OBJ_30 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		OBJ_31 /* CHANGELOG */ = {isa = PBXFileReference; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
+		OBJ_32 /* Resolver.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Resolver.podspec; sourceTree = "<group>"; };
+		OBJ_33 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		OBJ_34 /* _config.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = _config.yml; sourceTree = "<group>"; };
+		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		OBJ_9 /* Resolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
+		"Resolver::Resolver::Product" /* Resolver.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Resolver.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"Resolver::ResolverTests::Product" /* ResolverTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = ResolverTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		OBJ_41 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_70 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_71 /* Resolver.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		OBJ_10 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_11 /* ResolverTests */,
+			);
+			name = Tests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_11 /* ResolverTests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_12 /* ResolverBasicTests.swift */,
+				OBJ_13 /* ResolverClassTests.swift */,
+				OBJ_14 /* ResolverContainerTests.swift */,
+				OBJ_15 /* ResolverNameTests.swift */,
+				OBJ_16 /* ResolverProtocolTests.swift */,
+				OBJ_17 /* ResolverScopeNameTests.swift */,
+				OBJ_18 /* ResolverScopeReferenceTests.swift */,
+				OBJ_19 /* ResolverScopeValueTests.swift */,
+				OBJ_20 /* ResolverStoryboardTests.swift */,
+				4C9BFB0B2357D98800E6FB80 /* ResolverInjectedTests.swift */,
+				OBJ_22 /* TestData.swift */,
+				OBJ_23 /* XCTestManifests.swift */,
+			);
+			name = ResolverTests;
+			path = Tests/ResolverTests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_24 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				"Resolver::ResolverTests::Product" /* ResolverTests.xctest */,
+				"Resolver::Resolver::Product" /* Resolver.framework */,
+			);
+			name = Products;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		OBJ_5 = {
+			isa = PBXGroup;
+			children = (
+				OBJ_6 /* Package.swift */,
+				OBJ_7 /* Sources */,
+				OBJ_10 /* Tests */,
+				OBJ_24 /* Products */,
+				OBJ_27 /* Documentation */,
+				OBJ_29 /* CODE_OF_CONDUCT.md */,
+				OBJ_30 /* LICENSE */,
+				OBJ_31 /* CHANGELOG */,
+				OBJ_32 /* Resolver.podspec */,
+				OBJ_33 /* README.md */,
+				OBJ_34 /* _config.yml */,
+			);
+			sourceTree = "<group>";
+		};
+		OBJ_7 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_8 /* Resolver */,
+			);
+			name = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_8 /* Resolver */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_9 /* Resolver.swift */,
+			);
+			name = Resolver;
+			path = Sources/Resolver;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		"Resolver::Resolver" /* Resolver */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_36 /* Build configuration list for PBXNativeTarget "Resolver" */;
+			buildPhases = (
+				OBJ_39 /* Sources */,
+				OBJ_41 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Resolver;
+			productName = Resolver;
+			productReference = "Resolver::Resolver::Product" /* Resolver.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"Resolver::ResolverTests" /* ResolverTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_54 /* Build configuration list for PBXNativeTarget "ResolverTests" */;
+			buildPhases = (
+				OBJ_57 /* Sources */,
+				OBJ_70 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_72 /* PBXTargetDependency */,
+			);
+			name = ResolverTests;
+			productName = ResolverTests;
+			productReference = "Resolver::ResolverTests::Product" /* ResolverTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		"Resolver::SwiftPMPackageDescription" /* ResolverPackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_43 /* Build configuration list for PBXNativeTarget "ResolverPackageDescription" */;
+			buildPhases = (
+				OBJ_46 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ResolverPackageDescription;
+			productName = ResolverPackageDescription;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		OBJ_1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftMigration = 9999;
+				LastUpgradeCheck = 9999;
+			};
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "Resolver" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				en,
+			);
+			mainGroup = OBJ_5;
+			productRefGroup = OBJ_24 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				"Resolver::Resolver" /* Resolver */,
+				"Resolver::SwiftPMPackageDescription" /* ResolverPackageDescription */,
+				"Resolver::ResolverPackageTests::ProductTarget" /* ResolverPackageTests */,
+				"Resolver::ResolverTests" /* ResolverTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		OBJ_39 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_40 /* Resolver.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_46 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_47 /* Package.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_57 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_58 /* ResolverBasicTests.swift in Sources */,
+				4C9BFB0C2357D98800E6FB80 /* ResolverInjectedTests.swift in Sources */,
+				OBJ_59 /* ResolverClassTests.swift in Sources */,
+				OBJ_60 /* ResolverContainerTests.swift in Sources */,
+				OBJ_61 /* ResolverNameTests.swift in Sources */,
+				OBJ_62 /* ResolverProtocolTests.swift in Sources */,
+				OBJ_63 /* ResolverScopeNameTests.swift in Sources */,
+				OBJ_64 /* ResolverScopeReferenceTests.swift in Sources */,
+				OBJ_65 /* ResolverScopeValueTests.swift in Sources */,
+				OBJ_66 /* ResolverStoryboardTests.swift in Sources */,
+				OBJ_68 /* TestData.swift in Sources */,
+				OBJ_69 /* XCTestManifests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		OBJ_52 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "Resolver::ResolverTests" /* ResolverTests */;
+			targetProxy = 4C93708022C5695D004DC55A /* PBXContainerItemProxy */;
+		};
+		OBJ_72 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "Resolver::Resolver" /* Resolver */;
+			targetProxy = 4C93707F22C5695D004DC55A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		OBJ_3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"SWIFT_PACKAGE=1",
+					"DEBUG=1",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE DEBUG";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		OBJ_37 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Resolver.xcodeproj/Resolver_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Resolver;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = Resolver;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		OBJ_38 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Resolver.xcodeproj/Resolver_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Resolver;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = Resolver;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		OBJ_4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"SWIFT_PACKAGE=1",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+		OBJ_44 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode-1021.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		OBJ_45 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode-1021.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		OBJ_50 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		OBJ_51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		OBJ_55 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Resolver.xcodeproj/ResolverTests_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = ResolverTests;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		OBJ_56 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Resolver.xcodeproj/ResolverTests_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = ResolverTests;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		OBJ_2 /* Build configuration list for PBXProject "Resolver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_3 /* Debug */,
+				OBJ_4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_36 /* Build configuration list for PBXNativeTarget "Resolver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_37 /* Debug */,
+				OBJ_38 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_43 /* Build configuration list for PBXNativeTarget "ResolverPackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_44 /* Debug */,
+				OBJ_45 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_49 /* Build configuration list for PBXAggregateTarget "ResolverPackageTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_50 /* Debug */,
+				OBJ_51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_54 /* Build configuration list for PBXNativeTarget "ResolverTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_55 /* Debug */,
+				OBJ_56 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = OBJ_1 /* Project object */;
+}
