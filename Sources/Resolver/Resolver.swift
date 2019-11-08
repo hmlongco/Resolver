@@ -463,7 +463,13 @@ public final class ResolverScopeShare: ResolverScope {
         return service
     }
 
-    struct BoxWeak {
+    public final func reset() {
+        pthread_mutex_lock(&mutex)
+        cachedServices.removeAll()
+        pthread_mutex_unlock(&mutex)
+    }
+
+    private struct BoxWeak {
         weak var service: AnyObject?
     }
 
