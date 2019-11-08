@@ -520,7 +520,7 @@ public extension UIViewController {
 #if swift(>=5.1)
 @propertyWrapper
 public struct Injected<Service> {
-    private lazy var service: Service = (container ?? Resolver.root).resolve(Service.self, name: name)
+    private lazy var service: Service = container?.resolve(Service.self, name: name) ?? Resolver.resolve(Service.self, name: name)
     public var container: Resolver?
     public var name: String?
     public init() {}
