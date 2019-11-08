@@ -66,10 +66,17 @@ public final class Resolver {
 
     /// Called by the Resolution functions to perform one-time initialization of the Resolver registries.
     public final func registerServices() {
-        Resolver.performInitialRegistrations = nil
-        if let registering = (Resolver.main as Any) as? ResolverRegistering {
+        Resolver.registerServices?()
+    }
+
+    /// Called by the Resolution functions to perform one-time initialization of the Resolver registries.
+    public static var registerServices: (() -> Void)? = { () in
+        pthread_mutex_lock(&Resolver.registrationMutex)
+        defer { pthread_mutex_unlock(&Resolver.registrationMutex) }
+        if Resolver.registerServices != nil, let registering = (Resolver.root as Any) as? ResolverRegistering {
             type(of: registering).registerAllServices()
         }
+        Resolver.registerServices = nil
     }
 
     // MARK: - Service Registration
@@ -176,6 +183,7 @@ public final class Resolver {
     ///
     /// - returns: Instance of specified Service.
     public static func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
+        Resolver.registerServices?() // always check initial registrations first in case registerAllServices swaps root
         return root.resolve(type, name: name, args: args)
     }
 
@@ -189,7 +197,6 @@ public final class Resolver {
     /// - returns: Instance of specified Service.
     ///
     public final func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
-        Resolver.performInitialRegistrations?()
         if let registration = lookup(type, name: name ?? NONAME),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
@@ -207,6 +214,7 @@ public final class Resolver {
     /// - returns: Instance of specified Service.
     ///
     public static func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service? {
+        Resolver.registerServices?() // always check initial registrations first in case registerAllServices swaps root
         return root.optional(type, name: name, args: args)
     }
 
@@ -220,7 +228,6 @@ public final class Resolver {
     /// - returns: Instance of specified Service.
     ///
     public final func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service? {
-        Resolver.performInitialRegistrations?()
         if let registration = lookup(type, name: name ?? NONAME),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
@@ -233,6 +240,7 @@ public final class Resolver {
     /// Internal function searches the current and parent registries for a ResolverRegistration<Service> that matches
     /// the supplied type and name.
     private final func lookup<Service>(_ type: Service.Type, name: String) -> ResolverRegistration<Service>? {
+        Resolver.registerServices?()
         if let container = registrations[ObjectIdentifier(Service.self).hashValue] {
             return container[name] as? ResolverRegistration<Service>
         }
@@ -245,8 +253,7 @@ public final class Resolver {
     private let NONAME = "*"
     private let parent: Resolver?
     private var registrations = [Int : [String : Any]]()
-
-    private static var performInitialRegistrations: (() -> Void)? = { () in Resolver.main.registerServices() }
+    private static var registrationMutex = pthread_mutex_t()
 }
 
 // Registration Internals
