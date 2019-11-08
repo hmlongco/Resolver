@@ -507,7 +507,7 @@ public extension UIViewController {
 #if swift(>=5.1)
 @propertyWrapper
 public struct Injected<Service> {
-    private var service: Service?
+    private lazy var service: Service = (container ?? Resolver.root).resolve(Service.self, name: name)
     public var container: Resolver?
     public var name: String?
     public init() {}
@@ -516,26 +516,12 @@ public struct Injected<Service> {
         self.container = container
     }
     public var wrappedValue: Service {
-        mutating get {
-            if service == nil {
-                service = (container ?? Resolver.root).resolve(
-                    Service.self,
-                    name: name
-                )
-            }
-            return service!
-        }
-        mutating set {
-            service = newValue
-        }
+        mutating get { return service }
+        mutating set { service = newValue  }
     }
     public var projectedValue: Injected<Service> {
-        get {
-            return self
-        }
-        mutating set {
-            self = newValue
-        }
+        get { return self }
+        mutating set { self = newValue }
     }
 }
 #endif
