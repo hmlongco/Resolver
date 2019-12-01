@@ -20,10 +20,7 @@ class NamedInjectedViewController {
 }
 
 class NamedInjectedViewController2 {
-    @Injected var service: XYZNameService
-    func viewDidLoad() {
-        $service.name = "barney"
-    }
+    @Injected(name: "barney") var service: XYZNameService
 }
 
 extension Resolver {
@@ -32,6 +29,10 @@ extension Resolver {
 
 class ContainerInjectedViewController {
     @Injected(container: .custom) var service: XYZNameService
+}
+
+class LazyInjectedViewController {
+    @LazyInjected var service: XYZService
 }
 
 class ResolverInjectedTests: XCTestCase {
@@ -66,7 +67,6 @@ class ResolverInjectedTests: XCTestCase {
 
     func testNamedInjection2() {
         let vc = NamedInjectedViewController2()
-        vc.viewDidLoad() // emulate
         XCTAssertNotNil(vc.service)
         XCTAssert(vc.service.name == "barney")
     }
@@ -75,6 +75,14 @@ class ResolverInjectedTests: XCTestCase {
         let vc = ContainerInjectedViewController()
         XCTAssertNotNil(vc.service)
         XCTAssert(vc.service.name == "custom")
+    }
+
+    func testLazyInjection() {
+        let vc = LazyInjectedViewController()
+        XCTAssert(vc.$service.isEmpty)
+        XCTAssertNotNil(vc.service)
+        XCTAssertNotNil(vc.service.session)
+        XCTAssert(!vc.$service.isEmpty)
     }
 
 }
