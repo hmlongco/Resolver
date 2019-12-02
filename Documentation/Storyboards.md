@@ -1,5 +1,14 @@
 #  Resolver: Storyboards
 
+NOTE: As of Swift 5.1, we can now perform annotation using Property Wrappers. (See [Annotation](https://github.com/hmlongco/Resolver/blob/master/Documentation/Annotation.md).)
+
+```
+class MyViewController: UIViewController {
+    @Injected var viewModel: XYZViewModel
+}
+```
+I highly recommend this approach over the other methods shown below.
+
 ## Property Injection
 
 Resolver supports automatic UIViewController property injection using the StoryboardResolving protocol, but using it requires two steps.

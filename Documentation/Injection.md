@@ -9,6 +9,7 @@ There are five primary ways of performing dependency injection using Resolver:
 3. [Constructor Injection](#constructor)
 4. [Method Injection](#method)
 5. [Service Locator](#locator)
+6. [Annotation](#annotation) (NEW)
 
 The names and numbers come from the *Inversion of Control* design pattern. For a more thorough discussion, see the classic arcticle by [Martin Fowler](https://martinfowler.com/articles/injection.html).
 
@@ -200,7 +201,7 @@ In Swift, passing a closure into a method could also be considered a form of Met
 
 #### Definition
 
-Finally, a Service Locator is basically a service that locates the resources and dependencies an object needs.
+A Service Locator is basically a service that locates the resources and dependencies an object needs.
 
 Technically, Service Locator is its own Design Pattern, distinct from Dependency Injection, but Resolver supports both and the Service Locator pattern is particularly useful when supporting view controllers and other classes where the initialization process is outside of your control. (See [Storyboards](https://github.com/hmlongco/Resolver/blob/master/Documentation/Storyboards.md).)
 
@@ -236,6 +237,46 @@ func setupMyRegistrations {
 #### Cons
 
 * Exposes the dependency injection system to all of the classes that use it.
+
+## <a name=annotation></a>6. Annotation
+
+#### Definition
+
+Annotation uses comments or other metadata to indication that dependency injection is required. As of Swift 5.1, we can now perform annotation using Property Wrappers. (See [Annotation](https://github.com/hmlongco/Resolver/blob/master/Documentation/Annotation.md).)
+
+#### The Class
+
+```
+class XYZViewModel {
+
+    @Injected var fetcher: XYZFetching
+    @Injected var service: XYZService
+
+    func load() -> Data {
+        return fetcher.getData(service)
+    }
+
+}
+```
+
+#### The Dependency Injection Code
+
+```
+func setupMyRegistrations {
+    register { XYZFetcher() as XYZFetching }
+    register { XYZService() }
+}
+```
+
+#### Pros
+
+* Less code.
+* Hides the specifics of the injection system. One could easily make an Injected property wrapper to support any DI system.
+* Useful for classes like UIViewController where you don't have access during the initialization process.
+
+#### Cons
+
+* Exposes the fact that a dependency injection system is used.
 
 ## Additonal Resources
 

@@ -1,7 +1,7 @@
 
 # Resolver ![icon](https://user-images.githubusercontent.com/709283/32858974-cce8282a-ca12-11e7-944b-c8046156290b.png)
 
- An ultralight Dependency Injection / Service Locator framework for Swift 4 and iOS.
+An ultralight Dependency Injection / Service Locator framework for Swift 5.1 on iOS.
 
 ## Introduction
 
@@ -15,15 +15,28 @@ For more, see: [A Gentle Introduction to Dependency Injection.](https://github.c
 
 ## Dependency Injection Strategies
 
-There are five classic dependency injection strategies:
+There are six classic dependency injection strategies:
 
 1. [Interface Injection](https://github.com/hmlongco/Resolver/blob/master/Documentation/Injection.md#interface)
 2. [Property Injection](https://github.com/hmlongco/Resolver/blob/master/Documentation/Injection.md#property)
 3. [Constructor Injection](https://github.com/hmlongco/Resolver/blob/master/Documentation/Injection.md#constructor)
 4. [Method Injection](https://github.com/hmlongco/Resolver/blob/master/Documentation/Injection.md#method)
 5. [Service Locator](https://github.com/hmlongco/Resolver/blob/master/Documentation/Injection.md#locator)
+6. [Annotation](https://github.com/hmlongco/Resolver/blob/master/Documentation/Injection.md#annotation) (NEW)
 
 Resolver supports them all. Follow the links for a brief description, examples, and the pros and cons of each.
+
+## Property Wrappers
+
+Resolver now supports resolving services using the new property wrapper syntax in Swift 5.1.
+
+```
+class BasicInjectedViewController: UIViewController {
+    @Injected var service: XYZService
+    @LazyInjected var service2: XYZLazyService
+}
+```
+Just add the Injected keyword and your dependencies will be resolved automatically. See the [Annotation](https://github.com/hmlongco/Resolver/blob/master/Documentation/Annotation.md) documentation for more on this and other strategies.
 
 ## Features
 
@@ -36,6 +49,7 @@ Resolver is implemented in just over 300 lines of actual code, but it packs a to
 * [Named Instances](https://github.com/hmlongco/Resolver/blob/master/Documentation/Names.md)
 * [Argument Passing](https://github.com/hmlongco/Resolver/blob/master/Documentation/Arguments.md)
 * [Custom Containers & Nested Containers](https://github.com/hmlongco/Resolver/blob/master/Documentation/Containers.md)
+* [Cyclic Dependency Support](https://github.com/hmlongco/Resolver/blob/master/Documentation/CyclicDependencies.md)
 * [Storyboard Support](https://github.com/hmlongco/Resolver/blob/master/Documentation/Storyboards.md)
 
 TLDR: If nothing else, make sure you read about [Automatic Type Inference](https://github.com/hmlongco/Resolver/blob/master/Documentation/Types.md), [Scopes](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md), and [Optionals](https://github.com/hmlongco/Resolver/blob/master/Documentation/Optionals.md).
@@ -48,13 +62,23 @@ Using Resolver is a simple, three-step process:
 2. [Register the classes and services your app requires.](https://github.com/hmlongco/Resolver/blob/master/Documentation/Registration.md)
 3. [Use Resolver to resolve those instances when needed.](https://github.com/hmlongco/Resolver/blob/master/Documentation/Resolving.md)
 
+## Installation
+
+Resolver supports CocoaPods and the Swift Package Manager.
+```
+pod " Resolver"
+```
+Resolver itself is just a single source file (Resolver.swift), so it's also easy to simply download the file and add it to your project.
+
+Note that the current version of Resolver (1.1) supports Swift 5.1. For Swift 5 or Swift 4, checkout an earlier version.
+
 ## Why Resolver?
 
 As mentioned, Resolver is an ultralight Dependency Injection system, implemented in just over 300 lines of code and contained in a single file.
 
 Resolver is also designed for performance. [SwinjectStoryboard](https://github.com/Swinject/SwinjectStoryboard), for example, is a great dependency injection system, but Resolver clocks out to be about 800% faster at resolving dependency chains than Swinject.
 
-And unlike some other systems, Resolver is written in 100% Swift 4, with no Objective-C code, method swizzling, or internal dependencies on the Objective-C runtime.
+And unlike some other systems, Resolver is written in 100% Swift 5, with no Objective-C code, method swizzling, or internal dependencies on the Objective-C runtime.
 
 Further, Resolver:
 
@@ -84,3 +108,4 @@ Resolver is available under the MIT license. See the LICENSE file for more info.
 * [Nuts and Bolts of Dependency Injection in Swift](https://cocoacasts.com/nuts-and-bolts-of-dependency-injection-in-swift/)\
 * [Dependency Injection in Swift](https://cocoacasts.com/dependency-injection-in-swift)
 * [SwinjectStoryboard](https://github.com/Swinject/SwinjectStoryboard)
+* [Swift 5.1 Takes Dependency Injection to the Next Level](https://medium.com/better-programming/taking-swift-dependency-injection-to-the-next-level-b71114c6a9c6)

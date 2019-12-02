@@ -24,7 +24,12 @@
 // THE SOFTWARE.
 //
 
+#if os(iOS)
 import UIKit
+import SwiftUI
+#else
+import Foundation
+#endif
 
 public protocol ResolverRegistering {
     static func registerAllServices()
@@ -52,7 +57,7 @@ public final class Resolver {
     /// Default registry used by the static Resolution functions and by the Resolving protocol.
     public static var root: Resolver = main
     /// Default scope applied when registering new objects.
-    public static var defaultScope = Resolver.graph
+    public static var defaultScope: ResolverScope = Resolver.graph
 
     // MARK: - Lifecycle
 
@@ -62,10 +67,17 @@ public final class Resolver {
 
     /// Called by the Resolution functions to perform one-time initialization of the Resolver registries.
     public final func registerServices() {
-        Resolver.performInitialRegistrations = nil
-        if let registering = (Resolver.main as Any) as? ResolverRegistering {
+        Resolver.registerServices?()
+    }
+
+    /// Called by the Resolution functions to perform one-time initialization of the Resolver registries.
+    public static var registerServices: (() -> Void)? = { () in
+        pthread_mutex_lock(&Resolver.registrationMutex)
+        defer { pthread_mutex_unlock(&Resolver.registrationMutex) }
+        if Resolver.registerServices != nil, let registering = (Resolver.root as Any) as? ResolverRegistering {
             type(of: registering).registerAllServices()
         }
+        Resolver.registerServices = nil
     }
 
     // MARK: - Service Registration
@@ -172,6 +184,7 @@ public final class Resolver {
     ///
     /// - returns: Instance of specified Service.
     public static func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
+        Resolver.registerServices?() // always check initial registrations first in case registerAllServices swaps root
         return root.resolve(type, name: name, args: args)
     }
 
@@ -185,7 +198,6 @@ public final class Resolver {
     /// - returns: Instance of specified Service.
     ///
     public final func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
-        Resolver.performInitialRegistrations?()
         if let registration = lookup(type, name: name ?? NONAME),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
@@ -203,6 +215,7 @@ public final class Resolver {
     /// - returns: Instance of specified Service.
     ///
     public static func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service? {
+        Resolver.registerServices?() // always check initial registrations first in case registerAllServices swaps root
         return root.optional(type, name: name, args: args)
     }
 
@@ -216,7 +229,6 @@ public final class Resolver {
     /// - returns: Instance of specified Service.
     ///
     public final func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service? {
-        Resolver.performInitialRegistrations?()
         if let registration = lookup(type, name: name ?? NONAME),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
@@ -229,6 +241,7 @@ public final class Resolver {
     /// Internal function searches the current and parent registries for a ResolverRegistration<Service> that matches
     /// the supplied type and name.
     private final func lookup<Service>(_ type: Service.Type, name: String) -> ResolverRegistration<Service>? {
+        Resolver.registerServices?()
         if let container = registrations[ObjectIdentifier(Service.self).hashValue] {
             return container[name] as? ResolverRegistration<Service>
         }
@@ -241,8 +254,7 @@ public final class Resolver {
     private let NONAME = "*"
     private let parent: Resolver?
     private var registrations = [Int : [String : Any]]()
-
-    private static var performInitialRegistrations: (() -> Void)? = { () in Resolver.main.registerServices() }
+    private static var registrationMutex = pthread_mutex_t()
 }
 
 // Registration Internals
@@ -384,6 +396,7 @@ public protocol ResolverScope: class {
 /// All application scoped services exist for lifetime of the app. (e.g Singletons)
 public class ResolverScopeApplication: ResolverScope {
 
+    public init() {}
     public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
         pthread_mutex_lock(&mutex)
         defer { pthread_mutex_unlock(&mutex) }
@@ -418,6 +431,7 @@ public final class ResolverScopeCache: ResolverScopeApplication {
 /// Graph services are initialized once and only once during a given resolution cycle. This is the default scope.
 public final class ResolverScopeGraph: ResolverScope {
 
+    public init() {}
     public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
         pthread_mutex_lock(&mutex)
         defer { pthread_mutex_unlock(&mutex) }
@@ -443,6 +457,7 @@ public final class ResolverScopeGraph: ResolverScope {
 /// Shared services persist while strong references to them exist. They're then deallocated until the next resolve.
 public final class ResolverScopeShare: ResolverScope {
 
+    public init() {}
     public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
         pthread_mutex_lock(&mutex)
         defer { pthread_mutex_unlock(&mutex) }
@@ -456,7 +471,13 @@ public final class ResolverScopeShare: ResolverScope {
         return service
     }
 
-    struct BoxWeak {
+    public final func reset() {
+        pthread_mutex_lock(&mutex)
+        cachedServices.removeAll()
+        pthread_mutex_unlock(&mutex)
+    }
+
+    private struct BoxWeak {
         weak var service: AnyObject?
     }
 
@@ -467,12 +488,14 @@ public final class ResolverScopeShare: ResolverScope {
 /// Unique services are created and initialized each and every time they're resolved.
 public final class ResolverScopeUnique: ResolverScope {
 
+    public init() {}
     public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
         return registration.resolve(resolver: resolver, args: args)
     }
 
 }
 
+#if os(iOS)
 /// Storyboard Automatic Resolution Protocol
 public protocol StoryboardResolving: Resolving {
     func resolveViewController()
@@ -480,7 +503,7 @@ public protocol StoryboardResolving: Resolving {
 
 /// Storyboard Automatic Resolution Trigger
 public extension UIViewController {
-    @objc public dynamic var resolving: Bool {
+    @objc dynamic var resolving: Bool {
         get {
             return true
         }
@@ -491,3 +514,90 @@ public extension UIViewController {
         }
     }
 }
+#endif
+
+#if swift(>=5.1)
+/// Immediate injection property wrapper.
+///
+/// Wrapped dependent service is resolved immediately using Resolver.root upon struct initialization.
+///
+@propertyWrapper
+public struct Injected<Service> {
+    private var service: Service
+    public init() {
+        self.service = Resolver.resolve(Service.self)
+    }
+    public init(name: String? = nil, container: Resolver? = nil) {
+        self.service = container?.resolve(Service.self, name: name) ?? Resolver.resolve(Service.self, name: name)
+    }
+    public var wrappedValue: Service {
+        get { return service }
+        mutating set { service = newValue }
+    }
+    public var projectedValue: Injected<Service> {
+        get { return self }
+        mutating set { self = newValue }
+    }
+}
+
+/// Lazy injection property wrapper. Note that mbedded container and name properties will be used if set prior to service instantiation.
+///
+/// Wrapped dependent service is not resolved until service is accessed.
+///
+@propertyWrapper
+public struct LazyInjected<Service> {
+    private var service: Service!
+    public var container: Resolver?
+    public var name: String?
+    public init() {}
+    public init(name: String? = nil, container: Resolver? = nil) {
+        self.name = name
+        self.container = container
+    }
+    public var isEmpty: Bool {
+        return service == nil
+    }
+    public var wrappedValue: Service {
+        mutating get {
+            if self.service == nil {
+                self.service = container?.resolve(Service.self, name: name) ?? Resolver.resolve(Service.self, name: name)
+            }
+            return service
+        }
+        mutating set { service = newValue  }
+    }
+    public var projectedValue: LazyInjected<Service> {
+        get { return self }
+        mutating set { self = newValue }
+    }
+    public mutating func release() {
+        self.service = nil
+    }
+}
+
+/// Immediate injection property wrapper for SwiftUI ObservableObjects. This wrapper is meant for use in SwiftUI Views and exposes
+/// bindable objects similar to that of SwiftUI @observedObject and @environmentObject.
+///
+/// Dependent service must be of type ObservableObject. Updating object state will trigger view update.
+///
+/// Wrapped dependent service is resolved immediately using Resolver.root upon struct initialization.
+///
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+@propertyWrapper
+public struct InjectedObject<Service>: DynamicProperty where Service: ObservableObject {
+    @ObservedObject private var service: Service
+    public init() {
+        self.service = Resolver.resolve(Service.self)
+    }
+    public init(name: String? = nil, container: Resolver? = nil) {
+        self.service = container?.resolve(Service.self, name: name) ?? Resolver.resolve(Service.self, name: name)
+    }
+    public var wrappedValue: Service {
+        get { return service }
+        mutating set { service = newValue }
+    }
+    public var projectedValue: ObservedObject<Service>.Wrapper {
+        get { return self.$service }
+    }
+}
+#endif

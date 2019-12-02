@@ -1,5 +1,20 @@
 # Resolver Changelog
 
+### 1.1.0
+
+* Update project for Swift 5.1 and SPM
+* Add @Injected property wrapper for Swift 5.1
+* Add @LazyInjected property wrapper for Swift 5.1
+* Revise unit tests for more code coverage
+* Make static registration function public and add concurrency mutexes
+* Add type specification to defaultScope
+* Fix initializers on scope types to allow public instantiation.
+* Allow clearing the shared cache
+
+### 1.0.8
+
+* Update project settings for Swift 5
+
 ### 1.0.7
 
 * Update project settings for Swift 4.2
