@@ -18,9 +18,9 @@ How long? Well, that depends on the scope.
 
 ## Scope: Application<a name=application></a>
 
-The `application` scope will make Resolver retain a given object instance once it's been resolved the first time, and any subsequent resolutions will always return the inital instance.
+The `application` scope will make Resolver retain a given object instance once it's been resolved the first time, and any subsequent resolutions will always return the initial instance.
 
-```
+```swift
 main.register { XYZApplicationService() }
     .scope(application)
 ```
@@ -31,7 +31,7 @@ This effectively makes the object a `Singleton`.
 
 This scope stores a strong reference to the resolved instance. Once created, every subsequent call to resolve will return the same instance.
 
-```
+```swift
 main.register { MyViewModel() }
     .scope(cached)
 ```
@@ -40,7 +40,7 @@ This is similar to how an application scope behaves, but unlike an application s
 
 This is useful if you need, say, a session-level scope that caches specific information until a user logs out.
 
-```
+```swift
 Resolver.cached.reset()
 ```
 
@@ -54,7 +54,7 @@ Once the requested object is resolved any internally cached instances will be di
 
 Graph is Resolver's **default** scope, so check out the following code:
 
-```
+```swift
 main.register { XYZViewModel(fetcher: resolve(), updater: resolve(), service: resolve()) }
 main.register { resolve() as XYZCombinedService as XYZFetching }
 main.register { resolve() as XYZCombinedService as XYZUpdating }
@@ -98,11 +98,11 @@ Only class types can have weak references, and as such only class types can be s
 
 ## Scope: Unique<a name=unique></a>
 
-This is the simplist scope, in that Resolver calls the registration factory to create a new instance of your type each and every time you call resolve.
+This is the simplest scope, in that Resolver calls the registration factory to create a new instance of your type each and every time you call resolve.
 
 It's specified like this:
 
-```
+```swift
 main.register { XYZCombinedService() }
     .scope(unique)
 ```
@@ -115,7 +115,7 @@ But you can change that if you wish, with the only caveat being that you need to
 
 As such, changing the default scope behavior to `unique` would best be done as follows:
 
-```
+```swift
 extension Resolver: ResolverRegistering {
     static func registerAllServices() {
         Resolver.defaultScope = Resolver.unique
@@ -130,7 +130,7 @@ You can add and use your own scopes. As mentioned above, you might want your own
 
 To create your own distinct session cache, add the following to your main `AppDelegate+Injection.swift` file:
 
-```
+```swift
 extension Resolver {
     static let session = ResolverScopeCache()
 }
@@ -138,14 +138,14 @@ extension Resolver {
 
 Your session scope can then be used and specified just like any built-in scope.
 
-```
+```swift
 main.register { UserManager() }
     .scope(session)
 ```
 
 And it can be reset as needed.
 
-```
+```swift
 Resolver.session.reset()
 ```
 

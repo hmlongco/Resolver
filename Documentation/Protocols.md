@@ -6,7 +6,7 @@ Remember, Resolver automatically infers the registration type based on the type 
 
 As such, registering a protocol that's implemented by a specific type of an object is pretty straightforward.
 
-```
+```swift
 main.register { XYZCombinedService() as XYZFetching }
 ```
 
@@ -18,7 +18,7 @@ The registration factory is *creating* an object of type `XYZCombinedService`, b
 
 Registering an object with multiple protocols is pretty much the same as the above, except you need to register each protocol separately.
 
-```
+```swift
 main.register { XYZCombinedService() as XYZFetching }
 main.register { XYZCombinedService() as XYZUpdating }
 ```
@@ -33,7 +33,7 @@ But it's more likely that if both interfaces were implemented in the same object
 
 Consider the next example:
 
-```
+```swift
 main.register { resolve() as XYZCombinedService as XYZFetching }
 main.register { resolve() as XYZCombinedService as XYZUpdating }
 main.register { XYZCombinedService() }
@@ -53,7 +53,7 @@ The preceding example shares `XYZCombinedService` during a given [resolution cyc
 
 But what if we want any instance of `XYZFetching` or `XYZUpdating` to *always* share the same instance?
 
-```
+```swift
 main.register { XYZCombinedService() }
     .scope(shared)
 ```
@@ -64,7 +64,7 @@ We use a [shared scope](Scopes.md).
 
 A simpler way to rewrite the above registration example uses Resolver's `implements` registration option:
 
-```
+```swift
 main.register { XYZCombinedService() }
     .implements(XYZFetching.self)
     .implements(XYZUpdating.self)
@@ -73,4 +73,3 @@ main.register { XYZCombinedService() }
 Resolver registers `XYZCombinedService` for you, and then does the same for `XYZFetching` and `XYZUpdating`, pointing all three registrations to the same factory.
 
 Note that the `.self` passed to the `.implements` method simply tells Swift that we want the object type, not the object itself.
-

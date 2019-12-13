@@ -1,4 +1,3 @@
-
 # Resolver ![icon](https://user-images.githubusercontent.com/709283/32858974-cce8282a-ca12-11e7-944b-c8046156290b.png)
 
 An ultralight Dependency Injection / Service Locator framework for Swift 5.1 on iOS.
@@ -30,7 +29,7 @@ Resolver supports them all. Follow the links for a brief description, examples, 
 
 Resolver now supports resolving services using the new property wrapper syntax in Swift 5.1.
 
-```
+```swift
 class BasicInjectedViewController: UIViewController {
     @Injected var service: XYZService
     @LazyInjected var service2: XYZLazyService
@@ -65,8 +64,8 @@ Using Resolver is a simple, three-step process:
 ## Installation
 
 Resolver supports CocoaPods and the Swift Package Manager.
-```
-pod " Resolver"
+```swift
+pod "Resolver"
 ```
 Resolver itself is just a single source file (Resolver.swift), so it's also easy to simply download the file and add it to your project.
 

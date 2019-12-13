@@ -1,11 +1,10 @@
 # Resolver: The Resolution Cycle
 
-
 ## The Code
 
 Let's start with the following registration code.
 
-```
+```swift
 extension Resolver: ResolverRegistering {
 
     public static func registerAllServices() {
@@ -30,13 +29,13 @@ extension Resolver: ResolverRegistering {
 }
 ```
 
-Note in particular the additonal parameters needed to create a `XYZViewModel` and a `XYZService`.
+Note in particular the additional parameters needed to create a `XYZViewModel` and a `XYZService`.
 
 ## The Process
 
 Let's kick things off by given a view controller its view model.
 
-```
+```swift
 class MyViewController: UIViewController {
     let xyz: XYZViewModel = Resolver.resolve()
 }
@@ -46,7 +45,7 @@ Assuming the default [graph](Scopes.md#graph) scope, the following now occurs:
 
 1. Resolver infers the type of object being requested. (e.g. XYZViewModel)
 2. Resolver searches the registry for a registration of that type to in order to find the correct object factory.
-3. Resolver finds the XYZViewModel registrantion, and tells its factory to resolve.
+3. Resolver finds the XYZViewModel registration, and tells its factory to resolve.
 4. Attempting to resolve XYZViewModel, its factory first needs a fetcher, an updater, and a service object as parameters.
 5. Resolving, the XYZFetching registration is found, and its factory attempts to resolve an XYZCombinedService.
 6. Resolving, the XYZCombinedService registration is found, and its factory creates and returns a combined service.

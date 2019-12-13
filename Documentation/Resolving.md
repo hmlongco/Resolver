@@ -4,7 +4,7 @@
 
 Once registered, any object can reach out to Resolver to provide (resolve) an instance of the requested type.
 
-```
+```swift
 class MyViewController: UIViewController {
     var xyz: XYZViewModel = Resolver.resolve()
 }
@@ -18,9 +18,9 @@ Note that Resolver's static resolution methods are searching Resolver's **root**
 
 ## Resolve using the Resolving protocol
 
-Any object can implement the Resolving protocol, as shown in the folllowing two examples:
+Any object can implement the Resolving protocol, as shown in the following two examples:
 
-```
+```swift
 class MyViewController: UIViewController, Resolving {
     lazy var viewModel: XYZViewModel = resolver.resolve()
 }
@@ -41,7 +41,7 @@ If you're a bit more of a Dependency Injection purist, you can wrap Resolver as 
 
 Add the following to your section's [xxxxx+Injection.swift file](Registration.md#files):
 
-```
+```swift
 extension MyViewController: Resolving {
     func makeViewModel() -> XYZViewModel { return resolver.resolve() }
 }
@@ -49,7 +49,7 @@ extension MyViewController: Resolving {
 
 And now the code contained in  `MyViewController` becomes:
 
-```
+```swift
 class MyViewController: UIViewController {
     lazy var viewModel = makeViewModel()
 }
@@ -59,7 +59,7 @@ All the view controller knows is that a function was provided that gives it the 
 
 Note that we're using an injected function to set our variable. It's *possbile* to do:
 
-```
+```swift
 extension MyViewController: Resolving {
     var myViewModel: XYZViewModel { return resolver.resolve() }
 }
@@ -73,7 +73,7 @@ Note in the last few examples the parameter being resolved was designated as `la
 
 This delays initialization of the object until its needed, but it also avoids a Swift compiler error. Consider the following:
 
-```
+```swift
 class MyViewController: UIViewController, Resolving {
     var viewModel: XYZViewModel = resolver.resolve() // Error
 }
@@ -81,9 +81,9 @@ class MyViewController: UIViewController, Resolving {
 
 This will generate a Swift compiler error: *Cannot use instance member 'resolver' within property initializer; property initializers run before 'self' is available.*
 
-Or to put it another way, Swift can't use variables or call functions before all variables are known to be initialized. Adding `lazy` fixes the problem, and also gives us the fexibility to do things like the following:
+Or to put it another way, Swift can't use variables or call functions before all variables are known to be initialized. Adding `lazy` fixes the problem, and also gives us the flexibility to do things like the following:
 
-```
+```swift
 class ViewController: UIViewController, Resolving {
     var editMode: Bool = true // set by calling segue
     lazy var viewModel: XYZViewModelProtocol = resolver.resolve(name: editMode ? "edit" : "add")
@@ -98,7 +98,7 @@ Named Instances are valuable tools to have around. [Learn more..](Names.md)
 
 Resolver can also automatically resolve optionals... with one minor change.
 
-```
+```swift
 var abc: ABCService? = resolver.optional()
 var xyz: XYZService! = resolver.optional()
 ```
@@ -117,4 +117,3 @@ Note the second line of code. You should also remember that Explicitly Unwrapped
 You can also have Resolver *automatically* resolve view controllers instantiated from Storyboards. (Well, automatically from the view controller's standpoint, anyway.)
 
 [See: Storyboard support.](Storyboards.md)
-
