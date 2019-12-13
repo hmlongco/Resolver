@@ -6,9 +6,9 @@ Because named registrations and resolutions let you change the behavior of the a
 
 ## Example: Named Value Types
 
-You can register value types and paramters for later resolution. However, since Resolver registers object by type, the only way to tell one String from another String is to name it.
+You can register value types and parameters for later resolution. However, since Resolver registers object by type, the only way to tell one String from another String is to name it.
 
-```
+```swift
 register(name: "appKey") { "12345" }
 register { XYZSessionService(key: resolve(name: "appKey")) }
 ```
@@ -24,7 +24,7 @@ This is a good way to get authentication keys, application keys, and other value
 
 Consider the following set of registrations.
 
-```
+```swift
 register { resolve(name: Bundle.main.infoDictionary!["mode"] as! String) as XYZServicing }
 register(name: "data") { XYXService() as XYZServicing }
 register(name: "mock") { XYXMockService() as XYZServicing }
@@ -36,7 +36,7 @@ The nameless registration, however, gets a string from the app's info.plist and 
 
 Let's see it in use by a client.
 
-```
+```swift
 let service: XYZServicing = resolver.resolve()
 ```
 
@@ -52,7 +52,7 @@ Nor should it.
 
 Now, consider the next pair of registrations:
 
-```
+```swift
 register(name: "add") { XYZViewModelAdding() as XYZViewModelProtocol }
 register(name: "edit") { XYZViewModelEditing() as XYZViewModelProtocol }
 ```
@@ -62,7 +62,7 @@ Here we're registering two instances of the same protocol, `XYZViewModelProtocol
 But one view model appears to be specific to adding things, while the other's behavior leans more towards editing.
 
 
-```
+```swift
 class ViewController: UIViewController, Resolving {
     var editMode: Bool = true // set, perhaps, by calling segue
     lazy var viewModel: XYZViewModelProtocol = resolver.resolve(name: editMode ? "edit" : "add")!

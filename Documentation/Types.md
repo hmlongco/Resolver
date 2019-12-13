@@ -4,7 +4,7 @@
 
 Resolver uses Swift type-inference to automatically detect the type of the class or struct being registered, based on the type of object returned by the factory function.
 
-```
+```swift
 main.register { ABCService() }
 ```
 
@@ -14,7 +14,7 @@ The above factory closure is returning an ABCService, so here we're registering 
 
 Resolver can also automatically infer the instance type for method parameters, as shown here.
 
-```
+```swift
 main.register { XYZViewModel(fetcher: resolve(), updater: resolve(), service: resolve()) }
 ```
 
@@ -28,7 +28,7 @@ The same chain of events occurs for every object requested during a given resolu
 
 Resolver can automatically infer the instance type of the object being requested (resolved).
 
-```
+```swift
 var abc: ABCService = Resolver.resolve()
 ```
 
@@ -36,7 +36,7 @@ Here the variable type is ABCService, so Resolver will lookup the registration f
 
 ## Explicit Type Specification
 
-You can also explicity tell Resolver the type of object or protocol you want to register or resolve.
+You can also explicitly tell Resolver the type of object or protocol you want to register or resolve.
 
 ```
 Resolver.register(ABCServicing.self) { ABCService() }

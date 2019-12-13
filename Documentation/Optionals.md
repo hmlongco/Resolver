@@ -6,7 +6,7 @@ Resolver is pretty good at inferring type, but one thing that can trip it up is 
 
 Consider the following:
 
-```
+```swift
 Resolver.register() { ABCService() }
 var abc: ABCService? = Resolver.resolve()
 ```
@@ -21,7 +21,7 @@ And though that's the type Resolver will attempt to resolve, it's not the type t
 
 Fortunately, the solution is simple.
 
-```
+```swift
 var abc: ABCService? = Resolver.optional()
 ```
 
@@ -29,7 +29,7 @@ The `optional()` method has a different type signature, and using it allows Swif
 
 ## The other optional
 
-```
+```swift
 var abc: ABCService! = Resolver.resolve()
 ```
 
@@ -37,20 +37,20 @@ This will also fail to resolve, and for the same reason. To Swift, `ABCService` 
 
 Fortunately, the solution is the same.
 
-```
+```swift
 var abc: ABCService! = Resolver.optional()
 ```
 
 ## Explicit Type Specification
 
-You can also punt and explicity tell Resolver the type of object or protocol you want to resolve.
+You can also punt and explicitly tell Resolver the type of object or protocol you want to resolve.
 
-```
+```swift
 var abc: ABCService? = Resolver.resolve(ABCService.self)
 ```
 
 This could be helpful if for some reason you wanted to resolve to a specific instance.
 
-```
+```swift
 var abc: ABCServicing? = Resolver.resolve(ABCService.self)
 ```
