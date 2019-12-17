@@ -592,6 +592,9 @@ public struct InjectedObject<Service>: DynamicProperty where Service: Observable
     public init(name: String? = nil, container: Resolver? = nil) {
         self.service = container?.resolve(Service.self, name: name) ?? Resolver.resolve(Service.self, name: name)
     }
+    public init(_ args: Any) {
+        self.service = Resolver.resolve(Service.self, args: args)
+    }
     public var wrappedValue: Service {
         get { return service }
         mutating set { service = newValue }
