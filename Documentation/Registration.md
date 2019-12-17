@@ -8,7 +8,7 @@ Add a file named `AppDelegate+Injection.swift` to your project and add the follo
 import Resolver
 
 extension Resolver: ResolverRegistering {
-    static func registerAllServices() {
+    public static func registerAllServices() {
 
     }
 }
@@ -32,7 +32,7 @@ Go to the NetworkServices folder and add a swift file named: `NetworkServices+In
 
 ```
 extension Resolver {
-    static func registerMyNetworkServices() {
+    public static func registerMyNetworkServices() {
 
     }
 }
@@ -44,7 +44,7 @@ Now, go back to your  `AppDelegate+Injection.swift` file and add a reference to 
 
 ```
 extension Resolver: ResolverRegistering {
-    static func registerAllServices() {
+    public static func registerAllServices() {
         registerMyNetworkServices()
     }
 }
@@ -63,7 +63,7 @@ import Resolver
 
 extension Resolver {
 
-    static func registerMyNetworkServices() {
+    public static func registerMyNetworkServices() {
 
         // Register protocols XYZFetching and XYZUpdating and create implementation object
         register { XYZCombinedService() }
