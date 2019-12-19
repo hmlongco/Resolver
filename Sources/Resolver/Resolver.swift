@@ -254,7 +254,11 @@ public final class Resolver {
     private let NONAME = "*"
     private let parent: Resolver?
     private var registrations = [Int : [String : Any]]()
-    private static var registrationMutex = pthread_mutex_t()
+    private static var registrationMutex: pthread_mutex_t = {
+        var mutex = pthread_mutex_t()
+        pthread_mutex_init(&mutex, nil)
+        return mutex
+    }()
 }
 
 // Registration Internals
@@ -396,17 +400,27 @@ public protocol ResolverScope: class {
 /// All application scoped services exist for lifetime of the app. (e.g Singletons)
 public class ResolverScopeApplication: ResolverScope {
 
-    public init() {}
+    public init() {
+        pthread_mutex_init(&mutex, nil)
+    }
+
     public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
         pthread_mutex_lock(&mutex)
-        defer { pthread_mutex_unlock(&mutex) }
-        if let service = cachedServices[registration.cacheKey] as? Service {
+        let existingService = cachedServices[registration.cacheKey] as? Service
+        pthread_mutex_unlock(&mutex)
+
+        if let service = existingService {
             return service
         }
+
         let service = registration.resolve(resolver: resolver, args: args)
-        if let service = service{
+
+        if let service = service {
+            pthread_mutex_lock(&mutex)
             cachedServices[registration.cacheKey] = service
+            pthread_mutex_unlock(&mutex)
         }
+
         return service
     }
 
@@ -418,7 +432,7 @@ public class ResolverScopeApplication: ResolverScope {
 public final class ResolverScopeCache: ResolverScopeApplication {
 
     override public init() {
-        // make init visible outside of model
+        super.init()
     }
 
     public final func reset() {
@@ -431,21 +445,39 @@ public final class ResolverScopeCache: ResolverScopeApplication {
 /// Graph services are initialized once and only once during a given resolution cycle. This is the default scope.
 public final class ResolverScopeGraph: ResolverScope {
 
-    public init() {}
+    public init() {
+        pthread_mutex_init(&mutex, nil)
+    }
+
     public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
+
         pthread_mutex_lock(&mutex)
-        defer { pthread_mutex_unlock(&mutex) }
-        if let service = graph[registration.cacheKey] as? Service {
+
+        let existingService = graph[registration.cacheKey] as? Service
+
+        if let service = existingService {
+            pthread_mutex_unlock(&mutex)
             return service
         }
+
         resolutionDepth = resolutionDepth + 1
+
+        pthread_mutex_unlock(&mutex)
+
         let service = registration.resolve(resolver: resolver, args: args)
+
+        pthread_mutex_lock(&mutex)
+
         resolutionDepth = resolutionDepth - 1
+
         if resolutionDepth == 0 {
             graph.removeAll()
         } else if let service = service, type(of: service as Any) is AnyClass {
             graph[registration.cacheKey] = service
         }
+
+        pthread_mutex_unlock(&mutex)
+
         return service
     }
 
@@ -457,17 +489,27 @@ public final class ResolverScopeGraph: ResolverScope {
 /// Shared services persist while strong references to them exist. They're then deallocated until the next resolve.
 public final class ResolverScopeShare: ResolverScope {
 
-    public init() {}
+    public init() {
+        pthread_mutex_init(&mutex, nil)
+    }
+
     public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
         pthread_mutex_lock(&mutex)
-        defer { pthread_mutex_unlock(&mutex) }
-        if let service = cachedServices[registration.cacheKey]?.service as? Service {
+        let existingService = cachedServices[registration.cacheKey]?.service as? Service
+        pthread_mutex_unlock(&mutex)
+
+        if let service = existingService {
             return service
         }
+
         let service = registration.resolve(resolver: resolver, args: args)
+
         if let service = service, type(of: service as Any) is AnyClass {
+            pthread_mutex_lock(&mutex)
             cachedServices[registration.cacheKey] = BoxWeak(service: service as AnyObject)
+            pthread_mutex_unlock(&mutex)
         }
+        
         return service
     }
 
