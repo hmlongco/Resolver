@@ -27,6 +27,9 @@
 #if os(iOS)
 import UIKit
 import SwiftUI
+#elseif os(macOS)
+import Combine
+import Foundation
 #else
 import Foundation
 #endif
@@ -616,7 +619,7 @@ public struct LazyInjected<Service> {
         self.service = nil
     }
 }
-
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 /// Immediate injection property wrapper for SwiftUI ObservableObjects. This wrapper is meant for use in SwiftUI Views and exposes
 /// bindable objects similar to that of SwiftUI @observedObject and @environmentObject.
 ///
@@ -642,4 +645,5 @@ public struct InjectedObject<Service>: DynamicProperty where Service: Observable
         get { return self.$service }
     }
 }
+#endif
 #endif
