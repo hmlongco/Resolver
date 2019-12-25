@@ -31,6 +31,8 @@ import SwiftUI
 import Foundation
 #endif
 
+// swiftlint:disable file_length
+
 public protocol ResolverRegistering {
     static func registerAllServices()
 }
@@ -509,7 +511,7 @@ public final class ResolverScopeShare: ResolverScope {
             cachedServices[registration.cacheKey] = BoxWeak(service: service as AnyObject)
             pthread_mutex_unlock(&mutex)
         }
-        
+
         return service
     }
 
@@ -545,6 +547,7 @@ public protocol StoryboardResolving: Resolving {
 
 /// Storyboard Automatic Resolution Trigger
 public extension UIViewController {
+    // swiftlint:disable unused_setter_value
     @objc dynamic var resolving: Bool {
         get {
             return true
@@ -555,6 +558,7 @@ public extension UIViewController {
             }
         }
     }
+    // swiftlint:enable unused_setter_value
 }
 #endif
 
@@ -639,7 +643,7 @@ public struct InjectedObject<Service>: DynamicProperty where Service: Observable
         mutating set { service = newValue }
     }
     public var projectedValue: ObservedObject<Service>.Wrapper {
-        get { return self.$service }
+        return self.$service
     }
 }
 #endif
