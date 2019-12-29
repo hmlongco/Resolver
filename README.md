@@ -69,7 +69,9 @@ pod "Resolver"
 ```
 Resolver itself is just a single source file (Resolver.swift), so it's also easy to simply download the file and add it to your project.
 
-Note that the current version of Resolver (1.1) supports Swift 5.1. For Swift 5 or Swift 4, checkout an earlier version.
+Note that the current version of Resolver (1.1) supports Swift 5.1 and that the minimum version of iOS currently supported with this release is iOS 11.
+
+Read the [installation guide](https://github.com/hmlongco/Resolver/blob/master/Documentation/Installation.md) for information on supporting earlier versions.
 
 ## Why Resolver?
 

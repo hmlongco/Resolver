@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Resolver",
     platforms: [
-        .iOS(.v10),
+        .iOS(.v11),
         .macOS(.v10_14),
         .tvOS(.v13),
         .watchOS(.v6)

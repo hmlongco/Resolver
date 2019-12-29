@@ -1,5 +1,17 @@
 # Resolver Changelog
 
+### 1.1.2
+
+* Add @InjectedObject property wrapper for SwiftUI support
+* Ensure proper initialization of pthread mutexes
+* Add missing public keyword to registerAllServices() method
+* Expand supported platforms to include macOS, tvOS, and watchOS
+* Set minimum supported platform on iOS to iOS 11
+
+### 1.1.1
+
+* Fix project file issue for cocoapod support.
+
 ### 1.1.0
 
 * Update project for Swift 5.1 and SPM
