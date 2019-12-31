@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		4C9BFB0C2357D98800E6FB80 /* ResolverInjectedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9BFB0B2357D98800E6FB80 /* ResolverInjectedTests.swift */; };
+		DC2BAC1D23BB630900E771D7 /* Resolver+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2BAC1C23BB630900E771D7 /* Resolver+SwiftUI.swift */; };
 		OBJ_40 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Resolver.swift */; };
 		OBJ_47 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_58 /* ResolverBasicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ResolverBasicTests.swift */; };
@@ -57,6 +58,7 @@
 
 /* Begin PBXFileReference section */
 		4C9BFB0B2357D98800E6FB80 /* ResolverInjectedTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResolverInjectedTests.swift; sourceTree = "<group>"; };
+		DC2BAC1C23BB630900E771D7 /* Resolver+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Resolver+SwiftUI.swift"; sourceTree = "<group>"; };
 		OBJ_12 /* ResolverBasicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverBasicTests.swift; sourceTree = "<group>"; };
 		OBJ_13 /* ResolverClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverClassTests.swift; sourceTree = "<group>"; };
 		OBJ_14 /* ResolverContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverContainerTests.swift; sourceTree = "<group>"; };
@@ -100,6 +102,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DC2BAC1B23BB62EE00E771D7 /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				DC2BAC1C23BB630900E771D7 /* Resolver+SwiftUI.swift */,
+			);
+			path = SwiftUI;
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,6 +175,7 @@
 		OBJ_8 /* Resolver */ = {
 			isa = PBXGroup;
 			children = (
+				DC2BAC1B23BB62EE00E771D7 /* SwiftUI */,
 				OBJ_9 /* Resolver.swift */,
 			);
 			name = Resolver;
@@ -257,6 +268,7 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_40 /* Resolver.swift in Sources */,
+				DC2BAC1D23BB630900E771D7 /* Resolver+SwiftUI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

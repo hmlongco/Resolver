@@ -7,7 +7,18 @@ Pod::Spec.new do |s|
   s.author       = "Michael Long"
   s.platform     = :ios, "10.0"
   s.source       = { :git => "https://github.com/hmlongco/Resolver.git", :tag => "#{s.version}" }
-  s.source_files  = "Classes", "Sources/Resolver/*.swift"
+
   s.swift_version = '5.1'
   s.ios.framework  = 'UIKit'
+ 
+ s.default_subspec = ['Core', 'SwiftUI']
+
+ s.subspec 'Core' do |ss|
+    ss.source_files  = "Sources/Resolver/*.swift"
+ end 
+
+ s.subspec 'SwiftUI' do |ss|
+    ss.source_files  = "Sources/Resolver/SwiftUI/*.swift"
+ end
+
 end
