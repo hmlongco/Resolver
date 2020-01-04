@@ -22,6 +22,8 @@
 
 /* Begin PBXBuildFile section */
 		4C9BFB0C2357D98800E6FB80 /* ResolverInjectedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9BFB0B2357D98800E6FB80 /* ResolverInjectedTests.swift */; };
+		C964EE0B23C0AE7B007896CD /* Resolver+MultiParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = C964EE0A23C0AE7B007896CD /* Resolver+MultiParams.swift */; };
+		C964EE0E23C0B6C0007896CD /* ResolverMultiParamsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C964EE0C23C0AEDB007896CD /* ResolverMultiParamsTests.swift */; };
 		OBJ_40 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Resolver.swift */; };
 		OBJ_47 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_58 /* ResolverBasicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ResolverBasicTests.swift */; };
@@ -57,6 +59,8 @@
 
 /* Begin PBXFileReference section */
 		4C9BFB0B2357D98800E6FB80 /* ResolverInjectedTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResolverInjectedTests.swift; sourceTree = "<group>"; };
+		C964EE0A23C0AE7B007896CD /* Resolver+MultiParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Resolver+MultiParams.swift"; sourceTree = "<group>"; };
+		C964EE0C23C0AEDB007896CD /* ResolverMultiParamsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverMultiParamsTests.swift; sourceTree = "<group>"; };
 		OBJ_12 /* ResolverBasicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverBasicTests.swift; sourceTree = "<group>"; };
 		OBJ_13 /* ResolverClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverClassTests.swift; sourceTree = "<group>"; };
 		OBJ_14 /* ResolverContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverContainerTests.swift; sourceTree = "<group>"; };
@@ -123,6 +127,7 @@
 				4C9BFB0B2357D98800E6FB80 /* ResolverInjectedTests.swift */,
 				OBJ_22 /* TestData.swift */,
 				OBJ_23 /* XCTestManifests.swift */,
+				C964EE0C23C0AEDB007896CD /* ResolverMultiParamsTests.swift */,
 			);
 			name = ResolverTests;
 			path = Tests/ResolverTests;
@@ -166,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_9 /* Resolver.swift */,
+				C964EE0A23C0AE7B007896CD /* Resolver+MultiParams.swift */,
 			);
 			name = Resolver;
 			path = Sources/Resolver;
@@ -257,6 +263,7 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_40 /* Resolver.swift in Sources */,
+				C964EE0B23C0AE7B007896CD /* Resolver+MultiParams.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +279,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				C964EE0E23C0B6C0007896CD /* ResolverMultiParamsTests.swift in Sources */,
 				OBJ_58 /* ResolverBasicTests.swift in Sources */,
 				4C9BFB0C2357D98800E6FB80 /* ResolverInjectedTests.swift in Sources */,
 				OBJ_59 /* ResolverClassTests.swift in Sources */,

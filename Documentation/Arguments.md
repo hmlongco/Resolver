@@ -21,6 +21,35 @@ register { XYZViewModel(fetcher: resolve(), updater: resolve(), service: resolve
         model.editMode = args as? Bool ?? true
     }
 ```
+## Multiple Arguments as Properties
+
+Pass N number of arguments of any type (Do not have to be of the same type) : 
+
+```swift
+resolver.register { (res, args) -> InjectableClass in
+           //
+           let firstArgument: String = res.firstArgument(from: args!)!
+           let secondArgument: Int = res.secondArgument(from: args!)!
+           let thirdArgument: Bool = res.thirdArgument(from: args!)!
+           let fourthArguemnt: Double = res.argument(from: args!, argumentNo: 3)!
+           //
+           return InjectableClass(firstArgument, secondArgument, thirdArgument, fourthArguemnt)
+}
+```
+
+Resolve up to five arguments (arg0...arg 5 ) of any type :
+
+```swift
+resolver.resolve(arg0: "AMS", arg1: 11, arg2: true, arg3: 3.14159, arg4: Any, arg5: 123)
+}
+```
+
+Resolve with N number of arguments of any type (params: ...... )
+
+```swift
+let injectableClass: InjectableClass = resolver.resolve(params: "AMS", 11, true, 3.14159)
+}
+```
 
 ## Arguments used during Initialization
 
