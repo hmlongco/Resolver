@@ -56,6 +56,18 @@ class NamedInjectedViewController: UIViewController {
 ```
 If you go this route just make sure you specify the name *before* accessing the injected service for the first time.
 
+###  Optional injection
+
+An annotation is available that supports optional resolving. If the service is not registered, then the value will be nil, otherwise it will be not nil:
+```
+class InjectedViewController: UIViewController {
+    @OptionalInjected var service: XYZService?
+    func load() {
+        service?.load()
+    }
+}
+```
+
 ### Custom Containers
 
 You can specify and resolve custom containers using Injected. Just define your custom container...
