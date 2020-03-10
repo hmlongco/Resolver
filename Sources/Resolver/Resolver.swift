@@ -626,6 +626,25 @@ public struct LazyInjected<Service> {
     }
 }
 
+@propertyWrapper
+public struct OptionalInjected<Service> {
+    private var service: Service?
+    public init() {
+        self.service = Resolver.optional(Service.self)
+    }
+    public init(name: String? = nil, container: Resolver? = nil) {
+        self.service = container?.optional(Service.self, name: name) ?? Resolver.optional(Service.self, name: name)
+    }
+    public var wrappedValue: Service? {
+        get { return service }
+        mutating set { service = newValue }
+    }
+    public var projectedValue: OptionalInjected<Service> {
+        get { return self }
+        mutating set { self = newValue }
+    }
+}
+
 /// Immediate injection property wrapper for SwiftUI ObservableObjects. This wrapper is meant for use in SwiftUI Views and exposes
 /// bindable objects similar to that of SwiftUI @observedObject and @environmentObject.
 ///
