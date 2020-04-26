@@ -35,6 +35,14 @@ class LazyInjectedViewController {
     @LazyInjected var service: XYZService
 }
 
+class OptionalInjectedViewController {
+    @OptionalInjected var service: XYZService?
+    @OptionalInjected var notRegistered: NotRegistered?
+}
+
+class NotRegistered {
+}
+
 class ResolverInjectedTests: XCTestCase {
 
     override func setUp() {
@@ -84,7 +92,12 @@ class ResolverInjectedTests: XCTestCase {
         XCTAssertNotNil(vc.service.session)
         XCTAssert(!vc.$service.isEmpty)
     }
-
+    
+    func testOptionalInjection() {
+        let vc = OptionalInjectedViewController()
+        XCTAssertNotNil(vc.service)
+        XCTAssertNil(vc.notRegistered)
+    }
 }
 
 #endif
