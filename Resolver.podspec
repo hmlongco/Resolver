@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Resolver"
-  s.version      = "1.1.3"
+  s.version      = "1.1.4"
   s.summary      = "An ultralight Dependency Injection / Service Locator framework for Swift on iOS."
   s.homepage     = "https://github.com/hmlongco/Resolver"
   s.license      = "MIT"
