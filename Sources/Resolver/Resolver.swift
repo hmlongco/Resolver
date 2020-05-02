@@ -58,7 +58,7 @@ public final class Resolver {
     // MARK: - Defaults
 
     /// Default registry used by the static Registration functions.
-    public static let main: Resolver = Resolver()
+    public static var main: Resolver = Resolver()
     /// Default registry used by the static Resolution functions and by the Resolving protocol.
     public static var root: Resolver = main
     /// Default scope applied when registering new objects.
@@ -76,13 +76,24 @@ public final class Resolver {
     }
 
     /// Called by the Resolution functions to perform one-time initialization of the Resolver registries.
-    public static var registerServices: (() -> Void)? = { () in
+    public static var registerServices: (() -> Void)? = registerServicesBlock
+
+    private static var registerServicesBlock: (() -> Void) = { () in
         pthread_mutex_lock(&Resolver.registrationMutex)
         defer { pthread_mutex_unlock(&Resolver.registrationMutex) }
         if Resolver.registerServices != nil, let registering = (Resolver.root as Any) as? ResolverRegistering {
             type(of: registering).registerAllServices()
         }
         Resolver.registerServices = nil
+    }
+
+    /// Called to effectively reset Resolver to its initial state, including recalling registerAllServices if it was provided
+    public static func reset() {
+        pthread_mutex_lock(&Resolver.registrationMutex)
+        defer { pthread_mutex_unlock(&Resolver.registrationMutex) }
+        main = Resolver()
+        root = main
+        registerServices = registerServicesBlock
     }
 
     // MARK: - Service Registration

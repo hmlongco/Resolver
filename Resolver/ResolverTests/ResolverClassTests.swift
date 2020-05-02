@@ -91,5 +91,23 @@ class ResolverClassTests: XCTestCase {
         XCTAssertNotNil(service.session)
     }
 
+    func testRegistrationResetUnregistersServices() {
+        Resolver.register { XYZNameService("blackstone") }
+        let service1: XYZNameService? = Resolver.optional()
+        XCTAssertNotNil(service1)
+        XCTAssert(service1?.name == "blackstone")
+        Resolver.reset()
+        let service2: XYZNameService? = Resolver.optional()
+        XCTAssertNil(service2)
+    }
+
+    func testRegistrationResetCallsRegisterAllServices() {
+        let session1: XYZSessionService? = Resolver.optional()
+        XCTAssertNotNil(session1)
+        Resolver.reset()
+        let session2: XYZSessionService? = Resolver.optional()
+        XCTAssertNotNil(session2)
+    }
+
 }
 
