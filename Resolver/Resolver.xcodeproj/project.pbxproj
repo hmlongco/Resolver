@@ -53,7 +53,7 @@
 		4C87FD0F206D207600BF6798 /* Injection.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Injection.md; sourceTree = "<group>"; };
 		4CA30FE41FBB6C8500217883 /* Resolver.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Resolver.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CA30FE71FBB6C8500217883 /* Resolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resolver.h; path = ../../Sources/Resolver.h; sourceTree = "<group>"; };
-		4CA30FE81FBB6C8500217883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4CA30FE81FBB6C8500217883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		4CA30FED1FBB6C8500217883 /* ResolverTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ResolverTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CA30FF21FBB6C8500217883 /* ResolverBasicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverBasicTests.swift; sourceTree = "<group>"; };
 		4CA30FF41FBB6C8500217883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -437,7 +437,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Resolver/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hmlong.Resolver;
@@ -460,7 +460,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Resolver/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hmlong.Resolver;
@@ -477,7 +477,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9ZVHDWC4WU;
-				INFOPLIST_FILE = ResolverTests/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hmlong.ResolverTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -492,7 +492,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9ZVHDWC4WU;
-				INFOPLIST_FILE = ResolverTests/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hmlong.ResolverTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
