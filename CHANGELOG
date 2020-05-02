@@ -1,5 +1,12 @@
 # Resolver Changelog
 
+### 1.1.3
+
+* Add @OptionalInjected attribute
+* Fixed Empty CURRENT_PROJECT_VERSION variable.
+* Mark framework to use application extension safe api only
+* Use fatalError message instead of print
+
 ### 1.1.2
 
 * Add @InjectedObject property wrapper for SwiftUI support

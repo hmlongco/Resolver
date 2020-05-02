@@ -52,12 +52,12 @@
 		4C87FD0E206BFD5800BF6798 /* Cycle.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Cycle.md; sourceTree = "<group>"; };
 		4C87FD0F206D207600BF6798 /* Injection.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Injection.md; sourceTree = "<group>"; };
 		4CA30FE41FBB6C8500217883 /* Resolver.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Resolver.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4CA30FE71FBB6C8500217883 /* Resolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Resolver.h; sourceTree = "<group>"; };
+		4CA30FE71FBB6C8500217883 /* Resolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resolver.h; path = ../../Sources/Resolver.h; sourceTree = "<group>"; };
 		4CA30FE81FBB6C8500217883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4CA30FED1FBB6C8500217883 /* ResolverTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ResolverTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CA30FF21FBB6C8500217883 /* ResolverBasicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverBasicTests.swift; sourceTree = "<group>"; };
 		4CA30FF41FBB6C8500217883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4CA30FFF1FBB6DFA00217883 /* Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
+		4CA30FFF1FBB6DFA00217883 /* Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Resolver.swift; path = Resolver/Resolver.swift; sourceTree = "<group>"; };
 		4CD4F7FF206E99440090669A /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		4CD4F801206EA9DA0090669A /* ResolverScopeReferenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverScopeReferenceTests.swift; sourceTree = "<group>"; };
 		4CD4F803206EAC1E0090669A /* ResolverNameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverNameTests.swift; sourceTree = "<group>"; };
