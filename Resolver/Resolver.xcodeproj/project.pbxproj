@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4C3E6686209F40F400F5615C /* ResolverScopeNameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E6685209F40F400F5615C /* ResolverScopeNameTests.swift */; };
+		4C6EA0472460C3F8000F6AF8 /* ResolverArgumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6EA0462460C3F8000F6AF8 /* ResolverArgumentTests.swift */; };
 		4CA30FEE1FBB6C8500217883 /* Resolver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CA30FE41FBB6C8500217883 /* Resolver.framework */; };
 		4CA30FF31FBB6C8500217883 /* ResolverBasicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA30FF21FBB6C8500217883 /* ResolverBasicTests.swift */; };
 		4CA30FF51FBB6C8500217883 /* Resolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CA30FE71FBB6C8500217883 /* Resolver.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		4C3E6685209F40F400F5615C /* ResolverScopeNameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverScopeNameTests.swift; sourceTree = "<group>"; };
+		4C6EA0462460C3F8000F6AF8 /* ResolverArgumentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResolverArgumentTests.swift; sourceTree = "<group>"; };
 		4C76F88A2073B39C00F9E784 /* CHANGELOG */ = {isa = PBXFileReference; lastKnownFileType = text; name = CHANGELOG; path = ../CHANGELOG; sourceTree = "<group>"; };
 		4C87FCFD2069D2F700BF6798 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		4C87FD01206A6BAB00BF6798 /* Introduction.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Introduction.md; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				4CD4F803206EAC1E0090669A /* ResolverNameTests.swift */,
 				4CD4F807206EB7930090669A /* ResolverContainerTests.swift */,
 				4CD4F805206EB3940090669A /* ResolverProtocolTests.swift */,
+				4C6EA0462460C3F8000F6AF8 /* ResolverArgumentTests.swift */,
 				4C3E6685209F40F400F5615C /* ResolverScopeNameTests.swift */,
 				4CD4F801206EA9DA0090669A /* ResolverScopeReferenceTests.swift */,
 				4CD4F809206EC0E80090669A /* ResolverScopeValueTests.swift */,
@@ -292,6 +295,7 @@
 				4CD4F80E206ECA540090669A /* ResolverStoryboardTests.swift in Sources */,
 				4CD4F804206EAC1E0090669A /* ResolverNameTests.swift in Sources */,
 				4CA30FF31FBB6C8500217883 /* ResolverBasicTests.swift in Sources */,
+				4C6EA0472460C3F8000F6AF8 /* ResolverArgumentTests.swift in Sources */,
 				4CD4F806206EB3940090669A /* ResolverProtocolTests.swift in Sources */,
 				4CD4F808206EB7930090669A /* ResolverContainerTests.swift in Sources */,
 				4CD4F80A206EC0E80090669A /* ResolverScopeValueTests.swift in Sources */,
