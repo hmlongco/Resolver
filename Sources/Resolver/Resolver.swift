@@ -109,7 +109,7 @@ public final class Resolver {
     @discardableResult
     public static func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
                                          factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
-        return main.register(type, name: name, factory: { (_, _) -> Service? in return factory() })
+        return main.register(type, name: name, factory: factory)
     }
 
     /// Static shortcut function used to register a specifc Service type and its instantiating factory method.
@@ -123,7 +123,7 @@ public final class Resolver {
     @discardableResult
     public static func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
                                          factory: @escaping ResolverFactoryResolver<Service>) -> ResolverOptions<Service> {
-        return main.register(type, name: name, factory: { (r, _) -> Service? in return factory(r) })
+        return main.register(type, name: name, factory: factory)
     }
 
     /// Static shortcut function used to register a specifc Service type and its instantiating factory method.
