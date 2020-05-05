@@ -31,9 +31,21 @@ class ResolverArgumentTests: XCTestCase {
         super.tearDown()
     }
 
+    func testExistingArgument() {
+        resolver.register { XYZSessionService() }
+        resolver.register { (r, arg) -> XYZService in
+            let test: String = arg as? String ?? ""
+            XCTAssert(test == "test")
+            return XYZService( r.optional() )
+        }
+        let service: XYZService? = resolver.optional(args: "test")
+        XCTAssertNotNil(service)
+        XCTAssertNotNil(service?.session)
+    }
+
     func testExistingArgumentPromotion() {
         resolver.register { XYZSessionService() }
-        resolver.register { (r, args) -> XYZService in
+        resolver.register { (r, _, args) -> XYZService in
             let test: String = args[0]!
             XCTAssert(test == "test")
             return XYZService( r.optional() )
@@ -43,11 +55,25 @@ class ResolverArgumentTests: XCTestCase {
         XCTAssertNotNil(service?.session)
     }
 
+    func testExistingPropertyArgument() {
+        resolver.register {
+            XYZSessionService()
+        }
+        .resolveProperties { (r, s, arg) in
+            let test: String = arg as? String ?? ""
+            XCTAssert(test == "test")
+            s.name = test
+        }
+        let session: XYZSessionService? = resolver.optional(args: "test")
+        XCTAssertNotNil(session)
+        XCTAssert(session?.name == "test")
+    }
+
     func testExistingPropertyArgumentPromotion() {
         resolver.register {
             XYZSessionService()
         }
-        .resolveProperties { (r, s, args) in
+        .resolveProperties { (r, s, _, args) in
             let test: String = args[0]!
             XCTAssert(test == "test")
             s.name = test
@@ -58,7 +84,7 @@ class ResolverArgumentTests: XCTestCase {
     }
 
     func testResolutionMultipleArguments() {
-        resolver.register { (r, args) -> XYZEditService in
+        resolver.register { (r, _, args) -> XYZEditService in
             let editing: Bool = args[0]!
             XCTAssert(editing == true)
             let name: String = args[1]!
@@ -75,7 +101,7 @@ class ResolverArgumentTests: XCTestCase {
         resolver.register {
             XYZEditService(editing: false, name: "Barney")
         }
-        .resolveProperties { (r, s, args) in
+        .resolveProperties { (r, s, _, args) in
             let editing: Bool = args[0]!
             XCTAssert(editing == true)
             let name: String = args[1]!
@@ -90,8 +116,7 @@ class ResolverArgumentTests: XCTestCase {
     }
 
     func testResolutionMultipleMissingArguments() {
-        Resolver.reset()
-        resolver.register { (r, args) -> XYZEditService in
+        resolver.register { (r, _, args) -> XYZEditService in
             let editing: Bool? = args[0]
             XCTAssertNil(editing)
             let name: String? = args[1]

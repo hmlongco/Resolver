@@ -140,6 +140,20 @@ public final class Resolver {
         return main.register(type, name: name, factory: factory)
     }
 
+    /// Static shortcut function used to register a specifc Service type and its instantiating factory method with multiple argument support.
+    ///
+    /// - parameter type: Type of Service being registered. Optional, may be inferred by factory result type.
+    /// - parameter name: Named variant of Service being registered.
+    /// - parameter factory: Closure that accepts arguments and constructs and returns instances of the Service.
+    ///
+    /// - returns: ResolverOptions instance that allows further customization of registered Service.
+    ///
+    @discardableResult
+    public static func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+                                         factory: @escaping ResolverFactoryArgumentsN<Service>) -> ResolverOptions<Service> {
+        return main.register(type, name: name, factory: factory)
+    }
+
     /// Registers a specifc Service type and its instantiating factory method.
     ///
     /// - parameter type: Type of Service being registered. Optional, may be inferred by factory result type.
@@ -152,7 +166,7 @@ public final class Resolver {
     public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
                                         factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
         let key = ObjectIdentifier(Service.self).hashValue
-        let registration = ResolverRegistrationBasic(resolver: self, key: key, name: name, factory: factory)
+        let registration = ResolverRegistrationOnly(resolver: self, key: key, name: name, factory: factory)
         add(registration: registration, with: key, name: name)
         return registration
     }
@@ -187,6 +201,23 @@ public final class Resolver {
                                         factory: @escaping ResolverFactoryArguments<Service>) -> ResolverOptions<Service> {
         let key = ObjectIdentifier(Service.self).hashValue
         let registration = ResolverRegistrationArguments(resolver: self, key: key, name: name, factory: factory)
+        add(registration: registration, with: key, name: name)
+        return registration
+    }
+
+    /// Registers a specifc Service type and its instantiating factory method with multiple argument support.
+    ///
+    /// - parameter type: Type of Service being registered. Optional, may be inferred by factory result type.
+    /// - parameter name: Named variant of Service being registered.
+    /// - parameter factory: Closure that accepts arguments and constructs and returns instances of the Service.
+    ///
+    /// - returns: ResolverOptions instance that allows further customization of registered Service.
+    ///
+    @discardableResult
+    public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+                                        factory: @escaping ResolverFactoryArgumentsN<Service>) -> ResolverOptions<Service> {
+        let key = ObjectIdentifier(Service.self).hashValue
+        let registration = ResolverRegistrationArgumentsN(resolver: self, key: key, name: name, factory: factory)
         add(registration: registration, with: key, name: name)
         return registration
     }
@@ -267,6 +298,7 @@ public final class Resolver {
         return nil
     }
 
+    /// Internal function adds a new registration to the proper container.
     private final func add<Service>(registration: ResolverRegistration<Service>, with key: Int, name: String?) {
         if var container = registrations[key] {
             container[name ?? NONAME] = registration
@@ -348,9 +380,11 @@ extension Resolver {
 
 public typealias ResolverFactory<Service> = () -> Service?
 public typealias ResolverFactoryResolver<Service> = (_ resolver: Resolver) -> Service?
-public typealias ResolverFactoryArguments<Service> = (_ resolver: Resolver, _ args: ResolverArgs) -> Service?
+public typealias ResolverFactoryArguments<Service> = (_ resolver: Resolver, _ arg: Any?) -> Service?
+public typealias ResolverFactoryArgumentsN<Service> = (_ resolver: Resolver, _ arg: Any?, _ args: ResolverArgs) -> Service?
 public typealias ResolverFactoryMutator<Service> = (_ resolver: Resolver, _ service: Service) -> Void
-public typealias ResolverFactoryMutatorArguments<Service> = (_ resolver: Resolver, _ service: Service, _ args: ResolverArgs) -> Void
+public typealias ResolverFactoryMutatorArguments<Service> = (_ resolver: Resolver, _ service: Service, _ arg: Any?) -> Void
+public typealias ResolverFactoryMutatorArgumentsN<Service> = (_ resolver: Resolver, _ service: Service, _ arg: Any?, _ args: ResolverArgs) -> Void
 
 /// A ResolverOptions instance is returned by a registration function in order to allow additonal configuratiom. (e.g. scopes, etc.)
 public class ResolverOptions<Service> {
@@ -361,6 +395,7 @@ public class ResolverOptions<Service> {
 
     fileprivate var mutator: ResolverFactoryMutator<Service>?
     fileprivate var mutatorWithArguments: ResolverFactoryMutatorArguments<Service>?
+    fileprivate var mutatorWithArgumentsN: ResolverFactoryMutatorArgumentsN<Service>?
     fileprivate weak var resolver: Resolver?
 
     // MARK: - Lifecycle
@@ -410,6 +445,18 @@ public class ResolverOptions<Service> {
         return self
     }
 
+    /// Allows easy assignment of injected properties into resolved Service.
+    ///
+    /// - parameter block: Resolution block that also receives resolution arguments.
+    ///
+    /// - returns: ResolverOptions instance that allows further customization of registered Service.
+    ///
+    @discardableResult
+    public final func resolveProperties(_ block: @escaping ResolverFactoryMutatorArgumentsN<Service>) -> ResolverOptions<Service> {
+        mutatorWithArgumentsN = block
+        return self
+    }
+
     /// Defines scope in which requested Service may be cached.
     ///
     /// - parameter block: Resolution block.
@@ -422,17 +469,22 @@ public class ResolverOptions<Service> {
         return self
     }
 
+    /// Internal function to apply mutations with and w/o arguments
+    fileprivate func mutate(_ service: Service, resolver: Resolver, args: Any?) {
+        self.mutator?(resolver, service)
+        self.mutatorWithArguments?(resolver, service, args)
+        if let mutatorWithArgumentsN = mutatorWithArgumentsN {
+            let newArguments = args as? ResolverArgs ?? ResolverArgs(arg0: args)
+            mutatorWithArgumentsN(resolver, service, args, newArguments)
+        }
+    }
 }
 
 /// ResolverRegistration base class stores the registration keys.
 public class ResolverRegistration<Service>: ResolverOptions<Service> {
 
-    // MARK: Parameters
-
     public var key: Int
     public var cacheKey: String
-
-    // MARK: Lifecycle
 
     public init(resolver: Resolver, key: Int, name: String?) {
         self.key = key
@@ -451,30 +503,20 @@ public class ResolverRegistration<Service>: ResolverOptions<Service> {
 }
 
 /// ResolverRegistration stores a service definition and its factory closure.
-public final class ResolverRegistrationBasic<Service>: ResolverRegistration<Service> {
-
-    // MARK: Parameters
+public final class ResolverRegistrationOnly<Service>: ResolverRegistration<Service> {
 
     public var factory: ResolverFactory<Service>
-
-    // MARK: Lifecycle
 
     public init(resolver: Resolver, key: Int, name: String?, factory: @escaping ResolverFactory<Service>) {
         self.factory = factory
         super.init(resolver: resolver, key: key, name: name)
     }
 
-    // MARK: Functions
-
     public final override func resolve(resolver: Resolver, args: Any?) -> Service? {
         guard let service = factory() else {
             return nil
         }
-        self.mutator?(resolver, service)
-        if let mutatorWithArguments = mutatorWithArguments {
-            let args = args as? ResolverArgs ?? ResolverArgs(arg0: args)
-            mutatorWithArguments(resolver, service, args)
-        }
+        mutate(service, resolver: resolver, args: args)
         return service
     }
 }
@@ -482,28 +524,18 @@ public final class ResolverRegistrationBasic<Service>: ResolverRegistration<Serv
 /// ResolverRegistrationResolver stores a service definition and its factory closure.
 public final class ResolverRegistrationResolver<Service>: ResolverRegistration<Service> {
 
-    // MARK: Parameters
-
     public var factory: ResolverFactoryResolver<Service>
-
-    // MARK: Lifecycle
 
     public init(resolver: Resolver, key: Int, name: String?, factory: @escaping ResolverFactoryResolver<Service>) {
         self.factory = factory
         super.init(resolver: resolver, key: key, name: name)
     }
 
-    // MARK: Functions
-
     public final override func resolve(resolver: Resolver, args: Any?) -> Service? {
         guard let service = factory(resolver) else {
             return nil
         }
-        self.mutator?(resolver, service)
-        if let mutatorWithArguments = mutatorWithArguments {
-            let args = args as? ResolverArgs ?? ResolverArgs(arg0: args)
-            mutatorWithArguments(resolver, service, args)
-        }
+        mutate(service, resolver: resolver, args: args)
         return service
     }
 }
@@ -511,26 +543,38 @@ public final class ResolverRegistrationResolver<Service>: ResolverRegistration<S
 /// ResolverRegistrationArguments stores a service definition and its factory closure.
 public final class ResolverRegistrationArguments<Service>: ResolverRegistration<Service> {
 
-    // MARK: Parameters
-
     public var factory: ResolverFactoryArguments<Service>
-
-    // MARK: Lifecycle
 
     public init(resolver: Resolver, key: Int, name: String?, factory: @escaping ResolverFactoryArguments<Service>) {
         self.factory = factory
         super.init(resolver: resolver, key: key, name: name)
     }
 
-    // MARK: Functions
-
     public final override func resolve(resolver: Resolver, args: Any?) -> Service? {
-        let args = args as? ResolverArgs ?? ResolverArgs(arg0: args)
         guard let service = factory(resolver, args) else {
             return nil
         }
-        self.mutator?(resolver, service)
-        self.mutatorWithArguments?(resolver, service, args)
+        mutate(service, resolver: resolver, args: args)
+        return service
+    }
+}
+
+/// ResolverRegistrationArguments stores a service definition and its factory closure.
+public final class ResolverRegistrationArgumentsN<Service>: ResolverRegistration<Service> {
+
+    public var factory: ResolverFactoryArgumentsN<Service>
+
+    public init(resolver: Resolver, key: Int, name: String?, factory: @escaping ResolverFactoryArgumentsN<Service>) {
+        self.factory = factory
+        super.init(resolver: resolver, key: key, name: name)
+    }
+
+    public final override func resolve(resolver: Resolver, args: Any?) -> Service? {
+        let resolverArgs = args as? ResolverArgs ?? ResolverArgs(arg0: args)
+        guard let service = factory(resolver, args, resolverArgs) else {
+            return nil
+        }
+        mutate(service, resolver: resolver, args: args)
         return service
     }
 }
