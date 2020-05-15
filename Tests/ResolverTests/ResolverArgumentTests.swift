@@ -25,102 +25,102 @@ class ResolverArgumentTests: XCTestCase {
     func testSingleArgument() {
         resolver.register { (r, a) -> XYZArgumentService in
             XCTAssert(a()!)
-            return XYZArgumentService(arg0: a[0]!)
+            return XYZArgumentService(condition: a[0]!)
         }
-        let service: XYZArgumentService? = resolver.optional(arg0: true)
+        let service: XYZArgumentService? = resolver.optional(args: true)
         XCTAssertNotNil(service)
-        XCTAssert(service?.arg0 == true)
-        XCTAssert(service?.arg1 == "Barney")
+        XCTAssert(service?.condition == true)
+        XCTAssert(service?.string == "Barney")
     }
 
     func testPropertiesSingleArgument() {
         resolver.register { XYZArgumentService() }
             .resolveProperties { (r, s, a) in
                 XCTAssert(a[0]!) // type inferred
-                s.arg0 = a[0]!
+                s.condition = a[0]!
         }
-        let service: XYZArgumentService? = resolver.optional(arg0: true)
+        let service: XYZArgumentService? = resolver.optional(args: true)
         XCTAssertNotNil(service)
-        XCTAssert(service?.arg0 == true)
-        XCTAssert(service?.arg1 == "Barney")
+        XCTAssert(service?.condition == true)
+        XCTAssert(service?.string == "Barney")
     }
 
     func testSingleArgumentFunction() {
         resolver.register { (r, a) -> XYZArgumentService in
             XCTAssert(a()!)
-            return XYZArgumentService(arg0: a()!)
+            return XYZArgumentService(condition: a()!)
         }
         let service: XYZArgumentService? = resolver.optional(arg0: true)
         XCTAssertNotNil(service)
-        XCTAssert(service?.arg0 == true)
-        XCTAssert(service?.arg1 == "Barney")
+        XCTAssert(service?.condition == true)
+        XCTAssert(service?.string == "Barney")
     }
 
     func testPropertiesSingleArgumenttFunction() {
         resolver.register { XYZArgumentService() }
             .resolveProperties { (r, s, a) in
                 XCTAssert(a()!)
-                s.arg0 = a()!
+                s.condition = a()!
         }
         let service: XYZArgumentService? = resolver.optional(arg0: true)
         XCTAssertNotNil(service)
-        XCTAssert(service?.arg0 == true)
-        XCTAssert(service?.arg1 == "Barney")
+        XCTAssert(service?.condition == true)
+        XCTAssert(service?.string == "Barney")
     }
 
     func testSingleArgumentPromotion() {
         resolver.register { (r, a) -> XYZArgumentService in
             XCTAssert(a()!)
-            return XYZArgumentService(arg0: a()!)
+            return XYZArgumentService(condition: a()!)
         }
         let service: XYZArgumentService? = resolver.optional(args: true)
         XCTAssertNotNil(service)
-        XCTAssert(service?.arg0 == true)
-        XCTAssert(service?.arg1 == "Barney")
+        XCTAssert(service?.condition == true)
+        XCTAssert(service?.string == "Barney")
     }
 
     func testPropertiesSingleArgumentPromotion() {
         resolver.register { XYZArgumentService() }
             .resolveProperties { (r, s, a) in
                 XCTAssert(a()!)
-                s.arg0 = a()!
+                s.condition = a()!
         }
         let service: XYZArgumentService? = resolver.optional(args: true)
         XCTAssertNotNil(service)
-        XCTAssert(service?.arg0 == true)
-        XCTAssert(service?.arg1 == "Barney")
+        XCTAssert(service?.condition == true)
+        XCTAssert(service?.string == "Barney")
     }
 
     func testMultipleArguments() {
         resolver.register { (r, a) -> XYZArgumentService in
-            let arg0: Bool = a[0]!
-            XCTAssert(arg0)
-            let arg1: String = a[1]!
-            XCTAssert(arg1 == "Fred")
-            return XYZArgumentService(arg0: arg0, arg1: arg1)
+            let condition: Bool = a[0]!
+            XCTAssert(condition)
+            let string: String = a[1]!
+            XCTAssert(string == "Fred")
+            return XYZArgumentService(condition: condition, string: string)
         }
         let service: XYZArgumentService? = resolver.optional(arg0: true, arg1: "Fred")
         XCTAssertNotNil(service)
-        XCTAssert(service?.arg0 == true)
-        XCTAssert(service?.arg1 == "Fred")
+        XCTAssert(service?.condition == true)
+        XCTAssert(service?.string == "Fred")
     }
 
     func testPropertiesMultipleArguments() {
         resolver.register { XYZArgumentService() }
             .resolveProperties { (r, s, a) in
-                XCTAssert(s.arg0 == false)
-                XCTAssert(s.arg1 == "Barney")
-                let arg0: Bool = a[0]!
-                XCTAssert(arg0)
-                let arg1: String = a[1]!
-                XCTAssert(arg1 == "Fred")
-                s.arg0 = arg0
-                s.arg1 = arg1
+                XCTAssert(s.condition == false)
+                XCTAssert(s.string == "Barney")
+                let condition: Bool = a[0]!
+                XCTAssert(condition)
+                let string: String = a[1]!
+                XCTAssert(string == "Fred")
+                s.condition = condition
+                s.string = string
         }
         let service: XYZArgumentService? = resolver.optional(arg0: true, arg1: "Fred")
         XCTAssertNotNil(service)
-        XCTAssert(service?.arg0 == true)
-        XCTAssert(service?.arg1 == "Fred")
+        XCTAssert(service?.condition == true)
+        XCTAssert(service?.string == "Fred")
     }
 
 }
