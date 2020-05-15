@@ -101,6 +101,15 @@ class XYZValueService {
     }
 }
 
+class XYZArgumentService {
+    var arg0: Bool
+    var arg1: String
+    init(arg0: Bool = false, arg1: String = "Barney") {
+        self.arg0 = arg0
+        self.arg1 = arg1
+    }
+}
+
 struct XYZValue {
     let id = UUID()
     var name: String { return "XYZValueService" }

@@ -1,5 +1,5 @@
 //
-//  ResolverTests.swift
+//  ResolverBasicTests.swift
 //  ResolverTests
 //
 //  Created by Michael Long on 11/14/17.
@@ -71,34 +71,12 @@ class ResolverBasicTests: XCTestCase {
         XCTAssertNotNil(service?.session)
     }
 
-    func testRegistrationAndResolutionArguments() {
-        resolver.register { XYZSessionService() }
-        resolver.register { (r, a) -> XYZService in
-            XCTAssert( (a as? Bool) ?? false )
-            return XYZService( r.optional() )
-        }
-        let service: XYZService? = resolver.optional(args: true)
-        XCTAssertNotNil(service)
-        XCTAssertNotNil(service?.session)
-    }
-
     func testRegistrationAndResolutionProperties() {
         resolver.register { XYZSessionService() }
             .resolveProperties { (r, s) in
                 s.name = "updated"
         }
         let session: XYZSessionService? = resolver.optional()
-        XCTAssertNotNil(session)
-        XCTAssert(session?.name == "updated")
-    }
-
-    func testRegistrationAndResolutionPropertiesArgs() {
-        resolver.register { XYZSessionService() }
-            .resolveProperties { (r, s, a) in
-                XCTAssert( (a as? Bool) ?? false )
-                s.name = "updated"
-            }
-        let session: XYZSessionService? = resolver.optional(args: true)
         XCTAssertNotNil(session)
         XCTAssert(session?.name == "updated")
     }
