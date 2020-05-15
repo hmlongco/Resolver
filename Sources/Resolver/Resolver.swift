@@ -307,9 +307,11 @@ extension Resolver {
             args.append(arg7)
         }
 
+        #if swift(>=5.2)
         public func callAsFunction<T>() -> T? {
             return args[0] as? T
         }
+        #endif
 
         public subscript<T>(index: Int) -> T? {
             get {

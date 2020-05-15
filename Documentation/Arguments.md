@@ -28,17 +28,17 @@ register { (_, arg) in
     XYZViewModel(editMode: arg()!)
 }
 ```
-Here we're using the new callAsFunction feature from Swift 5.2 to access the passed argument and return it as the inferred type. 
+Here we're using the new callAsFunction feature from Swift 5.2 to access our single passed argument and return it as the inferred type. 
 
-In this case it just so happens that editMode is also the only argument passed. You could, however, use the `subscript` syntax provided by `Resolver.Args` to access the first argument directly.
+You could also use the `subscript` syntax provided by `Resolver.Args` to access the first argument directly. (You will also need to do this if your project isn't yet building with Swift 5.2). 
 ```swift
 register { (_, args) in 
     XYZViewModel(editMode: args[0]!)
 }
 ```
-Note that in both cases Resolver is attempting to infer the type so it's returning the value as an optional, which is why it's explicitly unwrapped in both examples.
+Note that in both cases Resolver is attempting to infer the argument type based on the type of the expected value. The result is returned as an optional which is why it's explicitly unwrapped in both examples.
 
-Prior to Resolver 1.2, you would have needed to cast the type manually from `Any?` to `Bool`.
+Prior to Resolver 1.2, you would have been required to cast the type manually from `Any?` to `Bool`.
 
 ```swift
 register { (_, arg) in 
@@ -54,6 +54,8 @@ register { (_, args) in
     XYZViewModel(editMode: args[0]!, name: args[1]!)
 }
 ```
+Again, both types are automatically inferred.
+
 Pass the arguments to the Resolver registration factory using the following syntax:
 ```swift
 class ViewController: UIViewController, Resolving {
@@ -62,10 +64,10 @@ class ViewController: UIViewController, Resolving {
 ```
 Resolver supports passing up to eight arguments as `arg0` through `arg7`. 
 
-Note that arguments are passed postionally, so be careful when passing and unpacking values. If you get a crash, double-check the order of your passed arguments.
+Note that arguments are passed postionally, so be careful when passing and unpacking values. If you get a crash, double-check the order and type of your passed arguments.
 ## Arguments as Properties
 
-The `editMode` argument passed could also be set on a model as follows:
+An `editMode` property could also be set on a model as follows:
 
 ```swift
 register { XYZViewModel(fetcher: resolve(), updater: resolve(), service: resolve()) }
@@ -73,7 +75,7 @@ register { XYZViewModel(fetcher: resolve(), updater: resolve(), service: resolve
         model.editMode = arg()!
     }
 ```
-The `subscript` syntax works here as well, for both single and multiple arguments.
+The `subscript` syntax works here as well, for both single and multiple arguments. This too is a breaking change for Resolver 1.2 as the previous `args` argument passed to `resolveProperties` was `Any?`.
 
 ## Using Arguments as Factory Specifiers
 

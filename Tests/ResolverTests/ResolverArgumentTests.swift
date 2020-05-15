@@ -45,6 +45,7 @@ class ResolverArgumentTests: XCTestCase {
         XCTAssert(service?.string == "Barney")
     }
 
+    #if swift(>=5.2)
     func testSingleArgumentFunction() {
         resolver.register { (r, a) -> XYZArgumentService in
             XCTAssert(a()!)
@@ -67,11 +68,12 @@ class ResolverArgumentTests: XCTestCase {
         XCTAssert(service?.condition == true)
         XCTAssert(service?.string == "Barney")
     }
+    #endif
 
     func testSingleArgumentPromotion() {
         resolver.register { (r, a) -> XYZArgumentService in
-            XCTAssert(a()!)
-            return XYZArgumentService(condition: a()!)
+            XCTAssert(a[0]!)
+            return XYZArgumentService(condition: a[0]!)
         }
         let service: XYZArgumentService? = resolver.optional(args: true)
         XCTAssertNotNil(service)
@@ -82,8 +84,8 @@ class ResolverArgumentTests: XCTestCase {
     func testPropertiesSingleArgumentPromotion() {
         resolver.register { XYZArgumentService() }
             .resolveProperties { (r, s, a) in
-                XCTAssert(a()!)
-                s.condition = a()!
+                XCTAssert(a[0]!)
+                s.condition = a[0]!
         }
         let service: XYZArgumentService? = resolver.optional(args: true)
         XCTAssertNotNil(service)
