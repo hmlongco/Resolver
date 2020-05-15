@@ -46,7 +46,7 @@ register { (_, arg) in
 }
 ```
 
-## Passing and Hanlding Multiple Arguments
+## Passing and Handling Multiple Arguments
 
 Handling multiple arguments is equally easy, and should be obvious given the subscript syntax you've already seen:
 ```swift
@@ -57,10 +57,12 @@ register { (_, args) in
 Pass the arguments to the Resolver registration factory using the following syntax:
 ```swift
 class ViewController: UIViewController, Resolving {
-lazy var viewModel: XYZViewModel = resolver.resolve(arg0: true, arg1: "Editing")
+    lazy var viewModel: XYZViewModel = resolver.resolve(arg0: true, arg1: "Editing")
 }
 ```
-Resolver supports passing up to eight arguments as `arg0` through `arg7`. Note that arguments are passed postionally, so be careful when passing and unpacking values. If you get a crash, double-check the order of your passed arguments.
+Resolver supports passing up to eight arguments as `arg0` through `arg7`. 
+
+Note that arguments are passed postionally, so be careful when passing and unpacking values. If you get a crash, double-check the order of your passed arguments.
 ## Arguments as Properties
 
 The `editMode` argument passed could also be set on a model as follows:
