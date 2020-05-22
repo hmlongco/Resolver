@@ -293,64 +293,44 @@ extension Resolver {
 
     public struct Args {
 
-        private var args: [Any?] = []
+        private var args: [String:Any?]
 
-        public init(arg0: Any?, arg1: Any? = nil, arg2: Any? = nil, arg3: Any? = nil,
-             arg4: Any? = nil, arg5: Any? = nil, arg6: Any? = nil, arg7: Any? = nil) {
-            args.append(arg0)
-            args.append(arg1)
-            args.append(arg2)
-            args.append(arg3)
-            args.append(arg4)
-            args.append(arg5)
-            args.append(arg6)
-            args.append(arg7)
+        public init(_ args: Any?) {
+            if let args = args as? [String:Any?] {
+                self.args = args
+            } else {
+                self.args = ["" : args]
+             }
         }
 
         #if swift(>=5.2)
-        public func callAsFunction<T>() -> T? {
-            return args[0] as? T
+        public func callAsFunction<T>() -> T {
+            assert(args.count == 1, "argument order indeterminate, use keyed arguments")
+            return (args.first?.value as? T)!
+        }
+
+        public func callAsFunction<T>(_ key: String) -> T {
+            return (args[key] as? T)!
         }
         #endif
 
-        public subscript<T>(index: Int) -> T? {
-            get {
-                guard args.indices.contains(index) else { return nil }
-                return args[index] as? T
-            }
+        public func optional<T>() -> T? {
+            return args.first?.value as? T
         }
-    }
 
-}
+        public func optional<T>(_ key: String) -> T? {
+            return args[key] as? T
+        }
 
-extension Resolver {
+        public func get<T>() -> T {
+            assert(args.count == 1, "argument order indeterminate, use keyed arguments")
+            return (args.first?.value as? T)!
+        }
 
-    public static func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil,
-                                 arg0: Any?, arg1: Any? = nil, arg2: Any? = nil, arg3: Any? = nil,
-                                 arg4: Any? = nil, arg5: Any? = nil, arg6: Any? = nil, arg7: Any? = nil) -> Service {
-        let args = Resolver.Args(arg0: arg0, arg1: arg1, arg2: arg2, arg3: arg3, arg4: arg4, arg5: arg5, arg6: arg6, arg7: arg7)
-        return resolve(type, name: name, args: args)
-    }
-
-    public func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil,
-                                 arg0: Any?, arg1: Any? = nil, arg2: Any? = nil, arg3: Any? = nil,
-                                 arg4: Any? = nil, arg5: Any? = nil, arg6: Any? = nil, arg7: Any? = nil) -> Service {
-        let args = Resolver.Args(arg0: arg0, arg1: arg1, arg2: arg2, arg3: arg3, arg4: arg4, arg5: arg5, arg6: arg6, arg7: arg7)
-        return resolve(type, name: name, args: args)
-    }
-
-    public static func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil,
-                                 arg0: Any?, arg1: Any? = nil, arg2: Any? = nil, arg3: Any? = nil,
-                                 arg4: Any? = nil, arg5: Any? = nil, arg6: Any? = nil, arg7: Any? = nil) -> Service? {
-        let args = Resolver.Args(arg0: arg0, arg1: arg1, arg2: arg2, arg3: arg3, arg4: arg4, arg5: arg5, arg6: arg6, arg7: arg7)
-        return optional(type, name: name, args: args)
-    }
-
-    public func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil,
-                                 arg0: Any?, arg1: Any? = nil, arg2: Any? = nil, arg3: Any? = nil,
-                                 arg4: Any? = nil, arg5: Any? = nil, arg6: Any? = nil, arg7: Any? = nil) -> Service? {
-        let args = Resolver.Args(arg0: arg0, arg1: arg1, arg2: arg2, arg3: arg3, arg4: arg4, arg5: arg5, arg6: arg6, arg7: arg7)
-        return optional(type, name: name, args: args)
+        public func get<T>(_ key: String) -> T {
+            return (args[key] as? T)!
+        }
+        
     }
 
 }
@@ -437,8 +417,7 @@ public class ResolverOptions<Service> {
     fileprivate func mutate(_ service: Service, resolver: Resolver, args: Any?) {
         self.mutator?(resolver, service)
         if let mutatorWithArgumentsN = mutatorWithArgumentsN {
-            let newArguments = args as? Resolver.Args ?? Resolver.Args(arg0: args)
-            mutatorWithArgumentsN(resolver, service, newArguments)
+            mutatorWithArgumentsN(resolver, service, Resolver.Args(args))
         }
     }
 }
@@ -514,8 +493,7 @@ public final class ResolverRegistrationArgumentsN<Service>: ResolverRegistration
     }
 
     public final override func resolve(resolver: Resolver, args: Any?) -> Service? {
-        let resolverArgs = args as? Resolver.Args ?? Resolver.Args(arg0: args)
-        guard let service = factory(resolver, resolverArgs) else {
+        guard let service = factory(resolver, Resolver.Args(args)) else {
             return nil
         }
         mutate(service, resolver: resolver, args: args)
@@ -745,6 +723,7 @@ public struct LazyInjected<Service> {
     private var service: Service!
     public var container: Resolver?
     public var name: String?
+    public var args: Any?
     public init() {}
     public init(name: String? = nil, container: Resolver? = nil) {
         self.name = name
@@ -756,7 +735,7 @@ public struct LazyInjected<Service> {
     public var wrappedValue: Service {
         mutating get {
             if self.service == nil {
-                self.service = container?.resolve(Service.self, name: name) ?? Resolver.resolve(Service.self, name: name)
+                self.service = container?.resolve(Service.self, name: name, args: args) ?? Resolver.resolve(Service.self, name: name, args: args)
             }
             return service
         }
