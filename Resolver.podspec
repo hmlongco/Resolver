@@ -6,10 +6,16 @@ Pod::Spec.new do |s|
   s.license      = "MIT"
   s.author       = "Michael Long"
   s.source       = { :git => "https://github.com/hmlongco/Resolver.git", :tag => "#{s.version}" }
-  s.source_files  = "Classes", "Sources/Resolver/*.swift"
+  s.default_subspec = ['Main', 'SwiftUI']
+  s.subspec 'Main' do |ss|
+     ss.source_files  = "Sources/Resolver/Main/*.swift"
+  end
+  s.subspec 'SwiftUI' do |ss|
+     ss.source_files  = "Sources/Resolver/SwiftUI/*.swift"
+  end
   s.swift_version = '5.1'
 
-  s.ios.deployment_target = "11.0"
+  s.ios.deployment_target = "10.0"
   s.ios.framework  = 'UIKit'
 e
   s.osx.deployment_target = "10.15"

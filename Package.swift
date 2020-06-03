@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Resolver",
     platforms: [
-        .iOS(.v11),
+        .iOS(.v10),
         .macOS(.v10_14),
         .tvOS(.v13),
         .watchOS(.v6)
@@ -16,6 +16,9 @@ let package = Package(
         .library(
             name: "Resolver",
             targets: ["Resolver"]),
+        .library(
+            name: "ResolverSwiftUI",
+            targets: ["ResolverSwiftUI"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -27,6 +30,11 @@ let package = Package(
         .target(
             name: "Resolver",
             dependencies: []),
+            path: "Sources/Resolver/Main"),
+        .target(
+            name: "ResolverSwiftUI",
+            dependencies: [],
+            path: "Sources/Resolver/SwiftUI"),
         .testTarget(
             name: "ResolverTests",
             dependencies: ["Resolver"]),

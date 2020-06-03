@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		4C9BFB0C2357D98800E6FB80 /* ResolverInjectedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9BFB0B2357D98800E6FB80 /* ResolverInjectedTests.swift */; };
+		C282AE662487A0A500EC013F /* Resolver+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C282AE652487A0A500EC013F /* Resolver+SwiftUI.swift */; };
 		OBJ_40 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Resolver.swift */; };
 		OBJ_47 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_58 /* ResolverBasicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ResolverBasicTests.swift */; };
@@ -57,6 +58,7 @@
 
 /* Begin PBXFileReference section */
 		4C9BFB0B2357D98800E6FB80 /* ResolverInjectedTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResolverInjectedTests.swift; sourceTree = "<group>"; };
+		C282AE652487A0A500EC013F /* Resolver+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Resolver+SwiftUI.swift"; sourceTree = "<group>"; };
 		OBJ_12 /* ResolverBasicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverBasicTests.swift; sourceTree = "<group>"; };
 		OBJ_13 /* ResolverClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverClassTests.swift; sourceTree = "<group>"; };
 		OBJ_14 /* ResolverContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverContainerTests.swift; sourceTree = "<group>"; };
@@ -100,6 +102,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C282AE622487A07100EC013F /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_9 /* Resolver.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		C282AE642487A08200EC013F /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				C282AE652487A0A500EC013F /* Resolver+SwiftUI.swift */,
+			);
+			path = SwiftUI;
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,7 +183,8 @@
 		OBJ_8 /* Resolver */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_9 /* Resolver.swift */,
+				C282AE642487A08200EC013F /* SwiftUI */,
+				C282AE622487A07100EC013F /* Main */,
 			);
 			name = Resolver;
 			path = Sources/Resolver;
@@ -257,6 +276,7 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_40 /* Resolver.swift in Sources */,
+				C282AE662487A0A500EC013F /* Resolver+SwiftUI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,7 +363,7 @@
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Resolver.xcodeproj/Resolver_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MARKETING_VERSION = 1.1.2;
@@ -376,7 +396,7 @@
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Resolver.xcodeproj/Resolver_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MARKETING_VERSION = 1.1.2;
