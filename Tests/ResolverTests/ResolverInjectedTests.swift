@@ -50,6 +50,15 @@ class OptionalInjectedViewController {
 class NotRegistered {
 }
 
+class UniqueInjectedViewController {
+    
+    class NetworkServiceSingleton {
+        
+    }
+    
+    @Injected var service: NetworkServiceSingleton
+}
+
 class ResolverInjectedTests: XCTestCase {
 
     override func setUp() {
@@ -116,6 +125,69 @@ class ResolverInjectedTests: XCTestCase {
         let vc = OptionalInjectedViewController()
         XCTAssertNotNil(vc.service)
         XCTAssertNil(vc.notRegistered)
+    }
+    
+    func testApplitionInjected_singletons() {
+        
+        Resolver.defaultScope = Resolver.application
+        Resolver.main = Resolver()
+        
+        // Not changing default behaviour
+        Resolver.register {
+            UniqueInjectedViewController.NetworkServiceSingleton()
+        }
+                
+        let s1: UniqueInjectedViewController.NetworkServiceSingleton = Resolver.resolve()
+        let s2: UniqueInjectedViewController.NetworkServiceSingleton = Resolver.resolve()
+        
+        XCTAssertTrue(s1 === s2)
+    
+        let vc1 = UniqueInjectedViewController()
+        let vc2 = UniqueInjectedViewController()
+        
+        XCTAssertTrue(vc1.service === vc2.service)
+    }
+    
+    func testGraphInjected_nosignletons() {
+        
+        Resolver.defaultScope = Resolver.graph
+        Resolver.main = Resolver()
+        
+        // Not changing default behaviour
+        Resolver.register {
+            UniqueInjectedViewController.NetworkServiceSingleton()
+        }
+        
+        let s1: UniqueInjectedViewController.NetworkServiceSingleton = Resolver.resolve()
+        let s2: UniqueInjectedViewController.NetworkServiceSingleton = Resolver.resolve()
+        
+        XCTAssertTrue(s1 !== s2)
+        
+        let vc1 = UniqueInjectedViewController()
+        let vc2 = UniqueInjectedViewController()
+        
+        XCTAssertTrue(vc1.service !== vc2.service)
+    }
+    
+    func testCachedInjected_signletons() {
+        
+        Resolver.defaultScope = Resolver.cached
+        Resolver.main = Resolver()
+        
+        // Not changing default behaviour
+        Resolver.register {
+            UniqueInjectedViewController.NetworkServiceSingleton()
+        }
+        
+        let s1: UniqueInjectedViewController.NetworkServiceSingleton = Resolver.resolve()
+        let s2: UniqueInjectedViewController.NetworkServiceSingleton = Resolver.resolve()
+        
+        XCTAssertTrue(s1 === s2)
+        
+        let vc1 = UniqueInjectedViewController()
+        let vc2 = UniqueInjectedViewController()
+        
+        XCTAssertTrue(vc1.service === vc2.service)
     }
 }
 
