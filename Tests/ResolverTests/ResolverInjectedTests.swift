@@ -50,14 +50,20 @@ class OptionalInjectedViewController {
 class NotRegistered {
 }
 
-class UniqueInjectedViewController {
+class ViewControllerWithNetworkService {
     
-    class NetworkServiceSingleton {
-        
-    }
+    class NetworkServiceSingleton {}
     
     @Injected var service: NetworkServiceSingleton
 }
+
+protocol InjectedProtocol: class {}
+
+class Controller {
+    @Injected var serviceUnique: InjectedProtocol
+}
+
+class NetworkService: InjectedProtocol {}
 
 class ResolverInjectedTests: XCTestCase {
 
@@ -78,6 +84,7 @@ class ResolverInjectedTests: XCTestCase {
     }
 
     override func tearDown() {
+        Resolver.defaultScope = Resolver.graph
         super.tearDown()
     }
 
@@ -131,19 +138,20 @@ class ResolverInjectedTests: XCTestCase {
         
         Resolver.defaultScope = Resolver.application
         Resolver.main = Resolver()
+        Resolver.root = Resolver.main
         
         // Not changing default behaviour
         Resolver.register {
-            UniqueInjectedViewController.NetworkServiceSingleton()
+            ViewControllerWithNetworkService.NetworkServiceSingleton()
         }
                 
-        let s1: UniqueInjectedViewController.NetworkServiceSingleton = Resolver.resolve()
-        let s2: UniqueInjectedViewController.NetworkServiceSingleton = Resolver.resolve()
+        let s1: ViewControllerWithNetworkService.NetworkServiceSingleton = Resolver.resolve()
+        let s2: ViewControllerWithNetworkService.NetworkServiceSingleton = Resolver.resolve()
         
         XCTAssertTrue(s1 === s2)
     
-        let vc1 = UniqueInjectedViewController()
-        let vc2 = UniqueInjectedViewController()
+        let vc1 = ViewControllerWithNetworkService()
+        let vc2 = ViewControllerWithNetworkService()
         
         XCTAssertTrue(vc1.service === vc2.service)
     }
@@ -152,19 +160,20 @@ class ResolverInjectedTests: XCTestCase {
         
         Resolver.defaultScope = Resolver.graph
         Resolver.main = Resolver()
+        Resolver.root = Resolver.main
         
         // Not changing default behaviour
         Resolver.register {
-            UniqueInjectedViewController.NetworkServiceSingleton()
+            ViewControllerWithNetworkService.NetworkServiceSingleton()
         }
         
-        let s1: UniqueInjectedViewController.NetworkServiceSingleton = Resolver.resolve()
-        let s2: UniqueInjectedViewController.NetworkServiceSingleton = Resolver.resolve()
+        let s1: ViewControllerWithNetworkService.NetworkServiceSingleton = Resolver.resolve()
+        let s2: ViewControllerWithNetworkService.NetworkServiceSingleton = Resolver.resolve()
         
         XCTAssertTrue(s1 !== s2)
         
-        let vc1 = UniqueInjectedViewController()
-        let vc2 = UniqueInjectedViewController()
+        let vc1 = ViewControllerWithNetworkService()
+        let vc2 = ViewControllerWithNetworkService()
         
         XCTAssertTrue(vc1.service !== vc2.service)
     }
@@ -173,21 +182,50 @@ class ResolverInjectedTests: XCTestCase {
         
         Resolver.defaultScope = Resolver.cached
         Resolver.main = Resolver()
+        Resolver.root = Resolver.main
         
         // Not changing default behaviour
         Resolver.register {
-            UniqueInjectedViewController.NetworkServiceSingleton()
+            ViewControllerWithNetworkService.NetworkServiceSingleton()
         }
         
-        let s1: UniqueInjectedViewController.NetworkServiceSingleton = Resolver.resolve()
-        let s2: UniqueInjectedViewController.NetworkServiceSingleton = Resolver.resolve()
+        let s1: ViewControllerWithNetworkService.NetworkServiceSingleton = Resolver.resolve()
+        let s2: ViewControllerWithNetworkService.NetworkServiceSingleton = Resolver.resolve()
         
         XCTAssertTrue(s1 === s2)
         
-        let vc1 = UniqueInjectedViewController()
-        let vc2 = UniqueInjectedViewController()
+        let vc1 = ViewControllerWithNetworkService()
+        let vc2 = ViewControllerWithNetworkService()
         
         XCTAssertTrue(vc1.service === vc2.service)
+    }
+    
+    func testInjectedProtocolApplication_singletons() {
+        
+        Resolver.defaultScope = Resolver.application
+        Resolver.main = Resolver()
+        Resolver.root = Resolver.main
+        
+        Resolver.register { NetworkService() }.implements(InjectedProtocol.self)
+        
+        let c1 = Controller()
+        let c2 = Controller()
+        
+        XCTAssertTrue(c1.serviceUnique === c2.serviceUnique)
+    }
+    
+    func testInjectedProtocolUnique_no_singletons() {
+        
+        Resolver.defaultScope = Resolver.unique
+        Resolver.main = Resolver()
+        Resolver.root = Resolver.main
+        
+        Resolver.register { NetworkService() }.implements(InjectedProtocol.self)
+        
+        let c1 = Controller()
+        let c2 = Controller()
+        
+        XCTAssertTrue(c1.serviceUnique !== c2.serviceUnique)
     }
 }
 
