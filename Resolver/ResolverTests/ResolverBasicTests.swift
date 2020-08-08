@@ -30,7 +30,7 @@ class ResolverBasicTests: XCTestCase {
 
     func testRegistrationAndInferedResolution() {
         resolver.register { XYZSessionService() }
-        let session: XYZSessionService? = resolver.resolve() as XYZSessionService
+        let session: XYZSessionService? = resolver.resolve() as? XYZSessionService
         XCTAssertNotNil(session)
     }
 
