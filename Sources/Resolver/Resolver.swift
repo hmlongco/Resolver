@@ -47,7 +47,7 @@ public protocol Resolving {
 
 extension Resolving {
     public var resolver: Resolver {
-        return Resolver.root
+        return Resolver.main
     }
 }
 
@@ -59,9 +59,6 @@ public final class Resolver {
 
     /// Default registry used by the static Registration functions.
     public static var main: Resolver = Resolver()
-    /// Default registry used by the static Resolution functions and by the Resolving protocol.
-    public static var root: Resolver = main
-    /// Default scope applied when registering new objects.
     public static var defaultScope: ResolverScope = Resolver.graph
 
     // MARK: - Lifecycle
@@ -81,7 +78,7 @@ public final class Resolver {
     private static var registerServicesBlock: (() -> Void) = { () in
         pthread_mutex_lock(&Resolver.registrationMutex)
         defer { pthread_mutex_unlock(&Resolver.registrationMutex) }
-        if Resolver.registerServices != nil, let registering = (Resolver.root as Any) as? ResolverRegistering {
+        if Resolver.registerServices != nil, let registering = (Resolver.main as Any) as? ResolverRegistering {
             type(of: registering).registerAllServices()
         }
         Resolver.registerServices = nil
@@ -92,7 +89,6 @@ public final class Resolver {
         pthread_mutex_lock(&Resolver.registrationMutex)
         defer { pthread_mutex_unlock(&Resolver.registrationMutex) }
         main = Resolver()
-        root = main
         registerServices = registerServicesBlock
     }
 
@@ -202,7 +198,7 @@ public final class Resolver {
     /// - returns: Instance of specified Service.
     public static func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
         Resolver.registerServices?() // always check initial registrations first in case registerAllServices swaps root
-        return root.resolve(type, name: name, args: args)
+        return main.resolve(type, name: name, args: args)
     }
 
     /// Resolves and returns an instance of the given Service type from the current registry or from its
@@ -232,7 +228,7 @@ public final class Resolver {
     ///
     public static func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service? {
         Resolver.registerServices?() // always check initial registrations first in case registerAllServices swaps root
-        return root.optional(type, name: name, args: args)
+        return main.optional(type, name: name, args: args)
     }
 
     /// Resolves and returns an optional instance of the given Service type from the current registry or
