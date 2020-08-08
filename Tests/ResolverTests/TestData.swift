@@ -9,13 +9,6 @@
 import Foundation
 import Resolver
 
-extension Resolver: ResolverRegistering {
-    public static func registerAllServices() {
-        register { XYZSessionService() }
-        register { XYZService( optional() ) }
-    }
-}
-
 class XYZViewModel {
 
     var editMode = true

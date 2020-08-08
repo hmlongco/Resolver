@@ -36,10 +36,6 @@ import Foundation
 
 // swiftlint:disable file_length
 
-public protocol ResolverRegistering {
-    static func registerAllServices()
-}
-
 /// The Resolving protocol is used to make the Resolver registries available to a given class.
 public protocol Resolving {
     var resolver: Resolver { get }
@@ -76,14 +72,13 @@ public final class Resolver {
     }
 
     /// Called by the Resolution functions to perform one-time initialization of the Resolver registries.
+    /// You should sett this if you want your services to be call register once on startup.
     public static var registerServices: (() -> Void)? = registerServicesBlock
 
     private static var registerServicesBlock: (() -> Void) = { () in
         pthread_mutex_lock(&Resolver.registrationMutex)
         defer { pthread_mutex_unlock(&Resolver.registrationMutex) }
-        if Resolver.registerServices != nil, let registering = (Resolver.root as Any) as? ResolverRegistering {
-            type(of: registering).registerAllServices()
-        }
+        Resolver.registerServices?()
         Resolver.registerServices = nil
     }
 

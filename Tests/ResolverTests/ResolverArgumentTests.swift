@@ -15,6 +15,11 @@ class ResolverArgumentTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
+        Resolver.registerServices = {
+            Resolver.register { XYZSessionService() }
+            Resolver.register { XYZService( Resolver.optional() ) }
+        }
+
         resolver = Resolver()
     }
     
