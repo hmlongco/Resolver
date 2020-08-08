@@ -701,9 +701,56 @@ public struct Injected<Service> {
     public init() {
         self.service = Resolver.resolve(Service.self)
     }
+    
+    /// Will pass data to the factory to resolve instance
+    /// - Parameters:
+    ///   - data: data to be used to initiate the object
+    ///   - name: required when you register for both type with and without arguments. By default ` \(Service.self)DataArgument` is used. Register with the same name.
+    public init(data: Data, name: String = "\(Service.self)DataArgument") {
+        self.service = Resolver.resolve(Service.self, name: name, args: data)
+    }
+    
+    /// Will pass arguments to factory to resolve instance
+    ///
+    /// # discussion
+    ///
+    /// You could extend Injected to allow type safe arguments to be passed
+    ///
+    /// ```swift
+    ///
+    /// extension Injected {
+    ///    init(foo: Foo) {
+    ///        self.init(arguments: foo)
+    ///    }
+    /// }
+    /// ```
+    ///
+    ///  Registration should then include the name parameter
+    ///
+    ///  ```swift
+    ///  Resolver.register(Foo.self, name: "\(Foo.self)Arguments") { (resolver, arguments) in
+    ///    do {
+    ///       guard let foo = arguments as? Foo else {
+    ///          throw "arguments should be of type Foo"
+    ///       }
+    ///
+    ///       return foo
+    ///    } catch {
+    ///       fatalError("\(error)")
+    ///    }
+    ///  }
+    ///  ```
+    /// - Parameters:
+    ///   - arguments: arguments to be passed to factory
+    ///   - name: required when you register for both type with and without arguments. By default ` \(Service.self)Arguments` is used. Register with the same name.
+    public init(arguments: Any?, name: String = "\(Service.self)Arguments") {
+        self.service = Resolver.resolve(Service.self, name: name, args: arguments)
+    }
+    
     public init(name: String? = nil, container: Resolver? = nil) {
         self.service = container?.resolve(Service.self, name: name) ?? Resolver.resolve(Service.self, name: name)
     }
+    
     public var wrappedValue: Service {
         get { return service }
         mutating set { service = newValue }
