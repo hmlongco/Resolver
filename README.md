@@ -2,6 +2,31 @@
 
 An ultralight Dependency Injection / Service Locator framework for Swift 5.2 on iOS.
 
+```swift
+protocol Identifiable {
+    var identifier: String
+}
+class User: Identifiable {
+    var identifier: String
+}
+
+class ViewModel {
+    @Injected var user: User // can be private/public or simply internal
+}
+
+class AppDelegate {
+    init() {
+        Resolver.defaultScope = Resolver.application // will make sure everything is a signleton as long as application runs
+        Resolver.registerServices = {
+            Resolver.register { User(identifier: "itsMe") } // singleton will be used everywhere you add @Injected to a type User
+        }
+    }
+}
+
+```
+
+The above code will share an instance of the `User` that is a signleton. So the code `print(ViewModel().user.identifier)` would print 'itsMe' everwhere it is `@Injected`.
+
 ## Introduction
 
 Dependency Injection frameworks support the [Inversion of Control](https://en.wikipedia.org/wiki/Inversion_of_control) design pattern. Technical definitions aside, dependency injection pretty much boils down to:
