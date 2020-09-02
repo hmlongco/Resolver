@@ -232,7 +232,7 @@ extension Resolver {
 
         #if DEBUG
         register { XYZMockSessionService() as XYZSessionService }
-        #end
+        #endif
     }
 }
 ```
@@ -248,8 +248,8 @@ And both MyViewController and XYZViewModel are none the wiser.
 Same for unit testing. Add something like the following to the unit test code.
 
 ```
-let data = ["name":"Mike", "developer":true]
-register { XYZTestSessionService(data) as XYZSessionService }
+let data: [String : Any] = ["name":"Mike", "developer":true]
+Resolver.register { XYZTestSessionService(data) as XYZSessionService }
 let viewModel: XYZViewModel = Resolver.resolve()
 ```
 
@@ -257,8 +257,8 @@ Now your unit and integration tests for XYZViewModel as using XYZTestSessionServ
 
 Do it again.
 ```
-let data = ["name":"Boss", "developer":false]
-register { XYZTestSessionService(data) as XYZSessionService }
+let data: [String : Any] = ["name":"Boss", "developer":false]
+Resolver.register { XYZTestSessionService(data) as XYZSessionService }
 let viewModel: XYZViewModel = Resolver.resolve()
 ```
 
