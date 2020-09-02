@@ -232,7 +232,7 @@ extension Resolver {
 
         #if DEBUG
         register { XYZMockSessionService() as XYZSessionService }
-        #end
+        #endif
     }
 }
 ```
