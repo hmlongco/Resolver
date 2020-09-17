@@ -280,9 +280,9 @@ public final class Resolver {
     private let NONAME = "*"
     private let parent: Resolver?
     
+    private let isolationQueue = DispatchQueue(label: "resolver.isolationQueue", attributes: .concurrent)
     // internal, don't use `_registrations` directly
     private var _registrations = [Int : [String : Any]]()
-    private let isolationQueue = DispatchQueue(label: "resolver.isolationQueue", attributes: .concurrent)
     private var registrations: [Int : [String : Any]] {
         set {
             isolationQueue.async(flags: .barrier) {
