@@ -279,7 +279,21 @@ public final class Resolver {
 
     private let NONAME = "*"
     private let parent: Resolver?
-    private var registrations = [Int : [String : Any]]()
+    
+    // internal, don't use `_registrations` directly
+    private var _registrations = [Int : [String : Any]]()
+    private let isolationQueue = DispatchQueue(label: "resolver.isolationQueue", attributes: .concurrent)
+    private var registrations: [Int : [String : Any]] {
+        set {
+            isolationQueue.async(flags: .barrier) {
+                self._registrations = newValue
+            }
+        }            
+        get {
+            return isolationQueue.sync { _registrations }
+        }
+    }
+
     private static var registrationMutex: pthread_mutex_t = {
         var mutex = pthread_mutex_t()
         pthread_mutex_init(&mutex, nil)
