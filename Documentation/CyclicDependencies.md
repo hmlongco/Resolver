@@ -59,11 +59,11 @@ class ClassC {
 ```
 With a registration scheme almost identical to the first case...
 ```
-register { ClassA() }
-    .resolveProperties { (_, a) in
-        a.b.a = a
+register { ClassP() }
+    .resolveProperties { (_, p) in
+        p.c.p = p
     }
-register { ClassB() }
+register { ClassC() }
 ```
 Once more the parent class has a reference to its child, and the child obtains a weak reference back to its shared parent.
 
@@ -85,7 +85,7 @@ register { ClassC() }
 ```
 The parent class has a reference to its child, and the child obtains a reference back to its shared parent. Bing. Problem solved.
 
-**This may seem straightforward, but we've also created a strong reference cycle between ClassA and ClassB.**
+**This may seem straightforward, but we've also created a strong reference cycle between ClassP and ClassC.**
 
 As a general rule, you don't want to do this, but you should note that it's in fact possble to break the cycle by releasing the lazilly instantiated object manually at some point in your code.
 
