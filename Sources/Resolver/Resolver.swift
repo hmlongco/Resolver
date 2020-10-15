@@ -662,6 +662,7 @@ public struct OptionalInjected<Service> {
 ///
 /// Wrapped dependent service is resolved immediately using Resolver.root upon struct initialization.
 ///
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 @propertyWrapper
 public struct InjectedObject<Service>: DynamicProperty where Service: ObservableObject {
@@ -680,4 +681,5 @@ public struct InjectedObject<Service>: DynamicProperty where Service: Observable
         return self.$service
     }
 }
+#endif
 #endif
