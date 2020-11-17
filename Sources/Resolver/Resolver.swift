@@ -580,7 +580,7 @@ public extension UIViewController {
 #if swift(>=5.1)
 /// Immediate injection property wrapper.
 ///
-/// Wrapped dependent service is resolved immediately using Resolver.root upon struct initialization.
+/// Wrapped dependent service is resolved immediately using `Resolver.root` upon struct initialization.
 ///
 @propertyWrapper
 public struct Injected<Service> {
@@ -601,7 +601,7 @@ public struct Injected<Service> {
     }
 }
 
-/// Lazy injection property wrapper. Note that mbedded container and name properties will be used if set prior to service instantiation.
+/// Lazy injection property wrapper. Note that embedded container and name properties will be used if set prior to service instantiation.
 ///
 /// Wrapped dependent service is not resolved until service is accessed.
 ///
@@ -636,6 +636,10 @@ public struct LazyInjected<Service> {
     }
 }
 
+/// Optional injection property wrapper.
+///
+/// Wrapped dependent service is resolved immediately using Resolver.root upon struct initialization. If the service is not registered, then the value will be nil, otherwise it will be not nil.
+///
 @propertyWrapper
 public struct OptionalInjected<Service> {
     private var service: Service?
