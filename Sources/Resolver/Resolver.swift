@@ -659,6 +659,79 @@ public struct OptionalInjected<Service> {
     }
 }
 
+/// Wrapper that hold the weak value
+internal final class WeakObject<T: AnyObject> {
+    private(set) weak var value: T?
+    init(_ v: T) {
+        value = v
+    }
+}
+
+/// Weak injection property wrapper.
+///
+/// Wrapped dependent service is resolved immediately using `Resolver.root` upon struct initialization. The resolved service will be store as `weak var`,  hence preventing retain cycle.
+///
+@propertyWrapper
+public struct WeakInjected<Service> where Service: AnyObject {
+    private var weakObjectService: WeakObject<Service>
+    public init() {
+        self.weakObjectService = WeakObject(Resolver.resolve(Service.self))
+    }
+    public init(name: String? = nil, container: Resolver? = nil) {
+        self.weakObjectService = WeakObject(container?.resolve(Service.self, name: name) ?? Resolver.resolve(Service.self, name: name))
+    }
+    public var wrappedValue: Service? {
+        get { return weakObjectService.value }
+        mutating set {
+            if let newValue = newValue {
+                weakObjectService = WeakObject(newValue)
+            }
+        }
+    }
+    public var projectedValue: WeakInjected<Service> {
+        get { return self }
+        mutating set { self = newValue }
+    }
+}
+
+/// Lazy weak injection property wrapper. Note that embedded container and name properties will be used if set prior to service instantiation.
+///
+/// Wrapped dependent service is not resolved until service is accessed. The resolved service will be store as `weak var`,  hence preventing retain cycle.
+///
+@propertyWrapper
+public struct LazyWeakInjected<Service> where Service: AnyObject {
+    private var weakObjectService: WeakObject<Service>?
+    public var container: Resolver?
+    public var name: String?
+    public init() {}
+    public init(name: String? = nil, container: Resolver? = nil) {
+        self.name = name
+        self.container = container
+    }
+    public var wrappedValue: Service? {
+        mutating get {
+            if self.weakObjectService == nil {
+                self.weakObjectService = WeakObject(container?.resolve(Service.self, name: name) ?? Resolver.resolve(Service.self, name: name))
+            }
+            return self.weakObjectService?.value
+        }
+        mutating set {
+            if let newValue = newValue {
+                weakObjectService = WeakObject(newValue)
+            } else {
+                weakObjectService = nil
+            }
+        }
+    }
+    public var projectedValue: LazyWeakInjected<Service> {
+        get { return self }
+        mutating set { self = newValue }
+    }
+    public mutating func release() {
+        self.weakObjectService = nil
+    }
+}
+
 /// Immediate injection property wrapper for SwiftUI ObservableObjects. This wrapper is meant for use in SwiftUI Views and exposes
 /// bindable objects similar to that of SwiftUI @observedObject and @environmentObject.
 ///
