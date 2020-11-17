@@ -35,6 +35,23 @@ class LazyInjectedViewController {
     @LazyInjected var service: XYZService
 }
 
+class WeakInjectedHolder {
+    @Injected var service: ABCService
+}
+
+class WeakInjectedNotHolder {
+    @WeakInjected var service: ABCService?
+}
+
+class LazyWeakInjectedViewController {
+    let name = "LazyWeakInjectedViewController"
+    @Injected var presenter: LazyWeakInjectedPresenter
+}
+
+class LazyWeakInjectedPresenter {
+    @LazyWeakInjected var viewController: LazyWeakInjectedViewController?
+}
+
 class OptionalInjectedViewController {
     @OptionalInjected var service: XYZService?
     @OptionalInjected var notRegistered: NotRegistered?
@@ -50,6 +67,8 @@ class ResolverInjectedTests: XCTestCase {
 
         Resolver.main.register { XYZSessionService() }
         Resolver.main.register { XYZService(Resolver.main.optional()) }
+        
+        Resolver.main.register { ABCService() }.scope(Resolver.shared)
 
         Resolver.main.register(name: "fred") { XYZNameService("fred") }
         Resolver.main.register(name: "barney") { XYZNameService("barney") }
@@ -92,6 +111,27 @@ class ResolverInjectedTests: XCTestCase {
         XCTAssertNotNil(vc.service.session)
         XCTAssert(!vc.$service.isEmpty)
     }
+    
+    func testWeakInjection() {
+        var vcHolder: WeakInjectedHolder? = WeakInjectedHolder()
+        let vcWeak = WeakInjectedNotHolder()
+        XCTAssertNotNil(vcWeak.service?.name)
+        vcHolder = nil
+        XCTAssertNil(vcWeak.service)
+    }
+    
+    func testLazyWeakInjection() {
+        Resolver.main.register { LazyWeakInjectedViewController() }.scope(Resolver.shared)
+        Resolver.main.register { LazyWeakInjectedPresenter() }.scope(Resolver.shared)
+        //
+        var vc: LazyWeakInjectedViewController? = Resolver.main.resolve(LazyWeakInjectedViewController.self)
+        let presenter = Resolver.main.resolve(LazyWeakInjectedPresenter.self)
+        XCTAssert(presenter.$viewController.isEmpty)
+        XCTAssertNotNil(presenter.viewController?.name)
+        vc = nil
+        XCTAssertNil(presenter.viewController)
+    }
+
     
     func testOptionalInjection() {
         let vc = OptionalInjectedViewController()

@@ -708,6 +708,9 @@ public struct LazyWeakInjected<Service> where Service: AnyObject {
         self.name = name
         self.container = container
     }
+    public var isEmpty: Bool {
+        return weakObjectService == nil
+    }
     public var wrappedValue: Service? {
         mutating get {
             if self.weakObjectService == nil {

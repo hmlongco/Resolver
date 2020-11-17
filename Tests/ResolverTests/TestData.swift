@@ -63,6 +63,10 @@ class XYZService {
     }
 }
 
+class ABCService {
+    var name: String { return "ABCService" }
+}
+
 class XYZGraphService {
     let session1: XYZSessionService?
     let session2: XYZSessionService?
