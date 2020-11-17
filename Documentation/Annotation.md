@@ -37,6 +37,39 @@ class NamedInjectedViewController: UIViewController {
 
 Note that LazyInjected is a mutating property wrapper. As such it can only be used in class instances or in structs when the struct is mutable.
 
+### Weak Injection and LazyWeakInjection
+
+Resolver also has a WeakInjected property wrapper. Unlike using Injected, weak injected service are not stored into the target object using a strong reference.
+
+```swift
+class NamedInjectedViewController: UIViewController {
+    // service won't create a retain cycle
+    @LazyWeakInjected var service: XYZNameService?
+    func load() {
+        service?.load()
+    }
+}
+```
+
+Moreover, Resolver also has a LazyWeakInjected property wrapper, which combine WeakInjected and LazyInjected.
+Unlike using Injected, lazily weak, injected services are not resolved until the code attempts to access the wrapped service and are not stored into the target object using a strong reference.
+
+```swift
+class NamedInjectedViewController: UIViewController {
+    @Injected var presenter: NamedInjectedPresenter?
+    func load() {
+        service.load() // service will be resolved at this point in time
+    }
+}
+
+class NamedInjectedPresenter {
+    // viewController won't create a retain cycle
+    @LazyWeakInjected var viewController: NamedInjectedViewController?
+}
+```
+
+Note that LazyInjected is a mutating property wrapper. As such it can only be used in class instances or in structs when the struct is mutable.
+
 ### Named injection
 
 You can use named service resolution using the `name` property wrapper initializer as shown below.

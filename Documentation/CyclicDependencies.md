@@ -100,7 +100,9 @@ register { ClassC() }
 
 The parent class has a reference to its child, and the child obtains a reference back to its shared parent. Bing. Problem solved.
 
-**This may seem straightforward, but we've also created a strong reference cycle between ClassA and ClassB.**
+**This may seem straightforward, but we've also created a strong reference cycle between ClassP and ClassC.**
+
+**Notes 📝**: there is now a `WeakInjected` that can be used to inject `ClassP`in `ClassC`without creating cycles.
 
 As a general rule, you don't want to do this, but you should note that it's in fact possible to break the cycle by releasing the lazily instantiated object manually at some point in your code.
 
@@ -111,3 +113,29 @@ extension ClassC {
     }
 }
 ```
+
+## Weak Injection and Lazy Weak Injection
+
+To solve the previous problem, you can also use weak injection.
+
+```swift
+class ClassP {
+    @Injected var c: ClassC
+}
+
+class ClassC {
+    @LazyWeakInjected var p: ClassP?
+}
+```
+
+With registration like...
+
+```swift
+register { ClassP() }
+register { ClassC() }
+```
+
+The parent class has a reference to its child, and the child obtains a weak reference back to its shared parent (the reference itself is a strong reference to a internal box object `WeakObject` that itself holds a weak reference to the value `ClassC`).
+Weak injection is solving memory retain cycle while lazy injection is solving dependency cycle.
+
+Bing. Problem solved.
