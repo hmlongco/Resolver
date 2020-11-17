@@ -1,4 +1,4 @@
-#  Resolver: Scopes
+# Resolver: Scopes
 
 ## What's a scope, and why do I want one?
 
@@ -6,11 +6,11 @@ Scopes are used to control the lifecycle of a given object instance.
 
 Resolver has five built-in scopes:
 
-* [Application](#application)
-* [Cached](#cached)
-* [Graph](#graph) (default)
-* [Shared](#shared)
-* [Unique](#unique)
+- [Application](#application)
+- [Cached](#cached)
+- [Graph](#graph) (default)
+- [Shared](#shared)
+- [Unique](#unique)
 
 All scopes, with the exception of `unique`, are basically caches, and those caches are used to keep track of the objects they create.
 
@@ -65,9 +65,9 @@ var viewModel: XYZViewModel = resolver.resolve()
 
 When the call to `resolve` is made, Resolver needs to create an instance of `XYZViewModel`, so it locates and calls the proper factory. That factory is happy to comply, but in order to make a XYZViewModel it's first going to need to resolve all of that object's initialization parameters.
 
-This starts with `fetcher`, which ultimately resolves to `XYZCombinedService`, so the `XYZCombinedService` factory is called to create one. This instance is returned and it's *also* cached in the current object graph.
+This starts with `fetcher`, which ultimately resolves to `XYZCombinedService`, so the `XYZCombinedService` factory is called to create one. This instance is returned and it's _also_ cached in the current object graph.
 
-The next parameter is an `updater`, which coincidentally for this example *also* resolves to `XYZCombinedService`.
+The next parameter is an `updater`, which coincidentally for this example _also_ resolves to `XYZCombinedService`.
 
 But since we've already resolved `XYZCombinedService` once during this cycle, the cached instance will be returned as the parameter for `updater`.
 
@@ -79,7 +79,7 @@ If you don't want this behavior, and if every request should get its own `unique
 
 ## Scope: Shared<a name=shared></a>
 
-This scope stores a *weak* reference to the resolved instance.
+This scope stores a _weak_ reference to the resolved instance.
 
 ```
 main.register { MyViewModel() }

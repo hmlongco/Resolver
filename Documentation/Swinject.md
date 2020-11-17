@@ -1,3 +1,3 @@
-#  Resolver vs. Swinject
+# Resolver vs. Swinject
 
 Not yet written.

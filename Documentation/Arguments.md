@@ -1,4 +1,4 @@
-#  Resolver: Arguments
+# Resolver: Arguments
 
 ## Passing arguments to a registration factory
 

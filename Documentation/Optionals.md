@@ -1,4 +1,4 @@
-#  Resolver: Optionals
+# Resolver: Optionals
 
 ## Why the expected result is not the expected result
 
@@ -55,10 +55,11 @@ This could be helpful if for some reason you wanted to resolve to a specific ins
 var abc: ABCServicing? = Resolver.resolve(ABCService.self)
 ```
 
-##  Optional annotation
+## Optional annotation
 
 An annotation is available that supports optional resolving. If the service is not registered, then the value will be nil, otherwise it will be not nil:
-```
+
+```swift
 class InjectedViewController: UIViewController {
     @OptionalInjected var service: XYZService?
     func load() {

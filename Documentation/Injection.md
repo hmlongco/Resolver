@@ -1,4 +1,4 @@
-#  Resolver: Injection Strategies
+# Resolver: Injection Strategies
 
 ## Terminology
 
@@ -11,7 +11,7 @@ There are five primary ways of performing dependency injection using Resolver:
 5. [Service Locator](#locator)
 6. [Annotation](#annotation) (NEW)
 
-The names and numbers come from the *Inversion of Control* design pattern. For a more thorough discussion, see the classic arcticle by [Martin Fowler](https://martinfowler.com/articles/injection.html).
+The names and numbers come from the _Inversion of Control_ design pattern. For a more thorough discussion, see the classic article by [Martin Fowler](https://martinfowler.com/articles/injection.html).
 
 Here I'll simply provide a brief description and an example of implementing each using Resolver.
 
@@ -23,7 +23,7 @@ The first injection technique is to define a interface for the injection, and in
 
 #### The Class
 
-```
+```swift
 class XYZViewModel {
 
     lazy var fetcher: XYZFetching = getFetcher()
@@ -38,7 +38,7 @@ class XYZViewModel {
 
 #### The Dependency Injection Code
 
-```
+```swift
 extension XYZViewModel: Resolving {
     func getFetcher() -> XYZFetching { return resolver.resolve() }
     func getService() -> XYZService { return resolver.resolve() }
@@ -54,13 +54,13 @@ Note that you still want to call `resolve()` within `getFetcher()` and `getServi
 
 #### Pros
 
-* Lightweight.
-* Hides dependency injection system from class.
-* Useful for classes like UIViewController where you don't have access during the initialization process.
+- Lightweight.
+- Hides dependency injection system from class.
+- Useful for classes like UIViewController where you don't have access during the initialization process.
 
 #### Cons
 
-* Writing an accessor function for every service that needs to be injected.
+- Writing an accessor function for every service that needs to be injected.
 
 ## <a name=property></a>2. Property Injection
 
@@ -85,7 +85,7 @@ class XYZViewModel {
 
 #### The Dependency Injection Code
 
-```
+```swift
 func setupMyRegistrations {
     register { XYZViewModel() }
         .resolveProperties { (resolver, model) in
@@ -103,14 +103,14 @@ func setupMyRegistrations {
 
 #### Pros
 
-* Clean.
-* Also fairly lightweight.
+- Clean.
+- Also fairly lightweight.
 
 #### Cons
 
-* Exposes internals as public variables.
-* Harder to ensure that an object has been given everything it needs to do its job.
-* More work on the registration side of the fence.
+- Exposes internals as public variables.
+- Harder to ensure that an object has been given everything it needs to do its job.
+- More work on the registration side of the fence.
 
 ## <a name=constructor></a>3. Constructor Injection
 
@@ -120,7 +120,7 @@ A Constructor is the Java term for a Swift Initializer, but the idea is the same
 
 #### The Class
 
-```
+```swift
 class XYZViewModel {
 
     private var fetcher: XYZFetching
@@ -141,7 +141,7 @@ class XYZViewModel {
 
 #### The Dependency Injection Code
 
-```
+```swift
 func setupMyRegistrations {
     register { XYZViewModel(fetcher: resolve(), service: resolve()) }
     register { XYZFetcher() as XYZFetching }
@@ -151,26 +151,26 @@ func setupMyRegistrations {
 
 #### Pros
 
-* Ensures that the object has everything it needs to do its job, as the object can't be constructed otherwise.
-* Hides dependencies as private or internal.
-* Less code needed for the registration factory.
+- Ensures that the object has everything it needs to do its job, as the object can't be constructed otherwise.
+- Hides dependencies as private or internal.
+- Less code needed for the registration factory.
 
 #### Cons
 
-* Requires object to have initializer with all parameters needed.
-* More boilerplace code needed in the object initializer to transfer parameters to object properties.
+- Requires object to have initializer with all parameters needed.
+- More boilerplate code needed in the object initializer to transfer parameters to object properties.
 
 ## <a name=method></a>4. Method Injection
 
 #### Definition
 
-This is listed for competeness, even though it's not a pattern that uses Resolver directly.
+This is listed for completeness, even though it's not a pattern that uses Resolver directly.
 
 Method Injection is pretty much what it says, injecting the object needed into a given method.
 
 #### The Class
 
-```
+```swift
 class XYZViewModel {
 
     func load(fetcher: XYZFetching, service: XYZFetching) -> Data {
@@ -186,12 +186,12 @@ You've already seen it. In the load function, the service object is passed into 
 
 #### Pros
 
-* Allows callers to configure the behavior of a method on the fly.
-* Allows callers to construct their own behaviors and pass them into the method.
+- Allows callers to configure the behavior of a method on the fly.
+- Allows callers to construct their own behaviors and pass them into the method.
 
 #### Cons
 
-* Exposes those behaviors to all of the classes that use it.
+- Exposes those behaviors to all of the classes that use it.
 
 #### Note
 
@@ -207,7 +207,7 @@ Technically, Service Locator is its own Design Pattern, distinct from Dependency
 
 #### The Class
 
-```
+```swift
 class XYZViewModel {
 
     var fetcher: XYZFetching = Resolver.resolve()
@@ -222,7 +222,7 @@ class XYZViewModel {
 
 #### The Dependency Injection Code
 
-```
+```swift
 func setupMyRegistrations {
     register { XYZFetcher() as XYZFetching }
     register { XYZService() }
@@ -231,12 +231,12 @@ func setupMyRegistrations {
 
 #### Pros
 
-* Less code.
-* Useful for classes like UIViewController where you don't have access during the initialization process.
+- Less code.
+- Useful for classes like UIViewController where you don't have access during the initialization process.
 
 #### Cons
 
-* Exposes the dependency injection system to all of the classes that use it.
+- Exposes the dependency injection system to all of the classes that use it.
 
 ## <a name=annotation></a>6. Annotation
 
@@ -246,7 +246,7 @@ Annotation uses comments or other metadata to indication that dependency injecti
 
 #### The Class
 
-```
+```swift
 class XYZViewModel {
 
     @Injected var fetcher: XYZFetching
@@ -261,7 +261,7 @@ class XYZViewModel {
 
 #### The Dependency Injection Code
 
-```
+```swift
 func setupMyRegistrations {
     register { XYZFetcher() as XYZFetching }
     register { XYZService() }
@@ -270,14 +270,14 @@ func setupMyRegistrations {
 
 #### Pros
 
-* Less code.
-* Hides the specifics of the injection system. One could easily make an Injected property wrapper to support any DI system.
-* Useful for classes like UIViewController where you don't have access during the initialization process.
+- Less code.
+- Hides the specifics of the injection system. One could easily make an Injected property wrapper to support any DI system.
+- Useful for classes like UIViewController where you don't have access during the initialization process.
 
 #### Cons
 
-* Exposes the fact that a dependency injection system is used.
+- Exposes the fact that a dependency injection system is used.
 
-## Additonal Resources
+## Additional Resources
 
 This just skims the surface. For a more in-depth look at the pros and cons, see: [Inversion of Control Containers and the Dependency Injection pattern ~ Martin Fowler](https://martinfowler.com/articles/injection.html).

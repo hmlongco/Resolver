@@ -1,4 +1,4 @@
-#  Resolver: Protocols
+# Resolver: Protocols
 
 ### Registering a protocol
 
@@ -12,7 +12,7 @@ main.register { XYZCombinedService() as XYZFetching }
 
 Here, we're registering how to get an object that implements the XYZFetching protocol.
 
-The registration factory is *creating* an object of type `XYZCombinedService`, but it's *returning* a type of `XYZFetching`, and that's what's being registered.
+The registration factory is _creating_ an object of type `XYZCombinedService`, but it's _returning_ a type of `XYZFetching`, and that's what's being registered.
 
 ### Registering an object with multiple protocols
 
@@ -45,13 +45,13 @@ In the second line you're asking Resolver to again resolve a XYZCombinedService 
 
 The last line registers how to make an XYZCombinedService().
 
-Now, both the XYZFetching and XYZUpdating protocols are tied to the same object, and given the default [graph scope](Scopes.md), only one instance of XYZCombinedService will be constructed during a specific [resolution cycle](Cycle.md) when both protocols are resovled.
+Now, both the XYZFetching and XYZUpdating protocols are tied to the same object, and given the default [graph scope](Scopes.md), only one instance of XYZCombinedService will be constructed during a specific [resolution cycle](Cycle.md) when both protocols are resolved.
 
 ### Protocols sharing the same instance across resolution cycles
 
 The preceding example shares `XYZCombinedService` during a given [resolution cycle](Cycle.md).
 
-But what if we want any instance of `XYZFetching` or `XYZUpdating` to *always* share the same instance?
+But what if we want any instance of `XYZFetching` or `XYZUpdating` to _always_ share the same instance?
 
 ```swift
 main.register { XYZCombinedService() }

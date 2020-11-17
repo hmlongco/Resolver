@@ -1,4 +1,4 @@
-#  Resolver: Resolving
+# Resolver: Resolving
 
 ## Resolve using Resolver
 
@@ -10,7 +10,7 @@ class MyViewController: UIViewController {
 }
 ```
 
-Used in this fashion, Resolver is acting as a *Service Locator*.
+Used in this fashion, Resolver is acting as a _Service Locator_.
 
 There are pros and cons to the Service Locator approach, the primary two being writing less code vs having your view controllers and other objects "know" about about your Service Locator (i.e. Resolver.)
 
@@ -34,7 +34,6 @@ Implementing the Resolving protocol injects the default Resolver into that class
 
 All resolution methods available in Resolver (e.g. `resolve()`, `optional()`) are available from the injected variable.
 
-
 ## Resolve using Interface Injection
 
 If you're a bit more of a Dependency Injection purist, you can wrap Resolver as follows.
@@ -47,7 +46,7 @@ extension MyViewController: Resolving {
 }
 ```
 
-And now the code contained in  `MyViewController` becomes:
+And now the code contained in `MyViewController` becomes:
 
 ```swift
 class MyViewController: UIViewController {
@@ -57,7 +56,7 @@ class MyViewController: UIViewController {
 
 All the view controller knows is that a function was provided that gives it the view model that it wants.
 
-Note that we're using an injected function to set our variable. It's *possbile* to do:
+Note that we're using an injected function to set our variable. It's _possible_ to do:
 
 ```swift
 extension MyViewController: Resolving {
@@ -79,7 +78,7 @@ class MyViewController: UIViewController, Resolving {
 }
 ```
 
-This will generate a Swift compiler error: *Cannot use instance member 'resolver' within property initializer; property initializers run before 'self' is available.*
+This will generate a Swift compiler error: _Cannot use instance member 'resolver' within property initializer; property initializers run before 'self' is available._
 
 Or to put it another way, Swift can't use variables or call functions before all variables are known to be initialized. Adding `lazy` fixes the problem, and also gives us the flexibility to do things like the following:
 
@@ -111,9 +110,8 @@ Note the second line of code. You should also remember that Explicitly Unwrapped
 
 [Read more about Optionals.](Optionals.md)
 
-
 ## ResolverStoryboard
 
-You can also have Resolver *automatically* resolve view controllers instantiated from Storyboards. (Well, automatically from the view controller's standpoint, anyway.)
+You can also have Resolver _automatically_ resolve view controllers instantiated from Storyboards. (Well, automatically from the view controller's standpoint, anyway.)
 
 [See: Storyboard support.](Storyboards.md)

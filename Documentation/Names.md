@@ -1,4 +1,4 @@
-#  Resolver: Named Instances
+# Resolver: Named Instances
 
 ## Why name a registration?
 
@@ -18,7 +18,6 @@ The first line registers a String named `appKey`.
 The factory in the second line resolves a String parameter named `appKey`, and passes it to the `XYZSessionService` initialization function.
 
 This is a good way to get authentication keys, application keys, and other values to the objects that need them.
-
 
 ## Example: Mocking Data
 
@@ -60,7 +59,6 @@ register(name: "edit") { XYZViewModelEditing() as XYZViewModelProtocol }
 Here we're registering two instances of the same protocol, `XYZViewModelProtocol`.
 
 But one view model appears to be specific to adding things, while the other's behavior leans more towards editing.
-
 
 ```swift
 class ViewController: UIViewController, Resolving {

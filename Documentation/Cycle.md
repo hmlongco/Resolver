@@ -65,4 +65,4 @@ MyViewController doesn't know the internals of XYZViewModel, nor does it know ab
 
 Nor does it need to. It simply asks Resolver for an instance of type T, and Resolver complies.
 
-This chain of events is known as a *Resolution Cycle*.
+This chain of events is known as a _Resolution Cycle_.

@@ -1,4 +1,4 @@
-#  Resolver: Annotation
+# Resolver: Annotation
 
 Another common Dependency Injection strategy is annotation: adding comments or other metadata to the code which indicates that the following service needs to be resolved by the dependency injection system.
 
@@ -13,6 +13,7 @@ class BasicInjectedViewController: UIViewController {
     @Injected var service: XYZService
 }
 ```
+
 Just add the Injected property wrapper and your dependencies will be resolved automatically and instantiated immediately, ready and waiting for use.
 
 **Note that you still need to [register](Registration.md) any class or classes that you need to resolve.**
@@ -21,10 +22,11 @@ Also note that as long as you compile with Swift 5.1, **property wrappers work o
 
 The Injected property wrapper will automatically instantiate objects using the current Resolver root container, exactly as if you'd done `var service: XYZService = Resolver.resolve()`. See instructions below on how to specify a different container.
 
-###  Lazy Injection
+### Lazy Injection
 
 Resolver also has a LazyInjected property wrapper. Unlike using Injected, lazily injected services are not resolved until the code attempts to access the wrapped service.
-```
+
+```swift
 class NamedInjectedViewController: UIViewController {
     @LazyInjected var service: XYZNameService
     func load() {
@@ -32,19 +34,22 @@ class NamedInjectedViewController: UIViewController {
     }
 }
 ```
+
 Note that LazyInjected is a mutating property wrapper. As such it can only be used in class instances or in structs when the struct is mutable.
 
 ### Named injection
 
-You can use named service resolution using the `name`  property wrapper initializer as shown below.
+You can use named service resolution using the `name` property wrapper initializer as shown below.
 
-```
+```swift
 class NamedInjectedViewController: UIViewController {
     @Injected(name: "fred") var service: XYZNameService
 }
 ```
+
 You can also update the name in code and 'on the fly' using @LazyInjected.
-```
+
+```swift
 class NamedInjectedViewController: UIViewController {
     @LazyInjected var service: XYZNameService
     var which: Bool
@@ -54,12 +59,14 @@ class NamedInjectedViewController: UIViewController {
     }
 }
 ```
-If you go this route just make sure you specify the name *before* accessing the injected service for the first time.
 
-###  Optional injection
+If you go this route just make sure you specify the name _before_ accessing the injected service for the first time.
+
+### Optional injection
 
 An annotation is available that supports optional resolving. If the service is not registered, then the value will be nil, otherwise it will be not nil:
-```
+
+```swift
 class InjectedViewController: UIViewController {
     @OptionalInjected var service: XYZService?
     func load() {
@@ -72,19 +79,23 @@ class InjectedViewController: UIViewController {
 
 You can specify and resolve custom containers using Injected. Just define your custom container...
 
-```
+```swift
 extension Resolver {
     static var custom = Resolver()
 }
 ```
+
 And specify it as part of the Injected property wrapper initializer.
-```
+
+```swift
 class ContainerInjectedViewController: UIViewController {
     @Injected(container: .custom) var service: XYZNameService
 }
 ```
+
 As with named injection, with LazyInjected you can also dynamically specifiy the desired container.
-```
+
+```swift
 class NamedInjectedViewController: UIViewController {
     @LazyInjected var service: XYZNameService
     var which: Bool

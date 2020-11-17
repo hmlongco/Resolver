@@ -1,12 +1,13 @@
-#  Resolver: Storyboards
+# Resolver: Storyboards
 
 NOTE: As of Swift 5.1, we can now perform annotation using Property Wrappers. (See [Annotation](https://github.com/hmlongco/Resolver/blob/master/Documentation/Annotation.md).)
 
-```
+```swift
 class MyViewController: UIViewController {
     @Injected var viewModel: XYZViewModel
 }
 ```
+
 I highly recommend this approach over the other methods shown below.
 
 ## Property Injection
@@ -15,16 +16,17 @@ Resolver supports automatic UIViewController property injection using the Storyb
 
 Let's assume the following view controller, which needs a XYZViewModel in order to function.
 
-```
+```swift
 class MyViewController: UIViewController {
     var viewModel: XYZViewModel!
 }
 ```
+
 ### Step 1: Add the resolution factory method.
 
 Add the following to your section's [xxxxx+Injection.swift file](Registration.md#files):
 
-```
+```swift
 extension MyViewController: StoryboardResolving {
     func resolveViewController(_ resolver: Resolver) {
         self.viewModel = resolver.optional()
@@ -32,7 +34,7 @@ extension MyViewController: StoryboardResolving {
 }
 ```
 
-Note that we're using `.optional()` here, since XYZViewModel is an *ImplicitlyUnwrappedOptional*.
+Note that we're using `.optional()` here, since XYZViewModel is an _ImplicitlyUnwrappedOptional_.
 
 ### Step 2: Tell the Storyboard that your view controller needs to be resolved.
 
@@ -50,15 +52,15 @@ From its perspective, all of its properties just magically appear, ready and wai
 
 Add the following to your section's [xxxxx+Injection.swift file](Registration.md#files):
 
-```
+```swift
 extension MyViewController: Resolving {
     func makeViewModel() -> XYZViewModel { return resolver.resolve() }
 }
 ```
 
-And now the code contained in  `MyViewController` becomes:
+And now the code contained in `MyViewController` becomes:
 
-```
+```swift
 class MyViewController: UIViewController {
     lazy var viewModel = makeViewModel()
 }
@@ -74,7 +76,7 @@ Some Dependency Injection systems like [SwinjectStoryboard](https://github.com/S
 
 Here's the equivalent Step 1 code in SwinjectStoryboard.
 
-```
+```swift
 extension SwinjectStoryboard {
     class func setupMyStoryboard() {
         defaultContainer.storyboardInitCompleted(MyViewController.self) { (r, vc: MyViewController) in

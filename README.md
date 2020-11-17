@@ -8,7 +8,7 @@ Dependency Injection frameworks support the [Inversion of Control](https://en.wi
 
 | **Giving an object the things it needs to do its job.**
 
-That's it. Dependency injection allows us to write code that's loosely coupled, and as such, easier to reuse, to mock, and  to test.
+That's it. Dependency injection allows us to write code that's loosely coupled, and as such, easier to reuse, to mock, and to test.
 
 For more, see: [A Gentle Introduction to Dependency Injection.](https://github.com/hmlongco/Resolver/blob/master/Documentation/Introduction.md)
 
@@ -35,21 +35,22 @@ class BasicInjectedViewController: UIViewController {
     @LazyInjected var service2: XYZLazyService
 }
 ```
+
 Just add the Injected keyword and your dependencies will be resolved automatically. See the [Annotation](https://github.com/hmlongco/Resolver/blob/master/Documentation/Annotation.md) documentation for more on this and other strategies.
 
 ## Features
 
 Resolver is implemented in just over 300 lines of actual code, but it packs a ton of features into those 300 lines.
 
-* [Automatic Type Inference](https://github.com/hmlongco/Resolver/blob/master/Documentation/Types.md)
-* [Scopes: Application, Cached, Graph, Shared, and Unique](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md)
-* [Protocols](https://github.com/hmlongco/Resolver/blob/master/Documentation/Protocols.md)
-* [Optionals](https://github.com/hmlongco/Resolver/blob/master/Documentation/Optionals.md)
-* [Named Instances](https://github.com/hmlongco/Resolver/blob/master/Documentation/Names.md)
-* [Argument Passing](https://github.com/hmlongco/Resolver/blob/master/Documentation/Arguments.md)
-* [Custom Containers & Nested Containers](https://github.com/hmlongco/Resolver/blob/master/Documentation/Containers.md)
-* [Cyclic Dependency Support](https://github.com/hmlongco/Resolver/blob/master/Documentation/CyclicDependencies.md)
-* [Storyboard Support](https://github.com/hmlongco/Resolver/blob/master/Documentation/Storyboards.md)
+- [Automatic Type Inference](https://github.com/hmlongco/Resolver/blob/master/Documentation/Types.md)
+- [Scopes: Application, Cached, Graph, Shared, and Unique](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md)
+- [Protocols](https://github.com/hmlongco/Resolver/blob/master/Documentation/Protocols.md)
+- [Optionals](https://github.com/hmlongco/Resolver/blob/master/Documentation/Optionals.md)
+- [Named Instances](https://github.com/hmlongco/Resolver/blob/master/Documentation/Names.md)
+- [Argument Passing](https://github.com/hmlongco/Resolver/blob/master/Documentation/Arguments.md)
+- [Custom Containers & Nested Containers](https://github.com/hmlongco/Resolver/blob/master/Documentation/Containers.md)
+- [Cyclic Dependency Support](https://github.com/hmlongco/Resolver/blob/master/Documentation/CyclicDependencies.md)
+- [Storyboard Support](https://github.com/hmlongco/Resolver/blob/master/Documentation/Storyboards.md)
 
 TLDR: If nothing else, make sure you read about [Automatic Type Inference](https://github.com/hmlongco/Resolver/blob/master/Documentation/Types.md), [Scopes](https://github.com/hmlongco/Resolver/blob/master/Documentation/Scopes.md), and [Optionals](https://github.com/hmlongco/Resolver/blob/master/Documentation/Optionals.md).
 
@@ -64,9 +65,11 @@ Using Resolver is a simple, three-step process:
 ## Installation
 
 Resolver supports CocoaPods and the Swift Package Manager.
+
 ```swift
 pod "Resolver"
 ```
+
 Resolver itself is just a single source file (Resolver.swift), so it's also easy to simply download the file and add it to your project.
 
 Note that the current version of Resolver (1.1) supports Swift 5.1 and that the minimum version of iOS currently supported with this release is iOS 11.
@@ -83,30 +86,30 @@ And unlike some other systems, Resolver is written in 100% Swift 5, with no Obje
 
 Further, Resolver:
 
-* Is tested in production code.
-* Is thread safe (assuming your objects are thread safe).
-* Has a complete set of unit tests.
-* Is well-documented.
+- Is tested in production code.
+- Is thread safe (assuming your objects are thread safe).
+- Has a complete set of unit tests.
+- Is well-documented.
 
-Finally, with  [Automatic Type Inference](https://github.com/hmlongco/Resolver/blob/master/Documentation/Types.md) you also tend to write about 40-60% less dependency injection code using Resolver.
+Finally, with [Automatic Type Inference](https://github.com/hmlongco/Resolver/blob/master/Documentation/Types.md) you also tend to write about 40-60% less dependency injection code using Resolver.
 
 ## Author
 
 Resolver was designed, implemented, and documented by [Michael Long](https://www.linkedin.com/in/hmlong/), a Senior Lead iOS engineer at [CRi Solutions](https://www.clientresourcesinc.com/solutions/). CRi is a leader in developing cutting edge iOS, Android, and mobile web applications and solutions for our corporate and financial clients.
 
-* Email: [mlong@clientresourcesinc.com](mailto:mlong@clientresourcesinc.com)
-* Twitter: @hmlco
+- Email: [mlong@clientresourcesinc.com](mailto:mlong@clientresourcesinc.com)
+- Twitter: @hmlco
 
 ## License
 
 Resolver is available under the MIT license. See the LICENSE file for more info.
 
-## Additional Resouces
+## Additional Resources
 
-* [API Documentation](https://hmlongco.github.io/Resolver/Documentation/API/Classes/Resolver.html)
-* [Inversion of Control Design Pattern ~ Wikipedia](https://en.wikipedia.org/wiki/Inversion_of_control)
-* [Inversion of Control Containers and the Dependency Injection pattern ~ Martin Fowler](https://martinfowler.com/articles/injection.html)
-* [Nuts and Bolts of Dependency Injection in Swift](https://cocoacasts.com/nuts-and-bolts-of-dependency-injection-in-swift/)\
-* [Dependency Injection in Swift](https://cocoacasts.com/dependency-injection-in-swift)
-* [SwinjectStoryboard](https://github.com/Swinject/SwinjectStoryboard)
-* [Swift 5.1 Takes Dependency Injection to the Next Level](https://medium.com/better-programming/taking-swift-dependency-injection-to-the-next-level-b71114c6a9c6)
+- [API Documentation](https://hmlongco.github.io/Resolver/Documentation/API/Classes/Resolver.html)
+- [Inversion of Control Design Pattern Wikipedia](https://en.wikipedia.org/wiki/Inversion_of_control)
+- [Inversion of Control Containers and the Dependency Injection pattern ~ Martin Fowler](https://martinfowler.com/articles/injection.html)
+- [Nuts and Bolts of Dependency Injection in Swift](https://cocoacasts.com/nuts-and-bolts-of-dependency-injection-in-swift/)\
+- [Dependency Injection in Swift](https://cocoacasts.com/dependency-injection-in-swift)
+- [SwinjectStoryboard](https://github.com/Swinject/SwinjectStoryboard)
+- [Swift 5.1 Takes Dependency Injection to the Next Level](https://medium.com/better-programming/taking-swift-dependency-injection-to-the-next-level-b71114c6a9c6)
