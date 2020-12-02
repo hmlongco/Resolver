@@ -35,6 +35,13 @@ class LazyInjectedViewController {
     @LazyInjected var service: XYZService
 }
 
+class LazyInjectedArgumentsViewController {
+    @LazyInjected var service: XYZArgumentService
+    init() {
+        $service.args = ["condition": true, "string": "betty"]
+    }
+}
+
 class OptionalInjectedViewController {
     @OptionalInjected var service: XYZService?
     @OptionalInjected var notRegistered: NotRegistered?
@@ -54,6 +61,10 @@ class ResolverInjectedTests: XCTestCase {
         Resolver.main.register(name: "fred") { XYZNameService("fred") }
         Resolver.main.register(name: "barney") { XYZNameService("barney") }
 
+        Resolver.main.register { (_, args) in
+            XYZArgumentService(condition: args("condition"), string: args("string"))
+        }
+        
         Resolver.custom.register { XYZNameService("custom") }
     }
 
@@ -92,7 +103,15 @@ class ResolverInjectedTests: XCTestCase {
         XCTAssertNotNil(vc.service.session)
         XCTAssert(!vc.$service.isEmpty)
     }
-    
+
+    func testLazyInjectionArguments() {
+        let vc = LazyInjectedArgumentsViewController()
+        XCTAssert(vc.$service.isEmpty)
+        XCTAssertNotNil(vc.service)
+        XCTAssert(vc.service.condition == true)
+        XCTAssert(vc.service.string == "betty")
+    }
+
     func testOptionalInjection() {
         let vc = OptionalInjectedViewController()
         XCTAssertNotNil(vc.service)

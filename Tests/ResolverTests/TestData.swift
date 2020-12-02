@@ -101,6 +101,15 @@ class XYZValueService {
     }
 }
 
+class XYZArgumentService {
+    var condition: Bool
+    var string: String
+    init(condition: Bool = false, string: String = "Barney") {
+        self.condition = condition
+        self.string = string
+    }
+}
+
 struct XYZValue {
     let id = UUID()
     var name: String { return "XYZValueService" }
