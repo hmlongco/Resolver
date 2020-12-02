@@ -1,4 +1,4 @@
-# Resolver 1.2 ![icon](https://user-images.githubusercontent.com/709283/32858974-cce8282a-ca12-11e7-944b-c8046156290b.png)
+# Resolver ![icon](https://user-images.githubusercontent.com/709283/32858974-cce8282a-ca12-11e7-944b-c8046156290b.png)
 
 An ultralight Dependency Injection / Service Locator framework for Swift 5.2 on iOS.
 
@@ -11,6 +11,14 @@ Dependency Injection frameworks support the [Inversion of Control](https://en.wi
 That's it. Dependency injection allows us to write code that's loosely coupled, and as such, easier to reuse, to mock, and  to test.
 
 For more, see: [A Gentle Introduction to Dependency Injection.](./Documentation/Introduction.md)
+
+## Resolver 1.2 Changes
+
+Note that Resolver 1.2 changed how arguments are passed to the registration factory order to provide better support for passing and handling both single and multiple arguments. 
+
+This is, unfortunately, a breaking change to Resolver 1.1.X, but as the end result is much cleaner code I think it's worth it. 
+
+See: [Passing and Handling Multiple Arguments](./Documentation/Arguments.md#multiple)
 
 ## Dependency Injection Strategies
 

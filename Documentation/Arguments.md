@@ -41,7 +41,7 @@ register { (_, args) in
 }
 ```
 
-## Passing and Handling Multiple Arguments
+## Passing and Handling Multiple Arguments<a name=multiple></a>
 
 Handling multiple arguments is done simply by passing a dictionary to Resolver.
 
