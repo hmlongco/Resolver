@@ -19,7 +19,7 @@ class CyclicC {
 
 It's a problem. For one thing, you can't create an object A that depends on B that depends on C that depends on A strictly via  object initializers. It's impossible. Class A needs a B be to be constructed, which needs a C, which needs an A... but our orignal A hasn't even been constructed yet becuase it's still waiting on its parameters. In short, we have a classic cyclic dependency.
 
-If you've read about [scopes](Scopes.md), you might think that the default  `graph` scope could be the solution to our problem... But the graph isn't magic, and it suffers from the same fundamental issue: any object in the graph can be reused and referenced... but in order for an object to be in the graph it has to be instantiated... but it can't be instantiated, because it has a dependency.
+If you've read about [scopes](Scopes.md), you might think that the default  `graph` scope could be the solution to our problem. But the graph isn't magic, and it suffers from the same fundamental issue: any object in the graph can be reused and referenced... but in order for an object to be in the graph it has to be instantiated... but the objects above can't be instantiated, because they have dependencies...
 
 It's a classic "chicken and the egg" situation.
 
@@ -31,9 +31,12 @@ So if we can't just ignore the problem, how do we solve it?
 
 ## The Code
 
-Let's start by breaking the problem down into two parts: We have to be able to instantiate a chain of objects. And then we'll go back and fix up the cyclic dependencies.
+If you stop and consider the problem, you'll ultimately realize that we're going to need a two pronged approach: 
 
-We'll define our classes as follows:
+1. We have to be able to create some chain of objects that *can in fact* be instantiated. 
+2. Then, once we have all of the pieces to our puzzle, we can go back and fix up the cyclic dependencies.
+
+Let's start by defining our classes as follows:
 
 ```swift
 class CyclicA {
@@ -54,26 +57,45 @@ class CyclicC {
     weak var a: CyclicA?
 }
 ```
-A needs a B, and B needs a C. C also wants to be able to talk an A, but we'll handle that later. Note that C's reference back to A is weak and optional so we won't create reference cycles in ARC. This is a classic parent/child relationship in ARC.
+A needs a B, and B needs a C. C also wants to be able to talk an A, but we'll handle that later. For the moment, however, note that C's reference back to A will be weak and optional so we won't create reference cycles in ARC. This is a classic parent/child relationship in ARC.
 
-Now, we already know how to make an A that contains a B and a B with a C.
+Now, we already know how to use Resolver to make an A that contains a B and a B with a C.
 ```swift
 register { CyclicA(resolve()) }
 register { CyclicB(resolve()) }
 register { CyclicC() }
 ```
-But how do we resolve the cyclic dependency? The trick is to use Resolver's `resolveProperties` modifier on CyclicA.
+But how do we resolve the cyclic dependency? 
+
+The trick is to use Resolver's `resolveProperties` modifier on CyclicA.
 ```swift
 register { CyclicA(resolve()) }
     .resolveProperties { (r, a) in
         r.resolve(CyclicC.self).a = a
     }
 ```
-So in the final process A wants a B, and B wants a C... which is resolved and passed to B, B is resolved and passed to A, A is finally instantiated... *and then* we simply tell C about A. Note that C still exists in the dependency graph for this resolution cycle, so it's available to be resolved without specifying any additional scopes.
+This may seem counter-intuitive at first. I want to fix up C, so why isn't the `resolveProperties` modifier on C? 
 
-This may appear to violate a rule where class A appears to know about the internals of class C, but in reality **class A** knows no such thing. The *dependency system* knows about class C, but then again, that's its job. The *dependency injection code* manages these sorts of dependencies for us so that the  *application code* is unaware of them. 
+Think about it. A needs a B, and B needs a C. So when I resolve C my instance for A *doesn't exist yet*. Hence using `resolveProperties` on C would accomplish nothing, since there's nothing in the graph to resolve.
 
-It doesn't know nor should it care.
+So in the final process we see that A needs a B, and B needs a C... which is resolved and passed to B, B is resolved and passed to A, A is finally instantiated... *and then* we simply tell C about A. Note that C still exists in the dependency graph for this resolution cycle, so it's available to be resolved without specifying any additional scopes.
+
+This could also be accomplished as follows...
+
+```swift
+register { CyclicA(resolve()) }
+    .resolveProperties { (r, a) in
+        a.b.c.a = a
+    }
+```
+
+Looking at the code, one might in fact question both of these approaches: Should class A be rumaging around in the internals of class C? 
+
+Well, from a traditional software development perspective, the answer is a simple straightforward NO! Separation of concerns and all that.
+
+But when you come right down to it, the **code in class A** isn't doing anything like that. The *dependency system* knows about class C, but then again, that's its job. The *dependency injection code* manages these sorts of dependencies for us so that the  *application code* is unaware of them. 
+
+It doesn't know nor should it care. 
 
 ## Using Injected
 One can also do this with the current version of Resolver and its new @Injected property wrapper. Here's a typical parent/child relationship.
