@@ -750,6 +750,42 @@ public struct LazyInjected<Service> {
     }
 }
 
+/// Weak lazy injection property wrapper. Note that mbedded container and name properties will be used if set prior to service instantiation.
+///
+/// Wrapped dependent service is not resolved until service is accessed.
+///
+@propertyWrapper
+public struct WeakLazyInjected<Service:AnyObject> {
+    private weak var service: Service?
+    public var container: Resolver?
+    public var name: String?
+    public var args: Any?
+    public init() {}
+    public init(name: String? = nil, container: Resolver? = nil) {
+        self.name = name
+        self.container = container
+    }
+    public var isEmpty: Bool {
+        return service == nil
+    }
+    public var wrappedValue: Service? {
+        mutating get {
+            if self.service == nil {
+                self.service = container?.resolve(Service.self, name: name, args: args) ?? Resolver.resolve(Service.self, name: name, args: args)
+            }
+            return service
+        }
+        mutating set { service = newValue  }
+    }
+    public var projectedValue: WeakLazyInjected<Service> {
+        get { return self }
+        mutating set { self = newValue }
+    }
+    public mutating func release() {
+        self.service = nil
+    }
+}
+
 @propertyWrapper
 public struct OptionalInjected<Service> {
     private var service: Service?

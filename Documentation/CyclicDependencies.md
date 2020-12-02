@@ -1,54 +1,83 @@
 # Resolver: Cyclic Dependencies
 
-There are times when our objects have cyclic depenencies. Object A depends on object B, which in turn needs a reference back to object A. 
+There are times when our objects have cyclic depenencies. Object A depends on object B, which depends on object C, which in turn needs a reference back to object A. 
 
-```
-class ClassA {
-    var b: ClassB
+```swift
+class CyclicA {
+    var b: CyclicB
 }
 
-class ClassB {
-    weak var a: ClassA?
+class CyclicB {
+    var c: CyclicC
 }
-```
-Note that B's reference back to A is weak so we don't create reference cycles in ARC.
 
-How do we solve this injection problem in Resolver?
+class CyclicC {
+    var a: CyclicA
+}
+
+```
+
+It's a problem. For one thing, you can't create an object A that depends on B that depends on C that depends on A strictly via  object initializers. It's impossible. Class A needs a B be to be constructed, which needs a C, which needs an A... but our orignal A hasn't even been constructed yet becuase it's still waiting on its parameters. In short, we have a classic cyclic dependency.
+
+If you've read about [scopes](Scopes.md), you might think that the default  `graph` scope could be the solution to our problem... But the graph isn't magic, and it suffers from the same fundamental issue: any object in the graph can be reused and referenced... but in order for an object to be in the graph it has to be instantiated... but it can't be instantiated, because it has a dependency.
+
+It's a classic "chicken and the egg" situation.
+
+In general, I try to avoid situations (and architectures) that create circular dependencies. They're problematic and if you're not careful they can easily lead to retain cycles. 
+
+But they do still pop up from time to time, especially in architectures like VIPER. 
+
+So if we can't just ignore the problem, how do we solve it?
 
 ## The Code
 
-Let's start by defining our classes as follows:
+Let's start by breaking the problem down into two parts: We have to be able to instantiate a chain of objects. And then we'll go back and fix up the cyclic dependencies.
 
-```
-class ClassA {
-    var b: ClassB
-    init(b: ClassB) {
+We'll define our classes as follows:
+
+```swift
+class CyclicA {
+    var b: CyclicB
+    init(_ b: CyclicB) {
         self.b = b
     }
 }
 
-class ClassB {
-    weak var a: ClassA?
+class CyclicB {
+    var c: CyclicC
+    init(_ c: CyclicC) {
+        self.c = c
+    }
+}
+
+class CyclicC {
+    weak var a: CyclicA?
 }
 ```
-We already know how to make an A that contains a B.
+A needs a B, and B needs a C. C also wants to be able to talk an A, but we'll handle that later. Note that C's reference back to A is weak and optional so we won't create reference cycles in ARC. This is a classic parent/child relationship in ARC.
+
+Now, we already know how to make an A that contains a B and a B with a C.
+```swift
+register { CyclicA(resolve()) }
+register { CyclicB(resolve()) }
+register { CyclicC() }
 ```
-register { ClassA(b: resolve()) }
-register { ClassB() }
-```
-Now all we need to do to resolve the cyclic dependency in registration is use Resolver's `resolveProperties` modifier on ClassA.
-```
-register { ClassA(b: resolve()) }
-    .resolveProperties { (_, a) in
-        a.b.a = a
+But how do we resolve the cyclic dependency? The trick is to use Resolver's `resolveProperties` modifier on CyclicA.
+```swift
+register { CyclicA(resolve()) }
+    .resolveProperties { (r, a) in
+        r.resolve(CyclicC.self).a = a
     }
-register { ClassB() }
 ```
-A is resolved, then B is resolved, then we simply tell B about A.
+So in the final process A wants a B, and B wants a C... which is resolved and passed to B, B is resolved and passed to A, A is finally instantiated... *and then* we simply tell C about A. Note that C still exists in the dependency graph for this resolution cycle, so it's available to be resolved without specifying any additional scopes.
+
+This may appear to violate a rule where class A appears to know about the internals of class C, but in reality **class A** knows no such thing. The *dependency system* knows about class C, but then again, that's its job. The *dependency injection code* manages these sorts of dependencies for us so that the  *application code* is unaware of them. 
+
+It doesn't know nor should it care.
 
 ## Using Injected
-One can also do this with the current version of Resolver and its new property wrapper.
-```
+One can also do this with the current version of Resolver and its new @Injected property wrapper. Here's a typical parent/child relationship.
+```swift
 class ClassP {
     @Injected var c: ClassC
 }
@@ -58,28 +87,28 @@ class ClassC {
 }
 ```
 With a registration scheme almost identical to the first case...
-```
-register { ClassA() }
-    .resolveProperties { (_, a) in
-        a.b.a = a
+```swift
+register { ClassP() }
+    .resolveProperties { (r, p) in
+        r.resolve(ClassC.self).p = p
     }
-register { ClassB() }
+register { ClassC() }
 ```
 Once more the parent class has a reference to its child, and the child obtains a weak reference back to its shared parent.
 
-## Lazy Injection
-One might be tempted to do this using using @LazyInjected on the child class, as the "lazy" aspect on C gives P a chance to fully initialize. We then obtain a reference to the shared parent object when the lazy injection resolution cycle occurs during the first reference to p on the child class.
-```
+## Weak Lazy Injection
+One might be tempted to solve this using using @LazyInjected on the child class, as the "lazy" aspect on C gives P a chance to fully initialize. We then obtain a reference to the shared parent object when the lazy injection resolution cycle occurs during the first reference to p on the child class.
+```swift
 class ClassP {
     @Injected var c: ClassC
 }
 
 class ClassC {
-    @LazyInjected var p: ClassP
+    @LazyInjected var p: ClassP?
 }
 ```
 With registration like...
-```
+```swift
 register { ClassP() }.scope(shared)
 register { ClassC() }
 ```
@@ -87,12 +116,13 @@ The parent class has a reference to its child, and the child obtains a reference
 
 **This may seem straightforward, but we've also created a strong reference cycle between ClassA and ClassB.**
 
-As a general rule, you don't want to do this, but you should note that it's in fact possble to break the cycle by releasing the lazilly instantiated object manually at some point in your code.
+To fix this, use Resolver's latest property wrapper, @WeakLazyInjected.
 
-```
-extension ClassC {
-    func release() {
-        self.$p.release()
-    }
+```swift
+class ClassC {
+    @WeakLazyInjected var p: ClassP?
 }
 ```
+In both cases, note that the registration for `ClassP()` uses `scope(shared)`. This is needed since the lazy injection in class C will occur outside of the graph dependency cycle when `p` is first referenced in the application code.
+
+You can see an actual code sample for these methods in the `ResolverCyclicDependencyTests.swift` unit test.

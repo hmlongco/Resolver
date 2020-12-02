@@ -1,4 +1,4 @@
-# Resolver ![icon](https://user-images.githubusercontent.com/709283/32858974-cce8282a-ca12-11e7-944b-c8046156290b.png)
+# Resolver 1.2 ![icon](https://user-images.githubusercontent.com/709283/32858974-cce8282a-ca12-11e7-944b-c8046156290b.png)
 
 An ultralight Dependency Injection / Service Locator framework for Swift 5.2 on iOS.
 
@@ -33,13 +33,14 @@ Resolver now supports resolving services using the new property wrapper syntax i
 class BasicInjectedViewController: UIViewController {
     @Injected var service: XYZService
     @LazyInjected var service2: XYZLazyService
+    @WeakLazyInjected var service3: XYZAnotherLazyService
 }
 ```
 Just add the Injected keyword and your dependencies will be resolved automatically. See the [Annotation](./Documentation/Annotation.md) documentation for more on this and other strategies.
 
 ## Features
 
-Resolver is implemented in just over 300 lines of actual code, but it packs a ton of features into those 300 lines.
+Resolver is implemented in just over 700 lines of actual code in a single file, but it packs a ton of features into those 700 lines.
 
 * [Automatic Type Inference](./Documentation/Types.md)
 * [Scopes: Application, Cached, Graph, Shared, and Unique](./Documentation/Scopes.md)

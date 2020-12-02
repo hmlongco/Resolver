@@ -75,7 +75,8 @@ extension ResolverCyclicDependencyTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__ResolverCyclicDependencyTests = [
-        ("testStrongCyclicDependencyRegistration", testStrongCyclicDependencyRegistration),
+        ("testCyclicDependencyRegistration", testCyclicDependencyRegistration),
+        ("testInjectedCyclicDependencyRegistration", testInjectedCyclicDependencyRegistration),
     ]
 }
 
