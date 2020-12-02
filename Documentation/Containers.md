@@ -102,7 +102,7 @@ extension Resolver {
 }
 ```
 
-Now, when in DEBUG more, *root* is switched out and points to *mock*. When a service is resolved, **mock will now be searched first.**
+Now, when in DEBUG mode, *root* is switched out and points to *mock*. When a service is resolved, **mock will now be searched first.**
 
 This means that the `XYZSessionService` service we just defined in *mock* will be used over any matching service defined in *main*.  
 

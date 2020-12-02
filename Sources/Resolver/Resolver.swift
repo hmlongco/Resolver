@@ -714,7 +714,7 @@ public struct Injected<Service> {
     }
 }
 
-/// Lazy injection property wrapper. Note that mbedded container and name properties will be used if set prior to service instantiation.
+/// Lazy injection property wrapper. Note that embedded container and name properties will be used if set prior to service instantiation.
 ///
 /// Wrapped dependent service is not resolved until service is accessed.
 ///
@@ -750,7 +750,7 @@ public struct LazyInjected<Service> {
     }
 }
 
-/// Weak lazy injection property wrapper. Note that mbedded container and name properties will be used if set prior to service instantiation.
+/// Weak lazy injection property wrapper. Note that embedded container and name properties will be used if set prior to service instantiation.
 ///
 /// Wrapped dependent service is not resolved until service is accessed.
 ///

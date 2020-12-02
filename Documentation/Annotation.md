@@ -81,6 +81,23 @@ class InjectedViewController: UIViewController {
 }
 ```
 
+### Injection With Protocols
+
+Injecting a protocol works with all of the injection property wrappers.
+```
+protocol Loader {
+    func load()
+}
+
+class InjectedViewController: UIViewController {
+    @njected var loader: Loader
+    func load() {
+        loader.load()
+    }
+}
+```
+Registration of the class providing the protocol instance is performed exactly the same. See [Protocols](Protocols.md) for more.
+
 ### Custom Containers
 
 You can specify and resolve custom containers using Injected. Just define your custom container...
