@@ -44,7 +44,7 @@ Or you can follow the instructions below.
 
 The current version of Resolver targets iOS 11 as the minimum supported SDK. 
 
-If you need iOS 10 or earlier then your best option is to add Resolver directly to your project and remove the property wrapper section from the Resolver source code.  
+If you need iOS 10 or earlier then your best option is to add the Resolver source file directly to your project and remove the property wrapper section from the Resolver source code.  
 
 That's basically everything from the `// Swift Property Wrappers` comment to the end of the file.
 

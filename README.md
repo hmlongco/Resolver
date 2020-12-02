@@ -93,7 +93,7 @@ And unlike some other systems, Resolver is written in 100% Swift 5, with no Obje
 Further, Resolver:
 
 * Is tested in production code.
-* Is thread safe (assuming your objects are thread safe).
+* [Is thread safe (assuming your objects are thread safe).](./Documentation/Threads.md)
 * Has a complete set of unit tests.
 * Is well-documented.
 
