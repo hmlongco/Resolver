@@ -91,4 +91,61 @@ class ResolverContainerTests: XCTestCase {
         XCTAssert(r2?.name == "Resolved")
     }
 
+    func testResolverParentOverrideSpecificNamedServices() {
+
+        resolver1 = Resolver()
+        resolver2 = Resolver(parent: resolver1)
+
+        resolver1.register()             { XYZNameService("Unnamed service") }
+        resolver1.register(name: "Name") { XYZNameService("Overriden named service") }
+        resolver2.register(name: "Name") { XYZNameService("Resolved named service") }
+
+        // should find in resolver in which it was defined
+        let r1: XYZNameService? = resolver1.optional()
+        XCTAssertNotNil(r1)
+        XCTAssert(r1?.name == "Unnamed service")
+
+        let r1Named: XYZNameService? = resolver1.optional(name: "Name")
+        XCTAssertNotNil(r1Named)
+        XCTAssert(r1Named?.name == "Overriden named service")
+
+        // should resolve from child container
+        let r2: XYZNameService? = resolver2.optional()
+        XCTAssertNotNil(r2)
+        XCTAssert(r2?.name == "Unnamed service")
+
+        // should find new registration in parent container that overrides child container
+        let r2Named: XYZNameService? = resolver2.optional(name: "Name")
+        XCTAssertNotNil(r2Named)
+        XCTAssert(r2Named?.name == "Resolved named service")
+    }
+
+    func testResolverParentOverrideSpecificUnnamedServices() {
+
+        resolver1 = Resolver()
+        resolver2 = Resolver(parent: resolver1)
+
+        resolver1.register(name: "Name") { XYZNameService("Named service") }
+        resolver1.register()             { XYZNameService("Overriden unnamed service") }
+        resolver2.register()             { XYZNameService("Resolved unnamed service") }
+
+        // should find in resolver in which it was defined
+        let r1: XYZNameService? = resolver1.optional()
+        XCTAssertNotNil(r1)
+        XCTAssert(r1?.name == "Overriden unnamed service")
+
+        let r1Named: XYZNameService? = resolver1.optional(name: "Name")
+        XCTAssertNotNil(r1Named)
+        XCTAssert(r1Named?.name == "Named service")
+
+        // should find new registration in parent container that overrides child container
+        let r2: XYZNameService? = resolver2.optional()
+        XCTAssertNotNil(r2)
+        XCTAssert(r2?.name == "Resolved unnamed service")
+
+        // should resolve from child container
+        let r2Named: XYZNameService? = resolver2.optional(name: "Name")
+        XCTAssertNotNil(r2Named)
+        XCTAssert(r2Named?.name == "Named service")
+    }
 }

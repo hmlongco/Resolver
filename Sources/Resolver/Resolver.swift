@@ -258,8 +258,8 @@ public final class Resolver {
     /// the supplied type and name.
     private final func lookup<Service>(_ type: Service.Type, name: String) -> ResolverRegistration<Service>? {
         Resolver.registerServices?()
-        if let container = registrations[ObjectIdentifier(Service.self).hashValue] {
-            return container[name] as? ResolverRegistration<Service>
+        if let container = registrations[ObjectIdentifier(Service.self).hashValue], let registration = container[name] {
+            return registration as? ResolverRegistration<Service>
         }
         if let parent = parent, let registration = parent.lookup(type, name: name) {
             return registration
