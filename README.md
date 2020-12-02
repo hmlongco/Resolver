@@ -33,7 +33,7 @@ Resolver now supports resolving services using the new property wrapper syntax i
 class BasicInjectedViewController: UIViewController {
     @Injected var service: XYZService
     @LazyInjected var service2: XYZLazyService
-    @WeakLazyInjected var service3: XYZAnotherLazyService
+    @WeakLazyInjected var service3: XYZAnotherLazyService?
 }
 ```
 Just add the Injected keyword and your dependencies will be resolved automatically. See the [Annotation](./Documentation/Annotation.md) documentation for more on this and other strategies.
