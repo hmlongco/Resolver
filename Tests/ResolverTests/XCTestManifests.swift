@@ -67,6 +67,8 @@ extension ResolverContainerTests {
         ("testResolverDistinctContainersRedux", testResolverDistinctContainersRedux),
         ("testResolverParentContainerOverride", testResolverParentContainerOverride),
         ("testResolverParentContainers", testResolverParentContainers),
+        ("testResolverParentOverrideSpecificNamedServices", testResolverParentOverrideSpecificNamedServices),
+        ("testResolverParentOverrideSpecificUnnamedServices", testResolverParentOverrideSpecificUnnamedServices),
     ]
 }
 
