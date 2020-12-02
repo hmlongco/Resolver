@@ -17,11 +17,18 @@ class ResolverCyclicDependencyTests: XCTestCase {
 
         resolver = Resolver()
         
-        resolver.register {
+        resolver.register(name: "graph") {
             CyclicA(resolver.resolve())
         }
         .resolveProperties { (r, a) in
             r.resolve(CyclicC.self).a = a
+        }
+
+        resolver.register(name: "properties") {
+            CyclicA(resolver.resolve())
+        }
+        .resolveProperties { (r, a) in
+            a.b.c.a = a
         }
 
         resolver.register {
@@ -50,8 +57,17 @@ class ResolverCyclicDependencyTests: XCTestCase {
         super.tearDown()
     }
 
-    func testCyclicDependencyRegistration() {
-        let a: CyclicA = resolver.resolve()
+    func testCyclicDependencyRegistrationViaProperties() {
+        let a: CyclicA = resolver.resolve(name: "properties")
+        XCTAssertNotNil(a)
+        XCTAssertNotNil(a.b)
+        XCTAssertNotNil(a.b.c)
+        XCTAssertNotNil(a.b.c.a)
+        XCTAssert(ObjectIdentifier(a) == ObjectIdentifier(a.b.c.a!))
+    }
+
+    func testCyclicDependencyRegistrationViaGraph() {
+        let a: CyclicA = resolver.resolve(name: "graph")
         XCTAssertNotNil(a)
         XCTAssertNotNil(a.b)
         XCTAssertNotNil(a.b.c)

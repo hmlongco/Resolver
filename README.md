@@ -16,7 +16,7 @@ For more, see: [A Gentle Introduction to Dependency Injection.](./Documentation/
 
 Note that Resolver 1.2 changed how arguments are passed to the registration factory order to provide better support for passing and handling both single and multiple arguments. 
 
-This is, unfortunately, a breaking change to Resolver 1.1.X, but as the end result is much cleaner code I think it's worth it. 
+This is, unfortunately, a breaking change from Resolver 1.1.X, but as the end result is much cleaner code I think it's worth it. If you're *not* using arguments then you should see no issues whatsoever.
 
 See: [Passing and Handling Multiple Arguments](./Documentation/Arguments.md#multiple)
 
