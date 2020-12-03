@@ -66,3 +66,4 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 IDEWorkspaceChecks.plist
+.DS_Store
