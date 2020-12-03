@@ -5,6 +5,10 @@
 * Rewrite argument passing code to support multiple arguments
 * Add @WeakLazyInjected property wrapper
 * Update Cyclic Dependencies and Annotation documentation
+* Fix to build on Linux - PR#75
+* Fix to build dynamically using SPM - PR#71
+* Fix issue with hierarchical containers - PR#50
+* Add tvOS deployment target for Cocoapods - PR#56
 
 ### 1.1.4
 
