@@ -42,9 +42,23 @@ class LazyInjectedArgumentsViewController {
     }
 }
 
+class WeakLazyInjectedParentViewController {
+    @Injected var strongService: WeakXYZService
+}
+
+class WeakLazyInjectedChildViewController {
+    @WeakLazyInjected var weakService: WeakXYZService?
+}
+
 class OptionalInjectedViewController {
     @OptionalInjected var service: XYZService?
     @OptionalInjected var notRegistered: NotRegistered?
+}
+
+class WeakXYZService: XYZService {
+    func returnSomething() -> Bool {
+        return true
+    }
 }
 
 class NotRegistered {
@@ -54,6 +68,8 @@ class ResolverInjectedTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
+
+        Resolver.main.register { WeakXYZService(nil) }.scope(Resolver.shared)
 
         Resolver.main.register { XYZSessionService() }
         Resolver.main.register { XYZService(Resolver.main.optional()) }
@@ -112,10 +128,28 @@ class ResolverInjectedTests: XCTestCase {
         XCTAssert(vc.service.string == "betty")
     }
 
+    func testWParentChildWeakLazyInjectedViewController() {
+        var parent: WeakLazyInjectedParentViewController? = WeakLazyInjectedParentViewController()
+        XCTAssertNotNil(parent?.strongService)
+
+        let child = WeakLazyInjectedChildViewController()
+        XCTAssert(child.$weakService.isEmpty == true)
+        XCTAssert(child.weakService?.returnSomething() == true)
+        XCTAssertNotNil(child.weakService)
+        XCTAssert(child.$weakService.isEmpty == false)
+
+        parent = nil
+        XCTAssert(child.$weakService.isEmpty == true)
+        XCTAssertNil(parent?.strongService)
+        XCTAssertNil(child.weakService)
+    }
+
     func testOptionalInjection() {
         let vc = OptionalInjectedViewController()
         XCTAssertNotNil(vc.service)
         XCTAssertNil(vc.notRegistered)
+        vc.service = nil
+        XCTAssertNil(vc.service)
     }
 }
 

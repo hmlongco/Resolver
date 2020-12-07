@@ -95,6 +95,7 @@ extension ResolverInjectedTests {
         ("testNamedInjection1", testNamedInjection1),
         ("testNamedInjection2", testNamedInjection2),
         ("testOptionalInjection", testOptionalInjection),
+        ("testWParentChildWeakLazyInjectedViewController", testWParentChildWeakLazyInjectedViewController),
     ]
 }
 

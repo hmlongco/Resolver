@@ -720,6 +720,7 @@ public struct Injected<Service> {
 ///
 @propertyWrapper
 public struct LazyInjected<Service> {
+    private var initialize: Bool = true
     private var service: Service!
     public var container: Resolver?
     public var name: String?
@@ -734,7 +735,8 @@ public struct LazyInjected<Service> {
     }
     public var wrappedValue: Service {
         mutating get {
-            if self.service == nil {
+            if initialize {
+                self.initialize = false
                 self.service = container?.resolve(Service.self, name: name, args: args) ?? Resolver.resolve(Service.self, name: name, args: args)
             }
             return service
@@ -756,6 +758,7 @@ public struct LazyInjected<Service> {
 ///
 @propertyWrapper
 public struct WeakLazyInjected<Service:AnyObject> {
+    private var initialize: Bool = true
     private weak var service: Service?
     public var container: Resolver?
     public var name: String?
@@ -770,8 +773,11 @@ public struct WeakLazyInjected<Service:AnyObject> {
     }
     public var wrappedValue: Service? {
         mutating get {
-            if self.service == nil {
-                self.service = container?.resolve(Service.self, name: name, args: args) ?? Resolver.resolve(Service.self, name: name, args: args)
+            if initialize {
+                self.initialize = false
+                let service = container?.resolve(Service.self, name: name, args: args) ?? Resolver.resolve(Service.self, name: name, args: args)
+                self.service = service
+                return service
             }
             return service
         }
@@ -780,9 +786,6 @@ public struct WeakLazyInjected<Service:AnyObject> {
     public var projectedValue: WeakLazyInjected<Service> {
         get { return self }
         mutating set { self = newValue }
-    }
-    public mutating func release() {
-        self.service = nil
     }
 }
 
