@@ -1,5 +1,9 @@
 # Resolver Changelog
 
+### 1.2.1
+
+* Fix autorelease bug in WeakLazyInjected property wrapper
+
 ### 1.2
 
 * Rewrite argument passing code to support multiple arguments
