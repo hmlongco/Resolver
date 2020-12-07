@@ -219,7 +219,7 @@ public final class Resolver {
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
         }
-        fatalError("RESOLVER: '\(Service.self):\(name ?? "")' not resolved. To disambiguate optionals use resover.optional().")
+        fatalError("RESOLVER: '\(Service.self):\(name ?? "")' not resolved. To disambiguate optionals use resolver.optional().")
     }
 
     /// Static function calls the root registry to resolve an optional Service type.
