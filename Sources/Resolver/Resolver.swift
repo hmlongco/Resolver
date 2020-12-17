@@ -714,6 +714,29 @@ public struct Injected<Service> {
     }
 }
 
+/// OptionalInjected property wrapper.
+///
+/// If available, wrapped dependent service is resolved immediately using Resolver.root upon struct initialization.
+///
+@propertyWrapper
+public struct OptionalInjected<Service> {
+    private var service: Service?
+    public init() {
+        self.service = Resolver.optional(Service.self)
+    }
+    public init(name: String? = nil, container: Resolver? = nil) {
+        self.service = container?.optional(Service.self, name: name) ?? Resolver.optional(Service.self, name: name)
+    }
+    public var wrappedValue: Service? {
+        get { return service }
+        mutating set { service = newValue }
+    }
+    public var projectedValue: OptionalInjected<Service> {
+        get { return self }
+        mutating set { self = newValue }
+    }
+}
+
 /// Lazy injection property wrapper. Note that embedded container and name properties will be used if set prior to service instantiation.
 ///
 /// Wrapped dependent service is not resolved until service is accessed.
@@ -757,9 +780,9 @@ public struct LazyInjected<Service> {
 /// Wrapped dependent service is not resolved until service is accessed.
 ///
 @propertyWrapper
-public struct WeakLazyInjected<Service:AnyObject> {
+public struct WeakLazyInjected<Service> {
     private var initialize: Bool = true
-    private weak var service: Service?
+    private weak var service: AnyObject?
     public var container: Resolver?
     public var name: String?
     public var args: Any?
@@ -776,33 +799,14 @@ public struct WeakLazyInjected<Service:AnyObject> {
             if initialize {
                 self.initialize = false
                 let service = container?.resolve(Service.self, name: name, args: args) ?? Resolver.resolve(Service.self, name: name, args: args)
-                self.service = service
+                self.service = service as AnyObject
                 return service
             }
-            return service
+            return service as? Service
         }
-        mutating set { service = newValue  }
+        mutating set { service = newValue as AnyObject }
     }
     public var projectedValue: WeakLazyInjected<Service> {
-        get { return self }
-        mutating set { self = newValue }
-    }
-}
-
-@propertyWrapper
-public struct OptionalInjected<Service> {
-    private var service: Service?
-    public init() {
-        self.service = Resolver.optional(Service.self)
-    }
-    public init(name: String? = nil, container: Resolver? = nil) {
-        self.service = container?.optional(Service.self, name: name) ?? Resolver.optional(Service.self, name: name)
-    }
-    public var wrappedValue: Service? {
-        get { return service }
-        mutating set { service = newValue }
-    }
-    public var projectedValue: OptionalInjected<Service> {
         get { return self }
         mutating set { self = newValue }
     }
