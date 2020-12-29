@@ -9,6 +9,10 @@
 import XCTest
 @testable import Resolver
 
+extension ServiceName {
+    static let props = Self("Props")
+}
+
 class ResolverClassTests: XCTestCase {
 
     var resolver: Resolver!
@@ -65,12 +69,12 @@ class ResolverClassTests: XCTestCase {
         XCTAssertNotNil(service?.session)
     }
 
-   func testRegistrationAndResolutionProperties() {
-        Resolver.register(name: "Props") { XYZSessionService() }
+    func testRegistrationAndResolutionProperties() {
+        Resolver.register(name: .props) { XYZSessionService() }
             .resolveProperties { (r, s) in
                 s.name = "updated"
-        }
-        let session: XYZSessionService? = Resolver.optional(name: "Props")
+            }
+        let session: XYZSessionService? = Resolver.optional(name: .props)
         XCTAssertNotNil(session)
         XCTAssert(session?.name == "updated")
     }

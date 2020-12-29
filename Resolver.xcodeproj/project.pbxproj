@@ -24,6 +24,7 @@
 		4C653ED2246EC80700131637 /* ResolverArgumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C653ED1246EC80700131637 /* ResolverArgumentTests.swift */; };
 		4C9BFB0C2357D98800E6FB80 /* ResolverInjectedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9BFB0B2357D98800E6FB80 /* ResolverInjectedTests.swift */; };
 		4CA289B625771DF6000C6F95 /* ResolverCyclicDependencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA289B525771DF6000C6F95 /* ResolverCyclicDependencyTests.swift */; };
+		D7FFC5F6259B53EC00428EED /* TestServiceNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7FFC5F5259B53EC00428EED /* TestServiceNames.swift */; };
 		OBJ_40 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Resolver.swift */; };
 		OBJ_47 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_58 /* ResolverBasicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ResolverBasicTests.swift */; };
@@ -61,6 +62,7 @@
 		4C653ED1246EC80700131637 /* ResolverArgumentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResolverArgumentTests.swift; sourceTree = "<group>"; };
 		4C9BFB0B2357D98800E6FB80 /* ResolverInjectedTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResolverInjectedTests.swift; sourceTree = "<group>"; };
 		4CA289B525771DF6000C6F95 /* ResolverCyclicDependencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverCyclicDependencyTests.swift; sourceTree = "<group>"; };
+		D7FFC5F5259B53EC00428EED /* TestServiceNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestServiceNames.swift; sourceTree = "<group>"; };
 		OBJ_12 /* ResolverBasicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverBasicTests.swift; sourceTree = "<group>"; };
 		OBJ_13 /* ResolverClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverClassTests.swift; sourceTree = "<group>"; };
 		OBJ_14 /* ResolverContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverContainerTests.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				4C9BFB0B2357D98800E6FB80 /* ResolverInjectedTests.swift */,
 				OBJ_22 /* TestData.swift */,
 				OBJ_23 /* XCTestManifests.swift */,
+				D7FFC5F5259B53EC00428EED /* TestServiceNames.swift */,
 			);
 			name = ResolverTests;
 			path = Tests/ResolverTests;
@@ -287,6 +290,7 @@
 				OBJ_63 /* ResolverScopeNameTests.swift in Sources */,
 				OBJ_64 /* ResolverScopeReferenceTests.swift in Sources */,
 				OBJ_65 /* ResolverScopeValueTests.swift in Sources */,
+				D7FFC5F6259B53EC00428EED /* TestServiceNames.swift in Sources */,
 				4CA289B625771DF6000C6F95 /* ResolverCyclicDependencyTests.swift in Sources */,
 				OBJ_66 /* ResolverStoryboardTests.swift in Sources */,
 				OBJ_68 /* TestData.swift in Sources */,

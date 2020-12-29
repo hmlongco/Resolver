@@ -16,11 +16,11 @@ class BasicInjectedViewController {
 }
 
 class NamedInjectedViewController {
-    @Injected(name: "fred") var service: XYZNameService
+    @Injected(name: .fred) var service: XYZNameService
 }
 
 class NamedInjectedViewController2 {
-    @Injected(name: "barney") var service: XYZNameService
+    @Injected(name: .barney) var service: XYZNameService
 }
 
 extension Resolver {
@@ -58,8 +58,8 @@ class ResolverInjectedTests: XCTestCase {
         Resolver.main.register { XYZSessionService() }
         Resolver.main.register { XYZService(Resolver.main.optional()) }
 
-        Resolver.main.register(name: "fred") { XYZNameService("fred") }
-        Resolver.main.register(name: "barney") { XYZNameService("barney") }
+        Resolver.main.register(name: .fred) { XYZNameService("fred") }
+        Resolver.main.register(name: .barney) { XYZNameService("barney") }
 
         Resolver.main.register { (_, args) in
             XYZArgumentService(condition: args("condition"), string: args("string"))

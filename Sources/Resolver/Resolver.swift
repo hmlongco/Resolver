@@ -51,6 +51,14 @@ extension Resolving {
     }
 }
 
+public struct ServiceName {
+    let rawValue: String
+
+    public init(_ rawValue: String) {
+        self.rawValue = rawValue
+    }
+}
+
 /// Resolver is a Dependency Injection registry that registers Services for later resolution and
 /// injection into newly constructed instances.
 public final class Resolver {
@@ -107,7 +115,7 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public static func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+    public static func register<Service>(_ type: Service.Type = Service.self, name: ServiceName? = nil,
                                          factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
         return main.register(type, name: name, factory: factory)
     }
@@ -121,7 +129,7 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public static func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+    public static func register<Service>(_ type: Service.Type = Service.self, name: ServiceName? = nil,
                                          factory: @escaping ResolverFactoryResolver<Service>) -> ResolverOptions<Service> {
         return main.register(type, name: name, factory: factory)
     }
@@ -135,7 +143,7 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public static func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+    public static func register<Service>(_ type: Service.Type = Service.self, name: ServiceName? = nil,
                                          factory: @escaping ResolverFactoryArgumentsN<Service>) -> ResolverOptions<Service> {
         return main.register(type, name: name, factory: factory)
     }
@@ -149,7 +157,7 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+    public final func register<Service>(_ type: Service.Type = Service.self, name: ServiceName? = nil,
                                         factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
         let key = ObjectIdentifier(Service.self).hashValue
         let registration = ResolverRegistrationOnly(resolver: self, key: key, name: name, factory: factory)
@@ -166,7 +174,7 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+    public final func register<Service>(_ type: Service.Type = Service.self, name: ServiceName? = nil,
                                         factory: @escaping ResolverFactoryResolver<Service>) -> ResolverOptions<Service> {
         let key = ObjectIdentifier(Service.self).hashValue
         let registration = ResolverRegistrationResolver(resolver: self, key: key, name: name, factory: factory)
@@ -183,7 +191,7 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+    public final func register<Service>(_ type: Service.Type = Service.self, name: ServiceName? = nil,
                                         factory: @escaping ResolverFactoryArgumentsN<Service>) -> ResolverOptions<Service> {
         let key = ObjectIdentifier(Service.self).hashValue
         let registration = ResolverRegistrationArgumentsN(resolver: self, key: key, name: name, factory: factory)
@@ -200,7 +208,7 @@ public final class Resolver {
     /// - parameter args: Optional arguments that may be passed to registration factory.
     ///
     /// - returns: Instance of specified Service.
-    public static func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
+    public static func resolve<Service>(_ type: Service.Type = Service.self, name: ServiceName? = nil, args: Any? = nil) -> Service {
         Resolver.registerServices?() // always check initial registrations first in case registerAllServices swaps root
         return root.resolve(type, name: name, args: args)
     }
@@ -214,12 +222,12 @@ public final class Resolver {
     ///
     /// - returns: Instance of specified Service.
     ///
-    public final func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
-        if let registration = lookup(type, name: name ?? NONAME),
+    public final func resolve<Service>(_ type: Service.Type = Service.self, name: ServiceName? = nil, args: Any? = nil) -> Service {
+        if let registration = lookup(type, name: name?.rawValue ?? NONAME),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
         }
-        fatalError("RESOLVER: '\(Service.self):\(name ?? "")' not resolved. To disambiguate optionals use resover.optional().")
+        fatalError("RESOLVER: '\(Service.self):\(name?.rawValue ?? "")' not resolved. To disambiguate optionals use resover.optional().")
     }
 
     /// Static function calls the root registry to resolve an optional Service type.
@@ -230,7 +238,7 @@ public final class Resolver {
     ///
     /// - returns: Instance of specified Service.
     ///
-    public static func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service? {
+    public static func optional<Service>(_ type: Service.Type = Service.self, name: ServiceName? = nil, args: Any? = nil) -> Service? {
         Resolver.registerServices?() // always check initial registrations first in case registerAllServices swaps root
         return root.optional(type, name: name, args: args)
     }
@@ -244,8 +252,8 @@ public final class Resolver {
     ///
     /// - returns: Instance of specified Service.
     ///
-    public final func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service? {
-        if let registration = lookup(type, name: name ?? NONAME),
+    public final func optional<Service>(_ type: Service.Type = Service.self, name: ServiceName? = nil, args: Any? = nil) -> Service? {
+        if let registration = lookup(type, name: name?.rawValue ?? NONAME),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
         }
@@ -268,12 +276,12 @@ public final class Resolver {
     }
 
     /// Internal function adds a new registration to the proper container.
-    private final func add<Service>(registration: ResolverRegistration<Service>, with key: Int, name: String?) {
+    private final func add<Service>(registration: ResolverRegistration<Service>, with key: Int, name: ServiceName?) {
         if var container = registrations[key] {
-            container[name ?? NONAME] = registration
+            container[name?.rawValue ?? NONAME] = registration
             registrations[key] = container
         } else {
-            registrations[key] = [name ?? NONAME : registration]
+            registrations[key] = [name?.rawValue ?? NONAME : registration]
         }
     }
 
@@ -372,7 +380,7 @@ public class ResolverOptions<Service> {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public final func implements<Protocol>(_ type: Protocol.Type, name: String? = nil) -> ResolverOptions<Service> {
+    public final func implements<Protocol>(_ type: Protocol.Type, name: ServiceName? = nil) -> ResolverOptions<Service> {
         resolver?.register(type.self, name: name) { r, _ in r.resolve(Service.self) as? Protocol }
         return self
     }
@@ -428,10 +436,10 @@ public class ResolverRegistration<Service>: ResolverOptions<Service> {
     public var key: Int
     public var cacheKey: String
 
-    public init(resolver: Resolver, key: Int, name: String?) {
+    public init(resolver: Resolver, key: Int, name: ServiceName?) {
         self.key = key
-        if let namedService = name {
-            self.cacheKey = String(key) + ":" + namedService
+        if let serviceName = name?.rawValue {
+            self.cacheKey = String(key) + ":" + serviceName
         } else {
             self.cacheKey = String(key)
         }
@@ -449,7 +457,7 @@ public final class ResolverRegistrationOnly<Service>: ResolverRegistration<Servi
 
     public var factory: ResolverFactory<Service>
 
-    public init(resolver: Resolver, key: Int, name: String?, factory: @escaping ResolverFactory<Service>) {
+    public init(resolver: Resolver, key: Int, name: ServiceName?, factory: @escaping ResolverFactory<Service>) {
         self.factory = factory
         super.init(resolver: resolver, key: key, name: name)
     }
@@ -468,7 +476,7 @@ public final class ResolverRegistrationResolver<Service>: ResolverRegistration<S
 
     public var factory: ResolverFactoryResolver<Service>
 
-    public init(resolver: Resolver, key: Int, name: String?, factory: @escaping ResolverFactoryResolver<Service>) {
+    public init(resolver: Resolver, key: Int, name: ServiceName?, factory: @escaping ResolverFactoryResolver<Service>) {
         self.factory = factory
         super.init(resolver: resolver, key: key, name: name)
     }
@@ -487,7 +495,7 @@ public final class ResolverRegistrationArgumentsN<Service>: ResolverRegistration
 
     public var factory: ResolverFactoryArgumentsN<Service>
 
-    public init(resolver: Resolver, key: Int, name: String?, factory: @escaping ResolverFactoryArgumentsN<Service>) {
+    public init(resolver: Resolver, key: Int, name: ServiceName?, factory: @escaping ResolverFactoryArgumentsN<Service>) {
         self.factory = factory
         super.init(resolver: resolver, key: key, name: name)
     }
@@ -701,7 +709,7 @@ public struct Injected<Service> {
     public init() {
         self.service = Resolver.resolve(Service.self)
     }
-    public init(name: String? = nil, container: Resolver? = nil) {
+    public init(name: ServiceName? = nil, container: Resolver? = nil) {
         self.service = container?.resolve(Service.self, name: name) ?? Resolver.resolve(Service.self, name: name)
     }
     public var wrappedValue: Service {
@@ -722,10 +730,10 @@ public struct Injected<Service> {
 public struct LazyInjected<Service> {
     private var service: Service!
     public var container: Resolver?
-    public var name: String?
+    public var name: ServiceName?
     public var args: Any?
     public init() {}
-    public init(name: String? = nil, container: Resolver? = nil) {
+    public init(name: ServiceName? = nil, container: Resolver? = nil) {
         self.name = name
         self.container = container
     }
@@ -756,7 +764,7 @@ public struct OptionalInjected<Service> {
     public init() {
         self.service = Resolver.optional(Service.self)
     }
-    public init(name: String? = nil, container: Resolver? = nil) {
+    public init(name: ServiceName? = nil, container: Resolver? = nil) {
         self.service = container?.optional(Service.self, name: name) ?? Resolver.optional(Service.self, name: name)
     }
     public var wrappedValue: Service? {
@@ -783,7 +791,7 @@ public struct InjectedObject<Service>: DynamicProperty where Service: Observable
     public init() {
         self.service = Resolver.resolve(Service.self)
     }
-    public init(name: String? = nil, container: Resolver? = nil) {
+    public init(name: ServiceName? = nil, container: Resolver? = nil) {
         self.service = container?.resolve(Service.self, name: name) ?? Resolver.resolve(Service.self, name: name)
     }
     public var wrappedValue: Service {

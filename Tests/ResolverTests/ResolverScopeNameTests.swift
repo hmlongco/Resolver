@@ -23,11 +23,11 @@ class ResolverScopeNameTests: XCTestCase {
     }
 
     func testResolverScopeNameGraph() {
-        resolver.register(name: "Fred") { XYZNameService("Fred") }
-        resolver.register(name: "Barney") { XYZNameService("Barney") }
-        let service1: XYZNameService? = resolver.optional(name: "Fred")
-        let service2: XYZNameService? = resolver.optional(name: "Barney")
-        let service3: XYZNameService? = resolver.optional(name: "Barney")
+        resolver.register(name: .fred) { XYZNameService("Fred") }
+        resolver.register(name: .barney) { XYZNameService("Barney") }
+        let service1: XYZNameService? = resolver.optional(name: .fred)
+        let service2: XYZNameService? = resolver.optional(name: .barney)
+        let service3: XYZNameService? = resolver.optional(name: .barney)
         XCTAssertNotNil(service1)
         XCTAssertNotNil(service2)
         XCTAssertNotNil(service3)
@@ -43,11 +43,11 @@ class ResolverScopeNameTests: XCTestCase {
     }
 
     func testResolverScopeNameShared() {
-        resolver.register(name: "Fred") { XYZNameService("Fred") }.scope(Resolver.shared)
-        resolver.register(name: "Barney") { XYZNameService("Barney") }.scope(Resolver.shared)
-        let service1: XYZNameService? = resolver.optional(name: "Fred")
-        let service2: XYZNameService? = resolver.optional(name: "Barney")
-        let service3: XYZNameService? = resolver.optional(name: "Barney")
+        resolver.register(name: .fred) { XYZNameService("Fred") }.scope(Resolver.shared)
+        resolver.register(name: .barney) { XYZNameService("Barney") }.scope(Resolver.shared)
+        let service1: XYZNameService? = resolver.optional(name: .fred)
+        let service2: XYZNameService? = resolver.optional(name: .barney)
+        let service3: XYZNameService? = resolver.optional(name: .barney)
         XCTAssertNotNil(service1)
         XCTAssertNotNil(service2)
         XCTAssertNotNil(service3)
@@ -63,11 +63,11 @@ class ResolverScopeNameTests: XCTestCase {
     }
 
     func testResolverScopeNameApplication() {
-        resolver.register(name: "Fred") { XYZNameService("Fred") }.scope(Resolver.application)
-        resolver.register(name: "Barney") { XYZNameService("Barney") }.scope(Resolver.application)
-        let service1: XYZNameService? = resolver.optional(name: "Fred")
-        let service2: XYZNameService? = resolver.optional(name: "Barney")
-        let service3: XYZNameService? = resolver.optional(name: "Barney")
+        resolver.register(name: .fred) { XYZNameService("Fred") }.scope(Resolver.application)
+        resolver.register(name: .barney) { XYZNameService("Barney") }.scope(Resolver.application)
+        let service1: XYZNameService? = resolver.optional(name: .fred)
+        let service2: XYZNameService? = resolver.optional(name: .barney)
+        let service3: XYZNameService? = resolver.optional(name: .barney)
         XCTAssertNotNil(service1)
         XCTAssertNotNil(service2)
         XCTAssertNotNil(service3)
@@ -83,11 +83,11 @@ class ResolverScopeNameTests: XCTestCase {
     }
 
     func testResolverScopeNameCached() {
-        resolver.register(name: "Fred") { XYZNameService("Fred") }.scope(Resolver.cached)
-        resolver.register(name: "Barney") { XYZNameService("Barney") }.scope(Resolver.cached)
-        let service1: XYZNameService? = resolver.optional(name: "Fred")
-        let service2: XYZNameService? = resolver.optional(name: "Barney")
-        let service3: XYZNameService? = resolver.optional(name: "Barney")
+        resolver.register(name: .fred) { XYZNameService("Fred") }.scope(Resolver.cached)
+        resolver.register(name: .barney) { XYZNameService("Barney") }.scope(Resolver.cached)
+        let service1: XYZNameService? = resolver.optional(name: .fred)
+        let service2: XYZNameService? = resolver.optional(name: .barney)
+        let service3: XYZNameService? = resolver.optional(name: .barney)
         XCTAssertNotNil(service1)
         XCTAssertNotNil(service2)
         XCTAssertNotNil(service3)
@@ -103,11 +103,11 @@ class ResolverScopeNameTests: XCTestCase {
     }
 
     func testResolverScopeNameUnique() {
-        resolver.register(name: "Fred") { XYZNameService("Fred") }.scope(Resolver.unique)
-        resolver.register(name: "Barney") { XYZNameService("Barney") }.scope(Resolver.unique)
-        let service1: XYZNameService? = resolver.optional(name: "Fred")
-        let service2: XYZNameService? = resolver.optional(name: "Barney")
-        let service3: XYZNameService? = resolver.optional(name: "Barney")
+        resolver.register(name: .fred) { XYZNameService("Fred") }.scope(Resolver.unique)
+        resolver.register(name: .barney) { XYZNameService("Barney") }.scope(Resolver.unique)
+        let service1: XYZNameService? = resolver.optional(name: .fred)
+        let service2: XYZNameService? = resolver.optional(name: .barney)
+        let service3: XYZNameService? = resolver.optional(name: .barney)
         XCTAssertNotNil(service1)
         XCTAssertNotNil(service2)
         XCTAssertNotNil(service3)

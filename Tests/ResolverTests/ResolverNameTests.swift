@@ -10,7 +10,6 @@ import XCTest
 @testable import Resolver
 
 class ResolverNameTests: XCTestCase {
-
     var resolver: Resolver!
 
     override func setUp() {
@@ -24,11 +23,11 @@ class ResolverNameTests: XCTestCase {
 
     func testResolverValidNames() {
 
-        resolver.register(name: "Fred") { XYZNameService("Fred") }
-        resolver.register(name: "Barney") { XYZNameService("Barney") }
+        resolver.register(name: .fred) { XYZNameService("Fred") }
+        resolver.register(name: .barney) { XYZNameService("Barney") }
 
-        let fred: XYZNameService? = resolver.optional(name: "Fred")
-        let barney: XYZNameService? = resolver.optional(name: "Barney")
+        let fred: XYZNameService? = resolver.optional(name: .fred)
+        let barney: XYZNameService? = resolver.optional(name: .barney)
 
         // Check all services resolved
         XCTAssertNotNil(fred)
@@ -41,22 +40,22 @@ class ResolverNameTests: XCTestCase {
 
     func testResolverInvalidNames() {
 
-        resolver.register(name: "Fred") { XYZNameService("Fred") }
-        resolver.register(name: "Barney") { XYZNameService("Barney") }
+        resolver.register(name: .fred) { XYZNameService("Fred") }
+        resolver.register(name: .barney) { XYZNameService("Barney") }
 
-        let wilma: XYZNameService? = resolver.optional(name: "Wilma")
+        let wilma: XYZNameService? = resolver.optional(name: .wilma)
         XCTAssertNil(wilma)
     }
 
     func testResolverNamesWithBaseService() {
 
-        resolver.register(name: "Fred") { XYZNameService("Fred") }
-        resolver.register(name: "Barney") { XYZNameService("Barney") }
+        resolver.register(name: .fred) { XYZNameService("Fred") }
+        resolver.register(name: .barney) { XYZNameService("Barney") }
 
         resolver.register() { XYZNameService("Base") }
 
-        let fred: XYZNameService? = resolver.optional(name: "Fred")
-        let barney: XYZNameService? = resolver.optional(name: "Barney")
+        let fred: XYZNameService? = resolver.optional(name: .fred)
+        let barney: XYZNameService? = resolver.optional(name: .barney)
         let base: XYZNameService? = resolver.optional()
 
         // Check all services resolved
@@ -72,8 +71,8 @@ class ResolverNameTests: XCTestCase {
 
     func testResolverNamesWithNoBaseService() {
 
-        resolver.register(name: "Fred") { XYZNameService("Fred") }
-        resolver.register(name: "Barney") { XYZNameService("Barney") }
+        resolver.register(name: .fred) { XYZNameService("Fred") }
+        resolver.register(name: .barney) { XYZNameService("Barney") }
 
         let base: XYZNameService? = resolver.optional()
         
