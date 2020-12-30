@@ -253,7 +253,7 @@ Resolver.register { XYZTestSessionService(data) as XYZSessionService }
 let viewModel: XYZViewModel = Resolver.resolve()
 ```
 
-Now your unit and integration tests for XYZViewModel as using XYZTestSessionService, which povides stable, known data to the model.
+Now your unit and integration tests for XYZViewModel as using XYZTestSessionService, which provides stable, known data to the model.
 
 Do it again.
 ```
