@@ -1,5 +1,10 @@
 # Resolver Changelog
 
+### 1.3.0
+
+* Add Name spaces - Based on PR#83
+* Fix protocol issue in WeakLazyInjected property wrapper
+
 ### 1.2.1
 
 * Fix autorelease bug in WeakLazyInjected property wrapper
