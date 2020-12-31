@@ -44,6 +44,8 @@ Or...
 ```
 You can still use `String` to register and resolve your instances, though raw string paramaters will probably become deprecated in a future instance of Resolver. 
 
+*Name spaces are based on a PR concept submitted by [Artem K./DesmanLead](https://github.com/DesmanLead).*
+
 
 ## Example: Mocking Data
 

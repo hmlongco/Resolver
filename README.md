@@ -12,11 +12,22 @@ That's it. Dependency injection allows us to write code that's loosely coupled, 
 
 For more, see: [A Gentle Introduction to Dependency Injection.](./Documentation/Introduction.md)
 
+## Resolver 1.3 Changes
+
+Resolver 1.3 adds Name spaces to Resolver. Registering names allows for better autocompletion and makes your code safer by reducing potential runtime evaluation errors.
+
+```swift
+register(name: .fred) { XYZServiceFred() as XYZServiceProtocol }
+register(name: .barney) { XYZServiceBarney() as XYZServiceProtocol }
+
+let service: XYZServiceProtocol = resolve(name: .fred)
+```
+
+For more see: [Named Instances](./Documentation/Names.md)
+
 ## Resolver 1.2 Changes
 
-Note that Resolver 1.2 changed how arguments are passed to the registration factory order to provide better support for passing and handling both single and multiple arguments. 
-
-This is, unfortunately, a breaking change from Resolver 1.1.X, but as the end result is much cleaner code I think it's worth it. If you're *not* using arguments then you should see no issues whatsoever.
+Note that Resolver 1.2 changed how arguments are passed to the registration factory order to provide better support for passing and handling both single and multiple arguments. This is, unfortunately, a breaking change from Resolver 1.1.X, but as the end result is much cleaner code I think it's worth it. If you're *not* using arguments then you should see no issues whatsoever.
 
 See: [Passing and Handling Multiple Arguments](./Documentation/Arguments.md#multiple)
 
