@@ -14,7 +14,7 @@ Dependency Injection allows us to write code that's loosely coupled, and as such
 
 Here's an object that needs  to talk to an NetworkService.
 
-```
+```swift
 class MyViewModel {
     let service = NetworkService()
     func load() {
@@ -37,7 +37,7 @@ Or simply have the app run completely on mocked data for QA purposes?
 
 Now, consider an object that depends upon an instance of NetworkService being passed to it, using what us DI types term *Property Injection*.
 
-```
+```swift
 class MyViewModel {
     var service: NetworkServicing!
     func load() {
@@ -66,7 +66,7 @@ Dependency Injection works in two phases: *Registration* and *Resolution*.
 
 Registration consists of registering the classes and objects we're going to need,  as well as providing a *factory* closure to create an instance of one when needed.
 
-```
+```swift
 Resolver.register { NetworkService() as NetworkServicing }
 
 Resolver.register { MyViewModel() }.resolveProperties { (_, model) in
@@ -86,7 +86,7 @@ Similarly, we registered a factory to create MyViewModel's when needed, and we a
 
 Once registered, any object can ask Resolver to provide (resolve) an object of that type.
 
-```
+```swift
 var viewModel: MyViewModel = Resolver.resolve()
 ```
 
@@ -95,7 +95,7 @@ var viewModel: MyViewModel = Resolver.resolve()
 So we registered a factory, and asked Resolver to resolve it, and it worked... but why go to the extra trouble?
 
 Why we don't just directly instantiate  MyViewModel and be done with it?
-```
+```swift
 var viewModel = MyViewModel()
 viewModel.service = NetworkService()
 ```
@@ -103,7 +103,7 @@ Well, there are several reasons why this is a bad idea, but let's start with two
 
 First, what happens if NetworkService in turn required other classes or objects to do its job? And what happens if those objects need references to other objects, services, and system resources?
 
-```
+```swift
 var viewModel = MyViewModel()
 viewModel.service = NetworkService(TokenVendor.token(AppDelegate.seed))
 ```
@@ -122,7 +122,7 @@ To demonstrate, let's use a more complex example.
 
 Here we have a UIViewController named MyViewController that requires an instance of an XYZViewModel.
 
-```
+```swift
 class MyViewController: UIViewController {
     var viewModel: XYZViewModel!
 }
@@ -132,7 +132,7 @@ The XYZViewModel needs an instance of an object that implements a XYZFetching pr
 
 The XYZService, in turn, needs a reference to an XYZSessionService to do its job.
 
-```
+```swift
 class XYZViewModel {
     private var fetcher: XYZFetching
     private var updater: XYZUpdating
@@ -173,7 +173,7 @@ Here we're extending the base Resolver class with the ResolverRegistering protco
 
 The `registerAllServices` function is automatically called by Resolver the first time it's asked to resolve a service, in effect performing a one-time initialization of the resolution system.
 
-```
+```swift
 extension Resolver: ResolverRegistering {
     public static func registerAllServices() {
         register { XYZViewModel(fetcher: resolve(), updater: resolve(), service: resolve()) }
@@ -196,7 +196,7 @@ Now we've registered all of the objects our app is going to use. But what starts
 
 Well, MyViewController is the one who wanted a XYZViewModel, so let's rewrite it as follows...
 
-```
+```swift
 class MyViewController: UIViewController, Resolving {
     lazy var viewModel: XYZViewModel = resolver.resolve()
 }
@@ -220,7 +220,7 @@ Okay, you might think. That's pretty cool, but earlier you mentioned other benef
 
 Consider the following change to the above code:
 
-```
+```swift
 extension Resolver {
     static func registerAllServices() {
         register { XYZViewModel(fetcher: resolve(), updater: resolve(), service: resolve()) }
@@ -247,7 +247,7 @@ And both MyViewController and XYZViewModel are none the wiser.
 
 Same for unit testing. Add something like the following to the unit test code.
 
-```
+```swift
 let data: [String : Any] = ["name":"Mike", "developer":true]
 Resolver.register { XYZTestSessionService(data) as XYZSessionService }
 let viewModel: XYZViewModel = Resolver.resolve()
@@ -256,7 +256,7 @@ let viewModel: XYZViewModel = Resolver.resolve()
 Now your unit and integration tests for XYZViewModel as using XYZTestSessionService, which provides stable, known data to the model.
 
 Do it again.
-```
+```swift
 let data: [String : Any] = ["name":"Boss", "developer":false]
 Resolver.register { XYZTestSessionService(data) as XYZSessionService }
 let viewModel: XYZViewModel = Resolver.resolve()
