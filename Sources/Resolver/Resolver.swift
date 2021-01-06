@@ -79,8 +79,8 @@ public final class Resolver {
     public static var registerServices: (() -> Void)? = registerServicesBlock
 
     private static var registerServicesBlock: (() -> Void) = { () in
-        pthread_mutex_lock(&Resolver.registrationMutex)
-        defer { pthread_mutex_unlock(&Resolver.registrationMutex) }
+        pthread_mutex_lock(&Resolver.resolverRegistrationsMutex)
+        defer { pthread_mutex_unlock(&Resolver.resolverRegistrationsMutex) }
         if Resolver.registerServices != nil, let registering = (Resolver.root as Any) as? ResolverRegistering {
             type(of: registering).registerAllServices()
         }
@@ -90,8 +90,8 @@ public final class Resolver {
     /// Called to effectively reset Resolver to its initial state, including recalling registerAllServices if it was provided. This will
     /// also reset the three known caches: application, cached, shared.
     public static func reset() {
-        pthread_mutex_lock(&Resolver.registrationMutex)
-        defer { pthread_mutex_unlock(&Resolver.registrationMutex) }
+        pthread_mutex_lock(&Resolver.resolverRegistrationsMutex)
+        defer { pthread_mutex_unlock(&Resolver.resolverRegistrationsMutex) }
         main = Resolver()
         root = main
         registerServices = registerServicesBlock
@@ -262,8 +262,11 @@ public final class Resolver {
     /// the supplied type and name.
     private final func lookup<Service>(_ type: Service.Type, name: Resolver.Name?) -> ResolverRegistration<Service>? {
         Resolver.registerServices?()
+        let key = ObjectIdentifier(Service.self).hashValue
         let containerName = name?.rawValue ?? NONAME
-        if let container = registrations[ObjectIdentifier(Service.self).hashValue], let registration = container[containerName] {
+        defer { pthread_mutex_unlock(&registrationsMutex) }
+        pthread_mutex_lock(&registrationsMutex)
+        if let container = registrations[key], let registration = container[containerName] {
             return registration as? ResolverRegistration<Service>
         }
         if let parent = parent, let registration = parent.lookup(type, name: name) {
@@ -274,18 +277,25 @@ public final class Resolver {
 
     /// Internal function adds a new registration to the proper container.
     private final func add<Service>(registration: ResolverRegistration<Service>, with key: Int, name: Resolver.Name?) {
+        pthread_mutex_lock(&registrationsMutex)
         if var container = registrations[key] {
             container[name?.rawValue ?? NONAME] = registration
             registrations[key] = container
         } else {
             registrations[key] = [name?.rawValue ?? NONAME : registration]
         }
+        pthread_mutex_unlock(&registrationsMutex)
     }
 
     private let NONAME = "*"
     private let parent: Resolver?
     private var registrations = [Int : [String : Any]]()
-    private static var registrationMutex: pthread_mutex_t = {
+    private var registrationsMutex: pthread_mutex_t = {
+        var mutex = pthread_mutex_t()
+        pthread_mutex_init(&mutex, nil)
+        return mutex
+    }()
+    private static var resolverRegistrationsMutex: pthread_mutex_t = {
         var mutex = pthread_mutex_t()
         pthread_mutex_init(&mutex, nil)
         return mutex
