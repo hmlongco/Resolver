@@ -95,7 +95,8 @@ extension ResolverInjectedTests {
         ("testNamedInjection1", testNamedInjection1),
         ("testNamedInjection2", testNamedInjection2),
         ("testOptionalInjection", testOptionalInjection),
-        ("testWParentChildWeakLazyInjectedViewController", testWParentChildWeakLazyInjectedViewController),
+        ("testParentChildWeakLazyInjectedViewController", testParentChildWeakLazyInjectedViewController),
+        ("testWeakLazyInjectedProtocolViewController", testWeakLazyInjectedProtocolViewController),
     ]
 }
 
@@ -105,9 +106,11 @@ extension ResolverNameTests {
     // to regenerate.
     static let __allTests__ResolverNameTests = [
         ("testResolverInvalidNames", testResolverInvalidNames),
+        ("testResolverMixedStringsAndNames", testResolverMixedStringsAndNames),
         ("testResolverNamesWithBaseService", testResolverNamesWithBaseService),
         ("testResolverNamesWithNoBaseService", testResolverNamesWithNoBaseService),
-        ("testResolverValidNames", testResolverValidNames),
+        ("testResolverValidNameNames", testResolverValidNameNames),
+        ("testResolverValidNameStrings", testResolverValidNameStrings),
     ]
 }
 
