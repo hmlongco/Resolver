@@ -87,13 +87,17 @@ public final class Resolver {
         Resolver.registerServices = nil
     }
 
-    /// Called to effectively reset Resolver to its initial state, including recalling registerAllServices if it was provided
+    /// Called to effectively reset Resolver to its initial state, including recalling registerAllServices if it was provided. This will
+    /// also reset the three known caches: application, cached, shared.
     public static func reset() {
         pthread_mutex_lock(&Resolver.registrationMutex)
         defer { pthread_mutex_unlock(&Resolver.registrationMutex) }
         main = Resolver()
         root = main
         registerServices = registerServicesBlock
+        application.reset()
+        cached.reset()
+        shared.reset()
     }
 
     // MARK: - Service Registration
@@ -529,7 +533,7 @@ extension Resolver {
     // MARK: - Scopes
 
     /// All application scoped services exist for lifetime of the app. (e.g Singletons)
-    public static let application = ResolverScopeApplication()
+    public static let application = ResolverScopeCache()
     /// Cached services exist for lifetime of the app or until their cache is reset.
     public static let cached = ResolverScopeCache()
     /// Graph services are initialized once and only once during a given resolution cycle. This is the default scope.
@@ -546,8 +550,8 @@ public protocol ResolverScope: class {
     func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service?
 }
 
-/// All application scoped services exist for lifetime of the app. (e.g Singletons)
-public class ResolverScopeApplication: ResolverScope {
+/// Cached services exist for lifetime of the app or until their cache is reset.
+public class ResolverScopeCache: ResolverScope {
 
     public init() {
         pthread_mutex_init(&mutex, nil)
@@ -573,22 +577,14 @@ public class ResolverScopeApplication: ResolverScope {
         return service
     }
 
-    fileprivate var cachedServices = [String : Any](minimumCapacity: 32)
-    fileprivate var mutex = pthread_mutex_t()
-}
-
-/// Cached services exist for lifetime of the app or until their cache is reset.
-public final class ResolverScopeCache: ResolverScopeApplication {
-
-    override public init() {
-        super.init()
-    }
-
     public final func reset() {
         pthread_mutex_lock(&mutex)
         cachedServices.removeAll()
         pthread_mutex_unlock(&mutex)
     }
+
+    fileprivate var cachedServices = [String : Any](minimumCapacity: 32)
+    fileprivate var mutex = pthread_mutex_t()
 }
 
 /// Graph services are initialized once and only once during a given resolution cycle. This is the default scope.

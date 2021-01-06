@@ -4,6 +4,7 @@
 
 * Add Name spaces - Based on PR#83
 * Fix protocol issue in WeakLazyInjected property wrapper
+* Update Resolver.reset to also reset known caches.
 
 ### 1.2.1
 
