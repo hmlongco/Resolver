@@ -336,6 +336,7 @@ extension Resolver {
 /// Resolver Service Name Space Support
 extension Resolver {
 
+    /// Internal class used by Resolver for typed name space support.
     public struct Name: ExpressibleByStringLiteral {
         let rawValue: String
         public init(_ rawValue: String) {
@@ -351,6 +352,7 @@ extension Resolver {
 /// Resolver Multiple Argument Support
 extension Resolver {
 
+    /// Internal class used by Resolver for multiple argument support.
     public struct Args {
 
         private var args: [String:Any?]
@@ -732,8 +734,7 @@ public extension UIViewController {
 ///
 /// Wrapped dependent service is resolved immediately using Resolver.root upon struct initialization.
 ///
-@propertyWrapper
-public struct Injected<Service> {
+@propertyWrapper public struct Injected<Service> {
     private var service: Service
     public init() {
         self.service = Resolver.resolve(Service.self)
@@ -755,8 +756,7 @@ public struct Injected<Service> {
 ///
 /// If available, wrapped dependent service is resolved immediately using Resolver.root upon struct initialization.
 ///
-@propertyWrapper
-public struct OptionalInjected<Service> {
+@propertyWrapper public struct OptionalInjected<Service> {
     private var service: Service?
     public init() {
         self.service = Resolver.optional(Service.self)
@@ -778,8 +778,7 @@ public struct OptionalInjected<Service> {
 ///
 /// Wrapped dependent service is not resolved until service is accessed.
 ///
-@propertyWrapper
-public struct LazyInjected<Service> {
+@propertyWrapper public struct LazyInjected<Service> {
     private var initialize: Bool = true
     private var service: Service!
     public var container: Resolver?
@@ -816,8 +815,7 @@ public struct LazyInjected<Service> {
 ///
 /// Wrapped dependent service is not resolved until service is accessed.
 ///
-@propertyWrapper
-public struct WeakLazyInjected<Service> {
+@propertyWrapper public struct WeakLazyInjected<Service> {
     private var initialize: Bool = true
     private weak var service: AnyObject?
     public var container: Resolver?
@@ -849,6 +847,7 @@ public struct WeakLazyInjected<Service> {
     }
 }
 
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 /// Immediate injection property wrapper for SwiftUI ObservableObjects. This wrapper is meant for use in SwiftUI Views and exposes
 /// bindable objects similar to that of SwiftUI @observedObject and @environmentObject.
 ///
@@ -856,10 +855,8 @@ public struct WeakLazyInjected<Service> {
 ///
 /// Wrapped dependent service is resolved immediately using Resolver.root upon struct initialization.
 ///
-#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-@propertyWrapper
-public struct InjectedObject<Service>: DynamicProperty where Service: ObservableObject {
+@propertyWrapper public struct InjectedObject<Service>: DynamicProperty where Service: ObservableObject {
     @ObservedObject private var service: Service
     public init() {
         self.service = Resolver.resolve(Service.self)

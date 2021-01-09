@@ -562,6 +562,13 @@
     },
     {
       "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 857,
+      "symbol": "InjectedObject",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
       "line": 859,
       "symbol": "InjectedObject.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
