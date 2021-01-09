@@ -72,24 +72,24 @@ public final class Resolver {
     /// Call function to force one-time initialization of the Resolver registries. Usually not needed as functionality
     /// occurs automatically the first time a resolution function is called.
     public final func registerServices() {
-        recursiveLock.lock()
-        defer { recursiveLock.unlock() }
+        lock.lock()
+        defer { lock.unlock() }
         registerationCheck()
     }
 
     /// Call function to force one-time initialization of the Resolver registries. Usually not needed as functionality
     /// occurs automatically the first time a resolution function is called.
     public static var registerServices: (() -> Void)? = {
-        recursiveLock.lock()
-        defer { recursiveLock.unlock() }
+        lock.lock()
+        defer { lock.unlock() }
         registerationCheck()
     }
 
     /// Called to effectively reset Resolver to its initial state, including recalling registerAllServices if it was provided. This will
     /// also reset the three known caches: application, cached, shared.
     public static func reset() {
-        recursiveLock.lock()
-        defer { recursiveLock.unlock() }
+        lock.lock()
+        defer { lock.unlock() }
         main = Resolver()
         root = main
         ResolverScope.application.reset()
@@ -153,8 +153,8 @@ public final class Resolver {
     @discardableResult
     public final func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil,
                                         factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
-        recursiveLock.lock()
-        defer { recursiveLock.unlock() }
+        lock.lock()
+        defer { lock.unlock() }
         let key = ObjectIdentifier(Service.self).hashValue
         let registration = ResolverRegistrationOnly(resolver: self, key: key, name: name, factory: factory)
         add(registration: registration, with: key, name: name)
@@ -172,8 +172,8 @@ public final class Resolver {
     @discardableResult
     public final func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil,
                                         factory: @escaping ResolverFactoryResolver<Service>) -> ResolverOptions<Service> {
-        recursiveLock.lock()
-        defer { recursiveLock.unlock() }
+        lock.lock()
+        defer { lock.unlock() }
         let key = ObjectIdentifier(Service.self).hashValue
         let registration = ResolverRegistrationResolver(resolver: self, key: key, name: name, factory: factory)
         add(registration: registration, with: key, name: name)
@@ -191,8 +191,8 @@ public final class Resolver {
     @discardableResult
     public final func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil,
                                         factory: @escaping ResolverFactoryArgumentsN<Service>) -> ResolverOptions<Service> {
-        recursiveLock.lock()
-        defer { recursiveLock.unlock() }
+        lock.lock()
+        defer { lock.unlock() }
         let key = ObjectIdentifier(Service.self).hashValue
         let registration = ResolverRegistrationArgumentsN(resolver: self, key: key, name: name, factory: factory)
         add(registration: registration, with: key, name: name)
@@ -209,14 +209,14 @@ public final class Resolver {
     ///
     /// - returns: Instance of specified Service.
     public static func resolve<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> Service {
-        recursiveLock.lock()
-        defer { recursiveLock.unlock() }
+        lock.lock()
+        defer { lock.unlock() }
         registerationCheck()
         if let registration = root.lookup(type, name: name),
             let service = registration.scope.resolve(resolver: root, registration: registration, args: args) {
             return service
         }
-        fatalError("RESOLVER: '\(Service.self):\(name ?? "")' not resolved. To disambiguate optionals use resolver.optional().")
+        fatalError("RESOLVER: '\(Service.self):\(name?.rawValue ?? "NONAME")' not resolved. To disambiguate optionals use resolver.optional().")
     }
 
     /// Resolves and returns an instance of the given Service type from the current registry or from its
@@ -229,14 +229,14 @@ public final class Resolver {
     /// - returns: Instance of specified Service.
     ///
     public final func resolve<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> Service {
-        recursiveLock.lock()
-        defer { recursiveLock.unlock() }
+        lock.lock()
+        defer { lock.unlock() }
         registerationCheck()
         if let registration = lookup(type, name: name),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
         }
-        fatalError("RESOLVER: '\(Service.self):\(name ?? "")' not resolved. To disambiguate optionals use resolver.optional().")
+        fatalError("RESOLVER: '\(Service.self):\(name?.rawValue ?? "NONAME")' not resolved. To disambiguate optionals use resolver.optional().")
     }
 
     /// Static function calls the root registry to resolve an optional Service type.
@@ -248,8 +248,8 @@ public final class Resolver {
     /// - returns: Instance of specified Service.
     ///
     public static func optional<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> Service? {
-        recursiveLock.lock()
-        defer { recursiveLock.unlock() }
+        lock.lock()
+        defer { lock.unlock() }
         registerationCheck()
         if let registration = root.lookup(type, name: name),
             let service = registration.scope.resolve(resolver: root, registration: registration, args: args) {
@@ -268,8 +268,8 @@ public final class Resolver {
     /// - returns: Instance of specified Service.
     ///
     public final func optional<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> Service? {
-        recursiveLock.lock()
-        defer { recursiveLock.unlock() }
+        lock.lock()
+        defer { lock.unlock() }
         registerationCheck()
         if let registration = lookup(type, name: name),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
@@ -306,7 +306,7 @@ public final class Resolver {
 
     private let NONAME = "*"
     private let parent: Resolver?
-    private let recursiveLock = Resolver.recursiveLock
+    private let lock = Resolver.lock
     private var registrations = [Int : [String : Any]]()
 }
 
@@ -330,7 +330,7 @@ fileprivate class ResolverRecursiveLock {
 }
 
 extension Resolver {
-    private static let recursiveLock = ResolverRecursiveLock()
+    private static let lock = ResolverRecursiveLock()
 }
 
 /// Resolver Service Name Space Support
