@@ -306,8 +306,8 @@ public final class Resolver {
 
     private let NONAME = "*"
     private let parent: Resolver?
+    private let recursiveLock = Resolver.recursiveLock
     private var registrations = [Int : [String : Any]]()
-    private var recursiveLock = Resolver.recursiveLock
 }
 
 /// Resolving an instance of a service is a recursive process (service A needs a B which needs a C).
@@ -316,9 +316,6 @@ fileprivate class ResolverRecursiveLock {
         pthread_mutexattr_init(&recursiveMutexAttr)
         pthread_mutexattr_settype(&recursiveMutexAttr, PTHREAD_MUTEX_RECURSIVE)
         pthread_mutex_init(&recursiveMutex, &recursiveMutexAttr)
-    }
-    deinit {
-        pthread_mutex_destroy(&recursiveMutex)
     }
     @inline(__always)
     func lock() {
@@ -333,7 +330,7 @@ fileprivate class ResolverRecursiveLock {
 }
 
 extension Resolver {
-    private static var recursiveLock = ResolverRecursiveLock()
+    private static let recursiveLock = ResolverRecursiveLock()
 }
 
 /// Resolver Service Name Space Support
