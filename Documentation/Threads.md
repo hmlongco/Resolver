@@ -2,25 +2,31 @@
 
 ## Thread Safety
 
-For performance reasons, Resolver is designed to be thread safe during object resolution.
+Resolver is designed to be thread safe during service registration and resolution.
 
-By this I mean that the various scopes and caches should play nice with one another in a multi-threaded environment.
+Successful service resolution assumes, however, that all service registrations will occur **prior** to the first resolution request. If you kick off thread A to do registrations and then also kick off a thread B that needs to resolve some of those services... well, let's just say that bad things will occur.
 
-This assumes that all object registrations will occur **prior** to the first resolution request.
+## ResolverRegistering
 
 If you use `ResolverRegistering.registerAllServices` to register all of your dependencies, then you shouldn't have any issues.
 
-```
+```swift
 import Resolver
 
 extension Resolver: ResolverRegistering {
     public static func registerAllServices() {
-
+        registerMyNetworkServices()
+        registerMyViewModels()
+    }
+    
+    public static func registerMyNetworkServices() {
+        register { ServiceA() }
+        register { ServiceB() }
+    }
+    
+    public static func registerMyViewModels() {
+        register { ModelA() }
+        register { ModelB() }
     }
 }
 ```
-Resolver will attempt to protect the registration sequence during initial application launch.
-
-If, on the other hand, you're kicking off multiple threads on app launch or if you're performing new registrations while your application is running then it's entirely possible you could see race conditions.
-
-Resolver wasn't really designed for that. Sorry.

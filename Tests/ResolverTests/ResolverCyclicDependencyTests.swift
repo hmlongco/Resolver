@@ -42,7 +42,7 @@ class ResolverCyclicDependencyTests: XCTestCase {
         resolver.register {
             InjectedCyclicA()
         }
-        .scope(Resolver.shared)
+        .scope(.shared)
 
         resolver.register {
             InjectedCyclicB()

@@ -79,7 +79,7 @@ class ResolverInjectedTests: XCTestCase {
 
         Resolver.main.register { WeakXYZService(nil) }
             .implements(ReturnsSomthing.self)
-            .scope(Resolver.shared)
+            .scope(.shared)
 
         Resolver.main.register { XYZSessionService() }
         Resolver.main.register { XYZService(Resolver.main.optional()) }

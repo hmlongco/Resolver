@@ -55,7 +55,7 @@ But what if we want any instance of `XYZFetching` or `XYZUpdating` to *always* s
 
 ```swift
 main.register { XYZCombinedService() }
-    .scope(shared)
+    .scope(.shared)
 ```
 
 We use a [shared scope](Scopes.md).

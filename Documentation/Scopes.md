@@ -22,7 +22,7 @@ The `application` scope will make Resolver retain a given object instance once i
 
 ```swift
 main.register { XYZApplicationService() }
-    .scope(application)
+    .scope(.application)
 ```
 
 This effectively makes the object a `Singleton`.
@@ -33,7 +33,7 @@ This scope stores a strong reference to the resolved instance. Once created, eve
 
 ```swift
 main.register { MyViewModel() }
-    .scope(cached)
+    .scope(.cached)
 ```
 
 This is similar to how an application scope behaves, but unlike an application scope, cached scopes can be `reset`, releasing their cached objects.
@@ -41,7 +41,7 @@ This is similar to how an application scope behaves, but unlike an application s
 This is useful if you need, say, a session-level scope that caches specific information until a user logs out.
 
 ```swift
-Resolver.cached.reset()
+ResolverScope.cached.reset()
 ```
 
 You can also add your own [custom caches](#custom) to Resolver.
@@ -83,7 +83,7 @@ This scope stores a *weak* reference to the resolved instance.
 
 ```
 main.register { MyViewModel() }
-    .scope(shared)
+    .scope(.shared)
 ```
 
 While a strong reference to the resolved instance exists any subsequent calls to resolve will return the same instance.
@@ -104,7 +104,7 @@ It's specified like this:
 
 ```swift
 main.register { XYZCombinedService() }
-    .scope(unique)
+    .scope(.unique)
 ```
 
 ## The Default Scope<a name=default></a>
@@ -118,7 +118,7 @@ As such, changing the default scope behavior to `unique` would best be done as f
 ```swift
 extension Resolver: ResolverRegistering {
     static func registerAllServices() {
-        Resolver.defaultScope = Resolver.unique
+        Resolver.defaultScope = .unique
         registerMyNetworkServices()
     }
 }
@@ -131,7 +131,7 @@ You can add and use your own scopes. As mentioned above, you might want your own
 To create your own distinct session cache, add the following to your main `AppDelegate+Injection.swift` file:
 
 ```swift
-extension Resolver {
+extension ResolverScope {
     static let session = ResolverScopeCache()
 }
 ```
@@ -140,17 +140,17 @@ Your session scope can then be used and specified just like any built-in scope.
 
 ```swift
 main.register { UserManager() }
-    .scope(session)
+    .scope(.session)
 ```
 
 And it can be reset as needed.
 
 ```swift
-Resolver.session.reset()
+ResolverScope.session.reset()
 ```
 
 ## The ResolverScope Protocol
 
-Finally, if you need some behavior not supported by the built in scopes, you can roll your own using the `ResolverScope` protocol and add it to Resolver as shown in [Custom Caches](#custom).
+Finally, if you need some behavior not supported by the built in scopes, you can roll your own using the `ResolverScopeType` protocol and add it to Resolver as shown in [Custom Caches](#custom).
 
-Just use the existing implementations as your guides. **In particular, pay attention to how pthread_mutex_lock/unlock is used to keep resolutions thread safe**.
+Just use the existing implementations as your guides.

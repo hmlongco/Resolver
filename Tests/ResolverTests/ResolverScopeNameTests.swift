@@ -43,8 +43,8 @@ class ResolverScopeNameTests: XCTestCase {
     }
 
     func testResolverScopeNameShared() {
-        resolver.register(name: "Fred") { XYZNameService("Fred") }.scope(Resolver.shared)
-        resolver.register(name: "Barney") { XYZNameService("Barney") }.scope(Resolver.shared)
+        resolver.register(name: "Fred") { XYZNameService("Fred") }.scope(.shared)
+        resolver.register(name: "Barney") { XYZNameService("Barney") }.scope(.shared)
         let service1: XYZNameService? = resolver.optional(name: "Fred")
         let service2: XYZNameService? = resolver.optional(name: "Barney")
         let service3: XYZNameService? = resolver.optional(name: "Barney")
@@ -63,8 +63,8 @@ class ResolverScopeNameTests: XCTestCase {
     }
 
     func testResolverScopeNameApplication() {
-        resolver.register(name: "Fred") { XYZNameService("Fred") }.scope(Resolver.application)
-        resolver.register(name: "Barney") { XYZNameService("Barney") }.scope(Resolver.application)
+        resolver.register(name: "Fred") { XYZNameService("Fred") }.scope(.application)
+        resolver.register(name: "Barney") { XYZNameService("Barney") }.scope(.application)
         let service1: XYZNameService? = resolver.optional(name: "Fred")
         let service2: XYZNameService? = resolver.optional(name: "Barney")
         let service3: XYZNameService? = resolver.optional(name: "Barney")
@@ -83,8 +83,8 @@ class ResolverScopeNameTests: XCTestCase {
     }
 
     func testResolverScopeNameCached() {
-        resolver.register(name: "Fred") { XYZNameService("Fred") }.scope(Resolver.cached)
-        resolver.register(name: "Barney") { XYZNameService("Barney") }.scope(Resolver.cached)
+        resolver.register(name: "Fred") { XYZNameService("Fred") }.scope(.cached)
+        resolver.register(name: "Barney") { XYZNameService("Barney") }.scope(.cached)
         let service1: XYZNameService? = resolver.optional(name: "Fred")
         let service2: XYZNameService? = resolver.optional(name: "Barney")
         let service3: XYZNameService? = resolver.optional(name: "Barney")
@@ -103,8 +103,8 @@ class ResolverScopeNameTests: XCTestCase {
     }
 
     func testResolverScopeNameUnique() {
-        resolver.register(name: "Fred") { XYZNameService("Fred") }.scope(Resolver.unique)
-        resolver.register(name: "Barney") { XYZNameService("Barney") }.scope(Resolver.unique)
+        resolver.register(name: "Fred") { XYZNameService("Fred") }.scope(.unique)
+        resolver.register(name: "Barney") { XYZNameService("Barney") }.scope(.unique)
         let service1: XYZNameService? = resolver.optional(name: "Fred")
         let service2: XYZNameService? = resolver.optional(name: "Barney")
         let service3: XYZNameService? = resolver.optional(name: "Barney")

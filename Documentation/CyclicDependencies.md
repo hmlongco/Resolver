@@ -131,7 +131,7 @@ class ClassC {
 ```
 With registration like...
 ```swift
-register { ClassP() }.scope(shared)
+register { ClassP() }.scope(.shared)
 register { ClassC() }
 ```
 The parent class has a reference to its child, and the child obtains a reference back to its shared parent. Bing. Problem solved.
@@ -145,6 +145,6 @@ class ClassC {
     @WeakLazyInjected var p: ClassP?
 }
 ```
-In both cases, note that the registration for `ClassP()` uses `scope(shared)`. This is needed since the lazy injection in class C will occur outside of the graph dependency cycle when `p` is first referenced in the application code.
+In both cases, note that the registration for `ClassP()` uses `scope(.shared)`. This is needed since the lazy injection in class C will occur outside of the graph dependency cycle when `p` is first referenced in the application code.
 
 You can see an actual code sample for these methods in the `ResolverCyclicDependencyTests.swift` unit test.

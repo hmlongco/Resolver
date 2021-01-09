@@ -37,7 +37,7 @@ class ResolverScopeValueTests: XCTestCase {
     }
 
     func testResolverScopeShared() {
-        resolver.register { XYZValue() }.scope(Resolver.shared)
+        resolver.register { XYZValue() }.scope(.shared)
         var value1: XYZValue? = resolver.optional()
         var value2: XYZValue? = resolver.optional()
         XCTAssertNotNil(value1)
@@ -60,7 +60,7 @@ class ResolverScopeValueTests: XCTestCase {
     }
 
     func testResolverScopeApplication() {
-        resolver.register { XYZValue() }.scope(Resolver.application)
+        resolver.register { XYZValue() }.scope(.application)
         let value1: XYZValue? = resolver.optional()
         let value2: XYZValue? = resolver.optional()
         XCTAssertNotNil(value1)
@@ -73,7 +73,7 @@ class ResolverScopeValueTests: XCTestCase {
     }
 
     func testResolverScopeCached() {
-        resolver.register { XYZValue() }.scope(Resolver.cached)
+        resolver.register { XYZValue() }.scope(.cached)
         let value1: XYZValue? = resolver.optional()
         let value2: XYZValue? = resolver.optional()
         XCTAssertNotNil(value1)
@@ -85,7 +85,7 @@ class ResolverScopeValueTests: XCTestCase {
         }
         let oldID = value1?.id ?? UUID()
         // Reset and try again
-        Resolver.cached.reset()
+        ResolverScope.cached.reset()
         if let newService: XYZValue = resolver.optional() {
             XCTAssert(newService.id != oldID)
         } else {
@@ -95,7 +95,7 @@ class ResolverScopeValueTests: XCTestCase {
     }
 
     func testResolverScopeUnique() {
-        resolver.register { XYZValue() }.scope(Resolver.unique)
+        resolver.register { XYZValue() }.scope(.unique)
         let value1: XYZValue? = resolver.optional()
         let value2: XYZValue? = resolver.optional()
         XCTAssertNotNil(value1)

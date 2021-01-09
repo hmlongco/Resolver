@@ -38,7 +38,7 @@ class ResolverScopeReferenceTests: XCTestCase {
 
     func testResolverScopeShared() {
         resolver.register { XYZSessionService() }
-            .scope(Resolver.shared)
+            .scope(.shared)
         var service1: XYZSessionService? = resolver.optional()
         var service2: XYZSessionService? = resolver.optional()
         XCTAssertNotNil(service1)
@@ -62,7 +62,7 @@ class ResolverScopeReferenceTests: XCTestCase {
      }
 
     func testResolverScopeApplication() {
-        resolver.register { XYZSessionService() }.scope(Resolver.application)
+        resolver.register { XYZSessionService() }.scope(.application)
         let service1: XYZSessionService? = resolver.optional()
         let service2: XYZSessionService? = resolver.optional()
         XCTAssertNotNil(service1)
@@ -76,8 +76,8 @@ class ResolverScopeReferenceTests: XCTestCase {
 
     func testResolverScopeCached() {
         // Reset...
-        Resolver.cached.reset()
-        resolver.register { XYZSessionService() }.scope(Resolver.cached)
+        ResolverScope.cached.reset()
+        resolver.register { XYZSessionService() }.scope(.cached)
         let service1: XYZSessionService? = resolver.optional()
         let service2: XYZSessionService? = resolver.optional()
         XCTAssertNotNil(service1)
@@ -90,7 +90,7 @@ class ResolverScopeReferenceTests: XCTestCase {
             XCTFail("sessions not cached")
         }
         // Reset...
-        Resolver.cached.reset()
+        ResolverScope.cached.reset()
         // ...and try again
         if let newService: XYZSessionService = resolver.optional() {
             XCTAssert(originalID != newService.id)
@@ -100,7 +100,7 @@ class ResolverScopeReferenceTests: XCTestCase {
     }
 
     func testResolverScopeUnique() {
-        resolver.register { XYZSessionService() }.scope(Resolver.unique)
+        resolver.register { XYZSessionService() }.scope(.unique)
         let service1: XYZSessionService? = resolver.optional()
         let service2: XYZSessionService? = resolver.optional()
         XCTAssertNotNil(service1)

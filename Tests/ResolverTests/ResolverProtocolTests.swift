@@ -95,7 +95,7 @@ class ResolverProtocolTests: XCTestCase {
     func testScopeSharedProtocols() {
         resolver.register { XYZSessionService() }
             .implements(XYZSessionProtocol.self)
-            .scope(Resolver.shared)
+            .scope(.shared)
         let service1: XYZSessionService? = resolver.optional()
         let protocol1: XYZSessionProtocol? = resolver.optional()
         XCTAssertNotNil(service1)

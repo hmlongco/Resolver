@@ -1,5 +1,11 @@
 # Resolver Changelog
 
+### 1.4.0
+
+* Updated registration and resolution lock/unlock stratagies for better thread safety and performance.
+* Updated automatic service registration code for better performance and to use new locking mechanisms.
+* Moved default scopes from Resolver to ResolverScope for better autocompletion.
+
 ### 1.3.0
 
 * Add Name spaces - Based on PR#83
