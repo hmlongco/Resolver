@@ -65,7 +65,7 @@ Resolver is implemented in just over 700 lines of actual code in a single file, 
 * [Scopes: Application, Cached, Graph, Shared, and Unique](./Documentation/Scopes.md)
 * [Protocols](./Documentation/Protocols.md)
 * [Optionals](./Documentation/Optionals.md)
-* [Named Instances](./Documentation/Names.md)
+* [Named Instances](./Documentation/Names.md) (Resolver 1.3 now supports safe name spaces!)
 * [Argument Passing](./Documentation/Arguments.md) (Resolver 1.2 now has built in support for multiple arguments!)
 * [Custom Containers & Nested Containers](./Documentation/Containers.md)
 * [Cyclic Dependency Support](./Documentation/CyclicDependencies.md)
@@ -95,7 +95,7 @@ Read the [installation guide](./Documentation/Installation.md) for information o
 
 ## Why Resolver?
 
-As mentioned, Resolver is an ultralight Dependency Injection system, implemented in just over 300 lines of code and contained in a single file.
+As mentioned, Resolver is an ultralight Dependency Injection system, implemented in just over 700 lines of code and contained in a single file.
 
 Resolver is also designed for performance. [SwinjectStoryboard](https://github.com/Swinject/SwinjectStoryboard), for example, is a great dependency injection system, but Resolver clocks out to be about 800% faster at resolving dependency chains than Swinject.
 
@@ -104,7 +104,7 @@ And unlike some other systems, Resolver is written in 100% Swift 5, with no Obje
 Further, Resolver:
 
 * Is tested in production code.
-* [Is thread safe (assuming your objects are thread safe).](./Documentation/Threads.md)
+* [Is thread safe (assuming your objects are thread safe).](./Documentation/Threads.md) (Updated in 1.4.)
 * Has a complete set of unit tests.
 * Is well-documented.
 

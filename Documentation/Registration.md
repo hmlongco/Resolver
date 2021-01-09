@@ -1,11 +1,34 @@
 #  Resolver: Registration
 
-## Add the AppDelegate
+## Introduction
+
+As mention in the introduction , in order for Resolve to *resolve* a request for a paticular service you first need to register a factory that knows how to instantiate an instance of the service.
+
+```swift
+Resolver.register { NetworkService() }
+```
+
+Resolver will then automatically use that factory whenever it's asked to resolve an instance of  `NetworkService`.
+
+```swift
+class MyViewModel {
+    @Injected var network: NetworkService
+}
+```
+Pretty straightforward, right? We need to register our services. 
+
+But where do we put those all of those registrations?
+
+Well, it's a common practice with Resolver, Swinject, and other DI systems to add addtional "injection" files to your project to support the dependencies needed by a particular part of the code base.
+
+Let's start by adding the master injection file for the entire application.
+
+## Add the AppDelegate Injection File
 
 Add a file named `AppDelegate+Injection.swift` to your project and add the following code:
 
 ```
-import Resolver
+#import Resolver
 
 extension Resolver: ResolverRegistering {
     public static func registerAllServices() {
@@ -16,13 +39,13 @@ extension Resolver: ResolverRegistering {
 
 If you're using frameworks, CocoaPods or Carthage, you'll need the `import Resolver` line. If you added Resolver.swift directly to your project, just delete that line.
 
-That's it. You've added the basic level of intergration.
+Resolver automatically calls the `registerAllServices` function the very first time it's asked to resolve a particular service. But as is, it's not very useful until you actually register some classes.
 
-But as is, it's not very useful until you actually register some classes.
+Note that we add our registration functionality directly into the Resolver namespace.  This gives our registration factories direct access to the registration and resolution functions contained within that namespace. (e.g. `register`, `resolve`, etc..)
 
 ## Add Injection Files<a name=files></a>
 
-It's a common practice with Resolver, Swinject, and other DI systems to add addtional "injection" files to your project to support the dependencies needed by a particular part of the code base.
+As mentioned above, we add addtional "injection" files to our projects to support the dependencies needed by a particular part of the code base.
 
 Let's say you have a group in your project folder named "NetworkServices", and you want to register some of those services for use by Resolver.
 
@@ -31,6 +54,8 @@ Let's say you have a group in your project folder named "NetworkServices", and y
 Go to the NetworkServices folder and add a swift file named: `NetworkServices+Injection.swift`, then add the following to that file...
 
 ```
+#import Resolver
+
 extension Resolver {
     public static func registerMyNetworkServices() {
 
