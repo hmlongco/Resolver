@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ResolverOptions Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/ResolverOptions" class="dashAnchor"></a>
+    <a title="ResolverOptions Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Resolver Docs</a> (35% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Resolver Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        ResolverOptions Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Resolver.html">Resolver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Resolver/Name.html">– Name</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Resolver/Args.html">– Args</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ResolverOptions.html">ResolverOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ResolverRegistration.html">ResolverRegistration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ResolverRegistrationArgumentsN.html">ResolverRegistrationArgumentsN</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ResolverRegistrationOnly.html">ResolverRegistrationOnly</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ResolverRegistrationResolver.html">ResolverRegistrationResolver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ResolverScope.html">ResolverScope</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ResolverScopeCache.html">ResolverScopeCache</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ResolverScopeGraph.html">ResolverScopeGraph</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ResolverScopeShare.html">ResolverScopeShare</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ResolverScopeUnique.html">ResolverScopeUnique</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/UIViewController.html">UIViewController</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/ResolverRegistering.html">ResolverRegistering</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ResolverScopeType.html">ResolverScopeType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Resolving.html">Resolving</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/StoryboardResolving.html">StoryboardResolving</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/Injected.html">Injected</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/InjectedObject.html">InjectedObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/LazyInjected.html">LazyInjected</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/OptionalInjected.html">OptionalInjected</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/WeakLazyInjected.html">WeakLazyInjected</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:8Resolver0A7Factorya">ResolverFactory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:8Resolver0A17FactoryArgumentsNa">ResolverFactoryArgumentsN</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:8Resolver0A14FactoryMutatora">ResolverFactoryMutator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:8Resolver0A24FactoryMutatorArgumentsNa">ResolverFactoryMutatorArgumentsN</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:8Resolver0a7FactoryA0a">ResolverFactoryResolver</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>ResolverOptions</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ResolverOptions</span><span class="o">&lt;</span><span class="kt">Service</span><span class="o">&gt;</span></code></pre>
+
+                </div>
+              </div>
+            <p>A ResolverOptions instance is returned by a registration function in order to allow additonal configuratiom. (e.g. scopes, etc.)</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Parameters"></a>
+                <a name="//apple_ref/swift/Section/Parameters" class="dashAnchor"></a>
+                <a href="#/Parameters">
+                  <h3 class="section-name">Parameters</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Resolver0A7OptionsC5scopeAA0A5ScopeCvp"></a>
+                    <a name="//apple_ref/swift/Property/scope" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Resolver0A7OptionsC5scopeAA0A5ScopeCvp">scope</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">scope</span><span class="p">:</span> <span class="kt"><a href="../Classes/ResolverScope.html">ResolverScope</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Lifecycle"></a>
+                <a name="//apple_ref/swift/Section/Lifecycle" class="dashAnchor"></a>
+                <a href="#/Lifecycle">
+                  <h3 class="section-name">Lifecycle</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Resolver0A7OptionsC8resolverACyxGA2AC_tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(resolver:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Resolver0A7OptionsC8resolverACyxGA2AC_tcfc">init(resolver:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">resolver</span><span class="p">:</span> <span class="kt"><a href="../Classes/Resolver.html">Resolver</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Fuctionality"></a>
+                <a name="//apple_ref/swift/Section/Fuctionality" class="dashAnchor"></a>
+                <a href="#/Fuctionality">
+                  <h3 class="section-name">Fuctionality</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Resolver0A7OptionsC10implements_4nameACyxGqd__m_A2AC4NameVSgtlF"></a>
+                    <a name="//apple_ref/swift/Method/implements(_:name:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Resolver0A7OptionsC10implements_4nameACyxGqd__m_A2AC4NameVSgtlF">implements(_:name:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates that the registered Service also implements a specific protocol that may be resolved on
+its own.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="n">implements</span><span class="o">&lt;</span><span class="kt">Protocol</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">Protocol</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt"><a href="../Classes/Resolver.html">Resolver</a></span><span class="o">.</span><span class="kt">Name</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">ResolverOptions</span><span class="o">&lt;</span><span class="kt">Service</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Type of protocol being registered.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Named variant of protocol being registered.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>ResolverOptions instance that allows further customization of registered Service.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Resolver0A7OptionsC17resolvePropertiesyACyxGyA2AC_xtcF"></a>
+                    <a name="//apple_ref/swift/Method/resolveProperties(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Resolver0A7OptionsC17resolvePropertiesyACyxGyA2AC_xtcF">resolveProperties(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows easy assignment of injected properties into resolved Service.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">resolveProperties</span><span class="p">(</span><span class="n">_</span> <span class="nv">block</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:8Resolver0A14FactoryMutatora">ResolverFactoryMutator</a></span><span class="o">&lt;</span><span class="kt">Service</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">ResolverOptions</span><span class="o">&lt;</span><span class="kt">Service</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>block</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Resolution block.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>ResolverOptions instance that allows further customization of registered Service.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Resolver0A7OptionsC17resolvePropertiesyACyxGyA2AC_xAF4ArgsVtcF"></a>
+                    <a name="//apple_ref/swift/Method/resolveProperties(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Resolver0A7OptionsC17resolvePropertiesyACyxGyA2AC_xAF4ArgsVtcF">resolveProperties(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows easy assignment of injected properties into resolved Service.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">resolveProperties</span><span class="p">(</span><span class="n">_</span> <span class="nv">block</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:8Resolver0A24FactoryMutatorArgumentsNa">ResolverFactoryMutatorArgumentsN</a></span><span class="o">&lt;</span><span class="kt">Service</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">ResolverOptions</span><span class="o">&lt;</span><span class="kt">Service</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>block</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Resolution block that also receives resolution arguments.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>ResolverOptions instance that allows further customization of registered Service.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Resolver0A7OptionsC5scopeyACyxGAA0A5ScopeCF"></a>
+                    <a name="//apple_ref/swift/Method/scope(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Resolver0A7OptionsC5scopeyACyxGAA0A5ScopeCF">scope(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Defines scope in which requested Service may be cached.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">scope</span><span class="p">(</span><span class="n">_</span> <span class="nv">scope</span><span class="p">:</span> <span class="kt"><a href="../Classes/ResolverScope.html">ResolverScope</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">ResolverOptions</span><span class="o">&lt;</span><span class="kt">Service</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>block</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Resolution block.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>ResolverOptions instance that allows further customization of registered Service.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2021 <a class="link" href="https://github.com/hmlongco/Resolver" target="_blank" rel="external">Michael Long</a>. All rights reserved. (Last updated: 2021-01-09)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.12.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

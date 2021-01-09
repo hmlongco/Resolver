@@ -1,0 +1,600 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 39,
+      "symbol": "ResolverRegistering",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 40,
+      "symbol": "ResolverRegistering.registerAllServices()",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 45,
+      "symbol": "Resolving.resolver",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 49,
+      "symbol": "Resolving.resolver",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 69,
+      "symbol": "Resolver.init(parent:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 339,
+      "symbol": "Resolver.Name",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 341,
+      "symbol": "Resolver.Name.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 354,
+      "symbol": "Resolver.Args",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 358,
+      "symbol": "Resolver.Args.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 367,
+      "symbol": "Resolver.Args.callAsFunction()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 372,
+      "symbol": "Resolver.Args.callAsFunction(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 377,
+      "symbol": "Resolver.Args.optional()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 381,
+      "symbol": "Resolver.Args.optional(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 385,
+      "symbol": "Resolver.Args.get()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 390,
+      "symbol": "Resolver.Args.get(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 413,
+      "symbol": "ResolverFactory",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 414,
+      "symbol": "ResolverFactoryResolver",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 415,
+      "symbol": "ResolverFactoryArgumentsN",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 416,
+      "symbol": "ResolverFactoryMutator",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 417,
+      "symbol": "ResolverFactoryMutatorArgumentsN",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 424,
+      "symbol": "ResolverOptions.scope",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 432,
+      "symbol": "ResolverOptions.init(resolver:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 501,
+      "symbol": "ResolverRegistration.key",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 502,
+      "symbol": "ResolverRegistration.cacheKey",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 504,
+      "symbol": "ResolverRegistration.init(resolver:key:name:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 514,
+      "symbol": "ResolverRegistration.resolve(resolver:args:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 523,
+      "symbol": "ResolverRegistrationOnly.factory",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 525,
+      "symbol": "ResolverRegistrationOnly.init(resolver:key:name:factory:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 530,
+      "symbol": "ResolverRegistrationOnly.resolve(resolver:args:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 542,
+      "symbol": "ResolverRegistrationResolver.factory",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 544,
+      "symbol": "ResolverRegistrationResolver.init(resolver:key:name:factory:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 549,
+      "symbol": "ResolverRegistrationResolver.resolve(resolver:args:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 561,
+      "symbol": "ResolverRegistrationArgumentsN.factory",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 563,
+      "symbol": "ResolverRegistrationArgumentsN.init(resolver:key:name:factory:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 568,
+      "symbol": "ResolverRegistrationArgumentsN.resolve(resolver:args:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 581,
+      "symbol": "ResolverScopeType.resolve(resolver:registration:args:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 584,
+      "symbol": "ResolverScope",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 600,
+      "symbol": "ResolverScope.resolve(resolver:registration:args:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 609,
+      "symbol": "Resolver.application",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 611,
+      "symbol": "Resolver.cached",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 613,
+      "symbol": "Resolver.graph",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 615,
+      "symbol": "Resolver.shared",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 617,
+      "symbol": "Resolver.unique",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 624,
+      "symbol": "ResolverScopeCache.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 626,
+      "symbol": "ResolverScopeCache.resolve(resolver:registration:args:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 637,
+      "symbol": "ResolverScopeCache.reset()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 647,
+      "symbol": "ResolverScopeGraph.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 649,
+      "symbol": "ResolverScopeGraph.resolve(resolver:registration:args:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 671,
+      "symbol": "ResolverScopeShare.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 673,
+      "symbol": "ResolverScopeShare.resolve(resolver:registration:args:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 684,
+      "symbol": "ResolverScopeShare.reset()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 698,
+      "symbol": "ResolverScopeUnique.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 699,
+      "symbol": "ResolverScopeUnique.resolve(resolver:registration:args:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 708,
+      "symbol": "StoryboardResolving.resolveViewController()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 714,
+      "symbol": "UIViewController.resolving",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 738,
+      "symbol": "Injected.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 741,
+      "symbol": "Injected.init(name:container:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 744,
+      "symbol": "Injected.wrappedValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 748,
+      "symbol": "Injected.projectedValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 761,
+      "symbol": "OptionalInjected.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 764,
+      "symbol": "OptionalInjected.init(name:container:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 767,
+      "symbol": "OptionalInjected.wrappedValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 771,
+      "symbol": "OptionalInjected.projectedValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 785,
+      "symbol": "LazyInjected.container",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 786,
+      "symbol": "LazyInjected.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 787,
+      "symbol": "LazyInjected.args",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 788,
+      "symbol": "LazyInjected.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 789,
+      "symbol": "LazyInjected.init(name:container:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 793,
+      "symbol": "LazyInjected.isEmpty",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 796,
+      "symbol": "LazyInjected.wrappedValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 806,
+      "symbol": "LazyInjected.projectedValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 810,
+      "symbol": "LazyInjected.release()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 823,
+      "symbol": "WeakLazyInjected.container",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 824,
+      "symbol": "WeakLazyInjected.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 825,
+      "symbol": "WeakLazyInjected.args",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 826,
+      "symbol": "WeakLazyInjected.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 827,
+      "symbol": "WeakLazyInjected.init(name:container:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 831,
+      "symbol": "WeakLazyInjected.isEmpty",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 834,
+      "symbol": "WeakLazyInjected.wrappedValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 846,
+      "symbol": "WeakLazyInjected.projectedValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 862,
+      "symbol": "InjectedObject",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 864,
+      "symbol": "InjectedObject.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 867,
+      "symbol": "InjectedObject.init(name:container:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 870,
+      "symbol": "InjectedObject.wrappedValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver/Sources/Resolver/Resolver.swift",
+      "line": 874,
+      "symbol": "InjectedObject.projectedValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/michael/Dropbox/Projects/iOS/OSS/Resolver/Resolver"
+}
