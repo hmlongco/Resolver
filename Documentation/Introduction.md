@@ -169,7 +169,7 @@ Note that the initializers for XYZViewModel and XYZCombinedService are each pass
 
 Let's use Resolver to register these classes.
 
-Here we're extending the base Resolver class with the ResolverRegistering protcol, which pretty much just tells Resolver that we've added the registerAllServices() function.
+Here we're extending the base Resolver class with the ResolverRegistering protocol, which pretty much just tells Resolver that we've added the registerAllServices() function.
 
 The `registerAllServices` function is automatically called by Resolver the first time it's asked to resolve a service, in effect performing a one-time initialization of the resolution system.
 
