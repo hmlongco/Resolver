@@ -2,6 +2,8 @@
 
 An ultralight Dependency Injection / Service Locator framework for Swift 5.2 on iOS.
 
+**Note that several recent updates to Resolver may break earlier code that used [argument passing](./Documentation/Arguments.md#multiple) and/or [named services](./Documentation/Names.md). For more see the [Updates](#updates) section below.**
+
 ## Introduction
 
 Dependency Injection frameworks support the [Inversion of Control](https://en.wikipedia.org/wiki/Inversion_of_control) design pattern. Technical definitions aside, dependency injection pretty much boils down to:
@@ -11,24 +13,6 @@ Dependency Injection frameworks support the [Inversion of Control](https://en.wi
 That's it. Dependency injection allows us to write code that's loosely coupled, and as such, easier to reuse, to mock, and  to test.
 
 For more, see: [A Gentle Introduction to Dependency Injection.](./Documentation/Introduction.md)
-
-## Resolver 1.3 Changes
-
-Resolver 1.3 adds Name spaces to Resolver. Registering names allows for better autocompletion and makes your code safer by reducing potential runtime evaluation errors. This could be a breaking change based how you used named registristraions in your code. 
-
-```swift
-register(name: .fred) { XYZServiceFred() as XYZServiceProtocol }
-register(name: .barney) { XYZServiceBarney() as XYZServiceProtocol }
-
-let service: XYZServiceProtocol = resolve(name: .fred)
-```
-For more see: [Named Instances](./Documentation/Names.md)
-
-## Resolver 1.2 Changes
-
-Note that Resolver 1.2 changed how arguments are passed to the registration factory order to provide better support for passing and handling both single and multiple arguments. This is, unfortunately, a breaking change from Resolver 1.1.X, but as the end result is much cleaner code I think it's worth it. If you're *not* using arguments then you should see no issues whatsoever.
-
-See: [Passing and Handling Multiple Arguments](./Documentation/Arguments.md#multiple)
 
 ## Dependency Injection Strategies
 
@@ -45,7 +29,7 @@ Resolver supports them all. Follow the links for a brief description, examples, 
 
 ## Property Wrappers
 
-Resolver now supports resolving services using the new property wrapper syntax in Swift 5.1.
+Speaking of Annotations, Resolver now supports resolving services using the new property wrapper syntax in Swift 5.1.
 
 ```swift
 class BasicInjectedViewController: UIViewController {
@@ -88,7 +72,7 @@ pod "Resolver"
 ```
 Resolver itself is just a single source file (Resolver.swift), so it's also easy to simply download the file and add it to your project.
 
-Note that the current version of Resolver (1.1) supports Swift 5.1 and that the minimum version of iOS currently supported with this release is iOS 11.
+Note that the current version of Resolver (1.4) supports Swift 5.3 and that the minimum version of iOS currently supported with this release is iOS 11.
 
 Read the [installation guide](./Documentation/Installation.md) for information on supporting earlier versions.
 
@@ -109,9 +93,20 @@ Further, Resolver:
 
 Finally, with  [Automatic Type Inference](./Documentation/Types.md) you also tend to write about 40-60% less dependency injection code using Resolver.
 
+## Resolver Update Notes<a name=updates></a>
+
+It's possible that recent updates to Resolver could cause breaking changes in your code base.
+
+* Resolver 1.4 improved thread safety and performance. No breaking changes, though accessing Resolver's scopes directly is now deprecated. See: [Scopes](./Documentation/Scopes.md).
+
+* Resolver 1.3 adds Name spaces to Resolver. Registering names allows for better autocompletion and makes your code safer by reducing potential runtime evaluation errors. This is a possible breaking change.  See: [Named Instances](./Documentation/Names.md)
+
+
+* Resolver 1.2 changed how arguments are passed to the registration factory in order to provide better support for passing and handling both single and multiple arguments. This is a breaking change. See: [Passing and Handling Multiple Arguments](./Documentation/Arguments.md#multiple)
+
 ## Author
 
-Resolver was designed, implemented, and documented by [Michael Long](https://www.linkedin.com/in/hmlong/), a Senior Lead iOS engineer at [CRi Solutions](https://www.clientresourcesinc.com/solutions/). CRi is a leader in developing cutting edge iOS, Android, and mobile web applications and solutions for our corporate and financial clients.
+Resolver was designed, implemented, documented, and maintained by [Michael Long](https://www.linkedin.com/in/hmlong/), a Senior Lead iOS engineer at [CRi Solutions](https://www.clientresourcesinc.com/solutions/). CRi is a leader in developing cutting edge iOS, Android, and mobile web applications and solutions for our corporate and financial clients.
 
 * Email: [mlong@clientresourcesinc.com](mailto:mlong@clientresourcesinc.com)
 * Twitter: @hmlco
