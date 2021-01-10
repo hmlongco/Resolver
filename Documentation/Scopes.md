@@ -2,26 +2,42 @@
 
 ## What's a scope, and why do I want one?
 
-Scopes are used to control the lifecycle of a given object instance.
+Scopes are used to control the lifecycle of a given object instance once it's been resolved. That means that scopes are basically caches, and those caches are used to keep track of the objects they create.
 
-Resolver has five built-in scopes:
+When asked to resolve a particular service, Resolver will find the registration for that service and ask its associated *scope* to provide the instance needed. If the object exists in the cache for that scope then a reference to the cached object is returned. If it *doesn't* exist in the cache, then Resolver will make one using the registration factory and then add it to the cache so it's available next time.
 
-* [Application](#application)
-* [Cached](#cached)
-* [Graph](#graph) (default)
-* [Shared](#shared)
-* [Unique](#unique)
+This means that *every* service requested from a scope, with the sole exception of `unique`,  will be cached for some period of time.
 
-All scopes, with the exception of `unique`, are basically caches, and those caches are used to keep track of the objects they create.
+How long? Well, that depends on the scope. Some cached instances exist only during a given [resolution cycle](Cycle.md), while others my stick around and maintain a single instance for the entire lifetime of the app.
 
-How long? Well, that depends on the scope.
+Resolver has five built-in scopes, all defined on the type `ResolverScope`:
+
+* [.application](#application)
+* [.cached](#cached)
+* [.graph](#graph) (default)
+* [.shared](#shared)
+* [.unique](#unique)
+
+Make sure you know and understand the differences between them, becaue if there's one advanced feature of Resolver you absolutely *must* understand, it's this one.
+
+## How do I assign a Scope?
+
+Registrations are assigned to a given scope using the `.scope(...)` modifier on a given registration.  
+
+```swift
+register { XYZApplicationService() }
+    .scope(.application)
+```
+
+If you don't specify a scope for a given registration Resolver will punt and use the globally defined [default scope](#default) (usually [.graph](#graph)). This means that all registrations exist in a given scope, explicitly specified or not. 
+
 
 ## Scope: Application<a name=application></a>
 
-The `application` scope will make Resolver retain a given object instance once it's been resolved the first time, and any subsequent resolutions will always return the initial instance.
+The `application` scope will make Resolver retain a given object instance once it's been resolved the first time, and any subsequent resolutions will *always* return the initial instance.
 
 ```swift
-main.register { XYZApplicationService() }
+register { XYZApplicationService() }
     .scope(.application)
 ```
 
@@ -32,7 +48,7 @@ This effectively makes the object a `Singleton`.
 This scope stores a strong reference to the resolved instance. Once created, every subsequent call to resolve will return the same instance.
 
 ```swift
-main.register { MyViewModel() }
+register { MyViewModel() }
     .scope(.cached)
 ```
 
@@ -55,10 +71,10 @@ Once the requested object is resolved any internally cached instances will be di
 Graph is Resolver's **default** scope, so check out the following code:
 
 ```swift
-main.register { XYZViewModel(fetcher: resolve(), updater: resolve(), service: resolve()) }
-main.register { resolve() as XYZCombinedService as XYZFetching }
-main.register { resolve() as XYZCombinedService as XYZUpdating }
-main.register { XYZCombinedService() }
+register { XYZViewModel(fetcher: resolve(), updater: resolve(), service: resolve()) }
+register { resolve() as XYZCombinedService as XYZFetching }
+register { resolve() as XYZCombinedService as XYZUpdating }
+register { XYZCombinedService() }
 
 var viewModel: XYZViewModel = resolver.resolve()
 ```
@@ -73,7 +89,7 @@ But since we've already resolved `XYZCombinedService` once during this cycle, th
 
 Resolver then resolves the `service` object, and the code initializes a copy of `XYZViewModel` and returns it.
 
-The graph tracks all of the objects that are resolved by all of the objects that are resolved by all of the objects... until the final result is returned.
+The graph tracks all of the objects that are resolved by all of the objects that are resolved by all of the objects... until the final result is returned. At which point all of the internally cached references are released and your application now is responsible for the object's lifecycle.
 
 If you don't want this behavior, and if every request should get its own `unique` copy, specify it using the `unique` scope.
 
@@ -82,7 +98,7 @@ If you don't want this behavior, and if every request should get its own `unique
 This scope stores a *weak* reference to the resolved instance.
 
 ```
-main.register { MyViewModel() }
+register { MyViewModel() }
     .scope(.shared)
 ```
 
@@ -103,7 +119,7 @@ This is the simplest scope, in that Resolver calls the registration factory to c
 It's specified like this:
 
 ```swift
-main.register { XYZCombinedService() }
+register { XYZCombinedService() }
     .scope(.unique)
 ```
 
@@ -139,7 +155,7 @@ extension ResolverScope {
 Your session scope can then be used and specified just like any built-in scope.
 
 ```swift
-main.register { UserManager() }
+register { UserManager() }
     .scope(.session)
 ```
 
