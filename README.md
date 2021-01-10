@@ -14,7 +14,7 @@ For more, see: [A Gentle Introduction to Dependency Injection.](./Documentation/
 
 ## Resolver 1.3 Changes
 
-Resolver 1.3 adds Name spaces to Resolver. Registering names allows for better autocompletion and makes your code safer by reducing potential runtime evaluation errors.
+Resolver 1.3 adds Name spaces to Resolver. Registering names allows for better autocompletion and makes your code safer by reducing potential runtime evaluation errors. This could be a breaking change based how you used named registristraions in your code. 
 
 ```swift
 register(name: .fred) { XYZServiceFred() as XYZServiceProtocol }
@@ -22,7 +22,6 @@ register(name: .barney) { XYZServiceBarney() as XYZServiceProtocol }
 
 let service: XYZServiceProtocol = resolve(name: .fred)
 ```
-
 For more see: [Named Instances](./Documentation/Names.md)
 
 ## Resolver 1.2 Changes
