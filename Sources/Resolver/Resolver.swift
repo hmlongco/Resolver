@@ -311,7 +311,7 @@ public final class Resolver {
 }
 
 /// Resolving an instance of a service is a recursive process (service A needs a B which needs a C).
-fileprivate class ResolverRecursiveLock {
+private class ResolverRecursiveLock {
     init() {
         pthread_mutexattr_init(&recursiveMutexAttr)
         pthread_mutexattr_settype(&recursiveMutexAttr, PTHREAD_MUTEX_RECURSIVE)
@@ -344,6 +344,10 @@ extension Resolver {
         }
         public init(stringLiteral: String) {
             self.rawValue = stringLiteral
+        }
+        public static func name(fromString string: String?) -> Name? {
+            if let string = string { return Name(string) }
+            return nil
         }
     }
 
