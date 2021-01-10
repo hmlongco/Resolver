@@ -123,8 +123,21 @@ class ResolverNameTests: XCTestCase {
         resolver.register(name: .barney) { XYZNameService("Barney") }
 
         let base: XYZNameService? = resolver.optional()
-        
+
         XCTAssertNil(base)
+    }
+
+    func testResolverWithNamedStringVariable() {
+
+        resolver.register(name: "Fred") { XYZNameService("Fred") }
+        resolver.register(name: .barney) { XYZNameService("Barney") }
+
+        let string = "Fred"
+        let fred: XYZNameService? = resolver.optional(name: .name(fromString: string))
+
+        XCTAssertNotNil(fred)
+        XCTAssert(fred?.name == "Fred")
+
     }
 
 }

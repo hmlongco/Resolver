@@ -111,6 +111,7 @@ extension ResolverNameTests {
         ("testResolverNamesWithNoBaseService", testResolverNamesWithNoBaseService),
         ("testResolverValidNameNames", testResolverValidNameNames),
         ("testResolverValidNameStrings", testResolverValidNameStrings),
+        ("testResolverWithNamedStringVariable", testResolverWithNamedStringVariable),
     ]
 }
 
