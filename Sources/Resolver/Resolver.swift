@@ -74,7 +74,7 @@ public final class Resolver {
     public final func registerServices() {
         lock.lock()
         defer { lock.unlock() }
-        registerationCheck()
+        registrationCheck()
     }
 
     /// Call function to force one-time initialization of the Resolver registries. Usually not needed as functionality
@@ -82,7 +82,7 @@ public final class Resolver {
     public static var registerServices: (() -> Void)? = {
         lock.lock()
         defer { lock.unlock() }
-        registerationCheck()
+        registrationCheck()
     }
 
     /// Called to effectively reset Resolver to its initial state, including recalling registerAllServices if it was provided. This will
@@ -211,7 +211,7 @@ public final class Resolver {
     public static func resolve<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> Service {
         lock.lock()
         defer { lock.unlock() }
-        registerationCheck()
+        registrationCheck()
         if let registration = root.lookup(type, name: name),
             let service = registration.scope.resolve(resolver: root, registration: registration, args: args) {
             return service
@@ -231,7 +231,7 @@ public final class Resolver {
     public final func resolve<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> Service {
         lock.lock()
         defer { lock.unlock() }
-        registerationCheck()
+        registrationCheck()
         if let registration = lookup(type, name: name),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
@@ -250,7 +250,7 @@ public final class Resolver {
     public static func optional<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> Service? {
         lock.lock()
         defer { lock.unlock() }
-        registerationCheck()
+        registrationCheck()
         if let registration = root.lookup(type, name: name),
             let service = registration.scope.resolve(resolver: root, registration: registration, args: args) {
             return service
@@ -270,7 +270,7 @@ public final class Resolver {
     public final func optional<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> Service? {
         lock.lock()
         defer { lock.unlock() }
-        registerationCheck()
+        registrationCheck()
         if let registration = lookup(type, name: name),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
@@ -406,7 +406,7 @@ extension Resolver {
 private var registrationNeeded: Bool = true
 
 @inline(__always)
-private func registerationCheck() {
+private func registrationCheck() {
     guard registrationNeeded else {
         return
     }
