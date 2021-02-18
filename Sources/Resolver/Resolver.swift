@@ -362,11 +362,13 @@ extension Resolver {
         private var args: [String:Any?]
 
         public init(_ args: Any?) {
-            if let args = args as? [String:Any?] {
+            if let args = args as? Args {
+                self.args = args.args
+            } else if let args = args as? [String:Any?] {
                 self.args = args
             } else {
                 self.args = ["" : args]
-             }
+            }
         }
 
         #if swift(>=5.2)
