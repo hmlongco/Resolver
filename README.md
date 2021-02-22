@@ -95,7 +95,7 @@ Read the [installation guide](./Documentation/Installation.md) for information o
 
 ## Demo Application
 
-I've made my [Builder](https://github.com/hmlongco/Builder) repositiory public. It's a simple master/detail-style application that contains examples of...
+I've made my [Builder](https://github.com/hmlongco/Builder) repositiory public. It's a simple master/detail-style iOS application that contains examples of...
 
 1. Using the Resolver dependency injection system to construct MVVM architectures.
 2. Using Resolver to mock user data for application development.
@@ -134,3 +134,4 @@ Resolver is available under the MIT license. See the LICENSE file for more info.
 * [Dependency Injection in Swift](https://cocoacasts.com/dependency-injection-in-swift)
 * [SwinjectStoryboard](https://github.com/Swinject/SwinjectStoryboard)
 * [Swift 5.1 Takes Dependency Injection to the Next Level](https://medium.com/better-programming/taking-swift-dependency-injection-to-the-next-level-b71114c6a9c6)
+* [Builder Demo Application](https://github.com/hmlongco/Builder)
