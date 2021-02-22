@@ -64,18 +64,6 @@ Using Resolver is a simple, three-step process:
 2. [Register the classes and services your app requires.](./Documentation/Registration.md)
 3. [Use Resolver to resolve those instances when needed.](./Documentation/Resolving.md)
 
-## Installation
-
-Resolver supports CocoaPods and the Swift Package Manager.
-```swift
-pod "Resolver"
-```
-Resolver itself is just a single source file (Resolver.swift), so it's also easy to simply download the file and add it to your project.
-
-Note that the current version of Resolver (1.4) supports Swift 5.3 and that the minimum version of iOS currently supported with this release is iOS 11.
-
-Read the [installation guide](./Documentation/Installation.md) for information on supporting earlier versions.
-
 ## Why Resolver?
 
 As mentioned, Resolver is an ultralight Dependency Injection system, implemented in just over 700 lines of code and contained in a single file.
@@ -92,6 +80,28 @@ Further, Resolver:
 * Is well-documented.
 
 Finally, with  [Automatic Type Inference](./Documentation/Types.md) you also tend to write about 40-60% less dependency injection code using Resolver.
+
+## Installation
+
+Resolver supports CocoaPods and the Swift Package Manager.
+```swift
+pod "Resolver"
+```
+Resolver itself is just a single source file (Resolver.swift), so it's also easy to simply download the file and add it to your project.
+
+Note that the current version of Resolver (1.4) supports Swift 5.3 and that the minimum version of iOS currently supported with this release is iOS 11.
+
+Read the [installation guide](./Documentation/Installation.md) for information on supporting earlier versions.
+
+## Demo Application
+
+I've made my [Builder](https://github.com/hmlongco/Builder) repositiory public. It's a simple master/detail-style application that contains examples of...
+
+1. Using the Resolver dependency injection system to construct MVVM architectures.
+2. Using Resolver to mock user data for application development.
+3. Using Resolver to mock user data for unit tests.
+
+I also use it to play with some new code that uses SwiftUI-style builder patterns to constructing the user interface construction and to construct network requests. Check it out.
 
 ## Resolver Update Notes<a name=updates></a>
 
