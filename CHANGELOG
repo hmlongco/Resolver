@@ -1,5 +1,9 @@
 # Resolver Changelog
 
+### 1.4.1
+
+* Fix bug forwarding new argument structure from factory to factory - PR#89
+
 ### 1.4.0
 
 * Updated registration and resolution lock/unlock stratagies for better thread safety and performance.
