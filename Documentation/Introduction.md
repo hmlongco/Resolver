@@ -128,9 +128,11 @@ class MyViewController: UIViewController {
 }
 ```
 
-The XYZViewModel needs an instance of an object that implements a XYZFetching protocol, one that implements XYZUpdating, and it also wants access to a XYZService for good measure.
+The XYZViewModel needs an instance of an object that implements a XYZFetching protocol, one that implements XYZUpdating, and the view model also wants access to a XYZService for good measure.
 
-The XYZService, in turn, needs a reference to an XYZSessionService to do its job.
+So XYZViewModel wants references to three objects. But in our code, XYZCombinedService implements *both* the XYZFetching and the XYZUpdating protocols *in the same class*. Not to mention that XYZCombinedService also *has its own dependency*, and needs a reference to an XYZSessionService to do its job.
+
+The code makes those dependencies clear.
 
 ```swift
 class XYZViewModel {
