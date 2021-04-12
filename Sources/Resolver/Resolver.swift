@@ -311,7 +311,7 @@ public final class Resolver {
 }
 
 /// Resolving an instance of a service is a recursive process (service A needs a B which needs a C).
-private class ResolverRecursiveLock {
+private final class ResolverRecursiveLock {
     init() {
         pthread_mutexattr_init(&recursiveMutexAttr)
         pthread_mutexattr_settype(&recursiveMutexAttr, PTHREAD_MUTEX_RECURSIVE)
@@ -330,7 +330,7 @@ private class ResolverRecursiveLock {
 }
 
 extension Resolver {
-    private static let lock = ResolverRecursiveLock()
+    fileprivate static let lock = ResolverRecursiveLock()
 }
 
 /// Resolver Service Name Space Support
@@ -785,6 +785,7 @@ public extension UIViewController {
 /// Wrapped dependent service is not resolved until service is accessed.
 ///
 @propertyWrapper public struct LazyInjected<Service> {
+    private var lock = Resolver.lock
     private var initialize: Bool = true
     private var service: Service!
     public var container: Resolver?
@@ -796,23 +797,34 @@ public extension UIViewController {
         self.container = container
     }
     public var isEmpty: Bool {
+        lock.lock()
+        defer { lock.unlock() }
         return service == nil
     }
     public var wrappedValue: Service {
         mutating get {
+            lock.lock()
+            defer { lock.unlock() }
             if initialize {
                 self.initialize = false
                 self.service = container?.resolve(Service.self, name: name, args: args) ?? Resolver.resolve(Service.self, name: name, args: args)
             }
             return service
         }
-        mutating set { service = newValue  }
+        mutating set {
+            lock.lock()
+            defer { lock.unlock() }
+            initialize = false
+            service = newValue
+        }
     }
     public var projectedValue: LazyInjected<Service> {
         get { return self }
         mutating set { self = newValue }
     }
     public mutating func release() {
+        lock.lock()
+        defer { lock.unlock() }
         self.service = nil
     }
 }
@@ -822,6 +834,7 @@ public extension UIViewController {
 /// Wrapped dependent service is not resolved until service is accessed.
 ///
 @propertyWrapper public struct WeakLazyInjected<Service> {
+    private var lock = Resolver.lock
     private var initialize: Bool = true
     private weak var service: AnyObject?
     public var container: Resolver?
@@ -833,19 +846,26 @@ public extension UIViewController {
         self.container = container
     }
     public var isEmpty: Bool {
+        lock.lock()
+        defer { lock.unlock() }
         return service == nil
     }
     public var wrappedValue: Service? {
         mutating get {
+            lock.lock()
+            defer { lock.unlock() }
             if initialize {
                 self.initialize = false
-                let service = container?.resolve(Service.self, name: name, args: args) ?? Resolver.resolve(Service.self, name: name, args: args)
-                self.service = service as AnyObject
-                return service
+                self.service = (container?.resolve(Service.self, name: name, args: args) ?? Resolver.resolve(Service.self, name: name, args: args)) as AnyObject
             }
             return service as? Service
         }
-        mutating set { service = newValue as AnyObject }
+        mutating set {
+            lock.lock()
+            defer { lock.unlock() }
+            initialize = false
+            service = newValue as AnyObject
+        }
     }
     public var projectedValue: WeakLazyInjected<Service> {
         get { return self }
