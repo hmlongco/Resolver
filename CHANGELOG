@@ -1,5 +1,9 @@
 # Resolver Changelog
 
+### 1.4.2
+
+* Fix threading issue in LazyInjected and WeakLazyInjected property wrappers
+
 ### 1.4.1
 
 * Fix bug forwarding new argument structure from factory to factory - PR#89
