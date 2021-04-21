@@ -585,7 +585,7 @@ public final class ResolverRegistrationArgumentsN<Service>: ResolverRegistration
 // Scopes
 
 /// Resolver scopes exist to control when resolution occurs and how resolved instances are cached. (If at all.)
-public protocol ResolverScopeType: class {
+public protocol ResolverScopeType: AnyObject {
     func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service?
 }
 
