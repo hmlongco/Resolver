@@ -213,7 +213,7 @@ public final class Resolver {
         defer { lock.unlock() }
         registrationCheck()
         if let registration = root.lookup(type, name: name),
-            let service = registration.scope.resolve(resolver: root, registration: registration, args: args) {
+           let service = registration.scope.resolve(resolver: root, registration: registration, args: args) {
             return service
         }
         fatalError("RESOLVER: '\(Service.self):\(name?.rawValue ?? "NONAME")' not resolved. To disambiguate optionals use resolver.optional().")
@@ -233,7 +233,7 @@ public final class Resolver {
         defer { lock.unlock() }
         registrationCheck()
         if let registration = lookup(type, name: name),
-            let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
+           let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
         }
         fatalError("RESOLVER: '\(Service.self):\(name?.rawValue ?? "NONAME")' not resolved. To disambiguate optionals use resolver.optional().")
@@ -252,7 +252,7 @@ public final class Resolver {
         defer { lock.unlock() }
         registrationCheck()
         if let registration = root.lookup(type, name: name),
-            let service = registration.scope.resolve(resolver: root, registration: registration, args: args) {
+           let service = registration.scope.resolve(resolver: root, registration: registration, args: args) {
             return service
         }
         return nil
@@ -272,7 +272,7 @@ public final class Resolver {
         defer { lock.unlock() }
         registrationCheck()
         if let registration = lookup(type, name: name),
-            let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
+           let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
         }
         return nil
