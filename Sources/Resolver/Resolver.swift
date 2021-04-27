@@ -454,7 +454,7 @@ public class ResolverOptions<Service> {
     ///
     @discardableResult
     public final func implements<Protocol>(_ type: Protocol.Type, name: Resolver.Name? = nil) -> ResolverOptions<Service> {
-        resolver?.register(type.self, name: name) { r, _ in r.resolve(Service.self) as? Protocol }
+        resolver?.register(type.self, name: name) { r, args in r.resolve(Service.self, args: args) as? Protocol }
         return self
     }
 

@@ -101,7 +101,13 @@ class XYZValueService {
     }
 }
 
-class XYZArgumentService {
+
+protocol XYZArgumentProtocol {
+    var condition: Bool { get }
+    var string: String { get }
+}
+
+class XYZArgumentService: XYZArgumentProtocol {
     var condition: Bool
     var string: String
     init(condition: Bool = false, string: String = "Barney") {

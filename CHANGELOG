@@ -3,6 +3,7 @@
 ### 1.4.2
 
 * Fix threading issue in LazyInjected and WeakLazyInjected property wrappers
+* Fix argument passing in .implements
 
 ### 1.4.1
 
