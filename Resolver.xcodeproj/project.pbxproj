@@ -234,15 +234,15 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftMigration = 9999;
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1250;
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "Resolver" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
+				Base,
 			);
 			mainGroup = OBJ_5;
 			productRefGroup = OBJ_24 /* Products */;
