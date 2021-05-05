@@ -28,7 +28,7 @@ Let's start by adding the master injection file for the entire application.
 Add a file named `AppDelegate+Injection.swift` to your project and add the following code:
 
 ```
-#import Resolver
+import Resolver
 
 extension Resolver: ResolverRegistering {
     public static func registerAllServices() {
