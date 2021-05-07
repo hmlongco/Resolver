@@ -116,7 +116,7 @@ Why? Because property wrappers are at heart properties and they're immediately i
 It can't, for example, do `@Injected(args: self.editMode) var viewModel: XYZViewModel` as `self` isn't available. Swift won't allow it.
 
 That said, it's possible to be sneaky about it and pass arguments using `@LazyInjected`.
-```
+```swift
 class NamedInjectedViewController: UIViewController {
     @LazyInjected var service: XYZNameService
     var editMode: Bool
@@ -160,7 +160,7 @@ To put that into English, it means the dependency-injection system creates and c
 Data is never injected.
 
 If an object requires data or values created or manipulated during runtime I'd do something like the following....
-```
+```swift
 class DummyViewModel {
     func load(id: Int, editing: Bool) { }
 }

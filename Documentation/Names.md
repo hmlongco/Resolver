@@ -121,7 +121,7 @@ Now the view controller gets the proper view model for the job. The `lazy var` e
 
 If you're using Resolver's property wrappers for injection, you can also do the same with `@LazyInjected`.
 
-```
+```swift
 class NamedInjectedViewController: UIViewController {
     var editMode: Bool // set, perhaps, by calling segue
     @LazyInjected var viewModel: XYZViewModelProtocol

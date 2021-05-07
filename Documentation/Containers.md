@@ -10,7 +10,7 @@ In Resolver, a resolver instance contains its registration code, its resolution 
 
 Inspect Resolver's code and you'll see the following.
 
-```
+```swift
 public final class Resolver {
     public static let main: Resolver = Resolver()
     public static var root: Resolver = main
@@ -23,7 +23,7 @@ Resolver creates a *main* container that it uses as its default container for al
 
 This basically means that when you do....
 
-```
+```swift
 extension Resolver: ResolverRegistering {
     static func registerAllServices() {
         register { XYZNetworkService(session: resolve()) }
@@ -34,7 +34,7 @@ extension Resolver: ResolverRegistering {
 
 You're effectively doing...
 
-```
+```swift
 extension Resolver: ResolverRegistering {
     static func registerAllServices() {
         main.register { XYZNetworkService(session: root.resolve()) }
@@ -45,7 +45,7 @@ extension Resolver: ResolverRegistering {
 
 The static register and resolve functions simply pass the buck to main and root, respectively.
 
-```
+```swift
 public static func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
     return root.resolve(type, name: name, args: args)
 }
@@ -55,7 +55,7 @@ public static func resolve<Service>(_ type: Service.Type = Service.self, name: S
 
 Creating your own container is simple, and similar to creating your own scope caches.
 
-```
+```swift
 extension Resolver {
     static let mock = Resolver()
 }
@@ -63,7 +63,7 @@ extension Resolver {
 
 It could then be used as follows.
 
-```
+```swift
 extension Resolver: ResolverRegistering {
     static func registerAllServices() {
         mock.register { XYZNetworkService(session: mock.resolve()) }
@@ -86,7 +86,7 @@ This implies that if root were to point to a different container, like our *mock
 
 Now consider the following:
 
-```
+```swift
 extension Resolver {
     static let mock = Resolver(parent: main)
 
@@ -112,7 +112,7 @@ If a service is **not** found in *mock*,  the *main* parent container will be se
 
 One might ask why we simply don't do the following:
 
-```
+```swift
 extension Resolver {
     static func registerAllServices() {
         register { XYZNetworkService(session: resolve()) }
@@ -133,7 +133,7 @@ But what if, for example, we want to keep both registrations and use the proper 
 
 Consider the following:
 
-```
+```swift
 extension Resolver {
     #if DEBUG
     static let mock = Resolver(parent: main)
@@ -152,7 +152,7 @@ extension Resolver {
 
 And then somewhere in our code we do this before we enter a given section:
 
-```
+```swift
 #if DEBUG
 Resolver.root = Resolver.mock
 #end
@@ -160,7 +160,7 @@ Resolver.root = Resolver.mock
 
 And then when exiting that section:
 
-```
+```swift
 #if DEBUG
 Resolver.root = Resolver.main
 #end
