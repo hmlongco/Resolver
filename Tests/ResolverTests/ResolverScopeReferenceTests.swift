@@ -99,6 +99,49 @@ class ResolverScopeReferenceTests: XCTestCase {
         }
     }
 
+    func testResolverScopeCachedImplements() {
+        // Reset...
+        ResolverScope.cached.reset()
+        resolver.register { XYZSessionService() }
+            .implements(XYZSessionProtocol.self)
+            .scope(.cached)
+        let service1: XYZSessionService? = resolver.optional()
+        let service2: XYZSessionService? = resolver.optional()
+        XCTAssertNotNil(service1)
+        XCTAssertNotNil(service2)
+        // Also test if "implements" protocol resolves
+        let service3: XYZSessionProtocol? = resolver.optional()
+        XCTAssertNotNil(service3)
+        // check identity
+        var originalID: UUID?
+        if let s1 = service1, let s2 = service2, let s3 = service3 {
+            XCTAssert(s1.id == s2.id)
+            XCTAssert(s2.id == s3.id)
+            originalID = s1.id
+        } else {
+            XCTFail("sessions not cached")
+        }
+        // Reset...
+        ResolverScope.cached.reset()
+        // ...and try again
+        var newUUID: UUID?
+        if let newService: XYZSessionService = resolver.optional(), let originalID = originalID {
+            XCTAssert(originalID != newService.id)
+            newUUID = newService.id
+        } else {
+            XCTFail("newService not resolved")
+        }
+        // Reset...
+        ResolverScope.cached.reset()
+        // ...and try once more with protocol
+        if let newService: XYZSessionProtocol = resolver.optional(), let originalID = originalID, let newID = newUUID {
+            XCTAssert(originalID != newService.id)
+            XCTAssert(newID != newService.id)
+        } else {
+            XCTFail("newService not resolved")
+        }
+    }
+
     func testResolverScopeUnique() {
         resolver.register { XYZSessionService() }.scope(.unique)
         let service1: XYZSessionService? = resolver.optional()

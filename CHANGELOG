@@ -4,6 +4,8 @@
 
 * Fix threading issue in LazyInjected and WeakLazyInjected property wrappers
 * Fix argument passing in .implements
+* Update projct for Xcode 12.5
+* Update Swift class deprecation  
 
 ### 1.4.1
 
