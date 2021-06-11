@@ -58,7 +58,7 @@ var abc: ABCServicing? = Resolver.resolve(ABCService.self)
 ##  Optional annotation
 
 An annotation is available that supports optional resolving. If the service is not registered, then the value will be nil, otherwise it will be not nil:
-```
+```swift
 class InjectedViewController: UIViewController {
     @OptionalInjected var service: XYZService?
     func load() {

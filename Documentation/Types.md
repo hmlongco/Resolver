@@ -38,7 +38,7 @@ Here the variable type is ABCService, so Resolver will lookup the registration f
 
 You can also explicitly tell Resolver the type of object or protocol you want to register or resolve.
 
-```
+```swift
 Resolver.register(ABCServicing.self) { ABCService() }
 var abc = Resolver.resolve(ABCServicing.self)
 ```

@@ -4,7 +4,7 @@
 
 Resolver is available through Swift Package Manager. To install it simply include it in your package dependencies:
 
-```
+```swift
 dependencies: [
     .package(url: "https://github.com/hmlongco/Resolver.git", from: "1.1.2"),
 ]
@@ -16,7 +16,7 @@ Or in Xcode via File > Swift Packages > Add Package Dependency...
 
 Resolver is available through CocoaPods. To install it, simply add the following line to your Podfile:
 
-```
+```swift
 pod "Resolver"
 ```
 

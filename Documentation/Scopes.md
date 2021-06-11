@@ -97,7 +97,7 @@ If you don't want this behavior, and if every request should get its own `unique
 
 This scope stores a *weak* reference to the resolved instance.
 
-```
+```swift
 register { MyViewModel() }
     .scope(.shared)
 ```

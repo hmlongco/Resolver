@@ -23,7 +23,7 @@ The first injection technique is to define a interface for the injection, and in
 
 #### The Class
 
-```
+```swift
 class XYZViewModel {
 
     lazy var fetcher: XYZFetching = getFetcher()
@@ -38,7 +38,7 @@ class XYZViewModel {
 
 #### The Dependency Injection Code
 
-```
+```swift
 extension XYZViewModel: Resolving {
     func getFetcher() -> XYZFetching { return resolver.resolve() }
     func getService() -> XYZService { return resolver.resolve() }
@@ -70,7 +70,7 @@ Property Injection exposes its dependencies as properties, and it's up to the De
 
 #### The Class
 
-```
+```swift
 class XYZViewModel {
 
     var fetcher: XYZFetching!
@@ -85,7 +85,7 @@ class XYZViewModel {
 
 #### The Dependency Injection Code
 
-```
+```swift
 func setupMyRegistrations {
     register { XYZViewModel() }
         .resolveProperties { (resolver, model) in
@@ -120,7 +120,7 @@ A Constructor is the Java term for a Swift Initializer, but the idea is the same
 
 #### The Class
 
-```
+```swift
 class XYZViewModel {
 
     private var fetcher: XYZFetching
@@ -141,7 +141,7 @@ class XYZViewModel {
 
 #### The Dependency Injection Code
 
-```
+```swift
 func setupMyRegistrations {
     register { XYZViewModel(fetcher: resolve(), service: resolve()) }
     register { XYZFetcher() as XYZFetching }
@@ -170,7 +170,7 @@ Method Injection is pretty much what it says, injecting the object needed into a
 
 #### The Class
 
-```
+```swift
 class XYZViewModel {
 
     func load(fetcher: XYZFetching, service: XYZFetching) -> Data {
@@ -207,7 +207,7 @@ Technically, Service Locator is its own Design Pattern, distinct from Dependency
 
 #### The Class
 
-```
+```swift
 class XYZViewModel {
 
     var fetcher: XYZFetching = Resolver.resolve()
@@ -222,7 +222,7 @@ class XYZViewModel {
 
 #### The Dependency Injection Code
 
-```
+```swift
 func setupMyRegistrations {
     register { XYZFetcher() as XYZFetching }
     register { XYZService() }
@@ -246,7 +246,7 @@ Annotation uses comments or other metadata to indication that dependency injecti
 
 #### The Class
 
-```
+```swift
 class XYZViewModel {
 
     @Injected var fetcher: XYZFetching
@@ -261,7 +261,7 @@ class XYZViewModel {
 
 #### The Dependency Injection Code
 
-```
+```swift
 func setupMyRegistrations {
     register { XYZFetcher() as XYZFetching }
     register { XYZService() }
