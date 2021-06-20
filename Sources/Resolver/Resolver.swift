@@ -67,8 +67,19 @@ public final class Resolver {
     // MARK: - Lifecycle
 
     public init(parent: Resolver? = nil) {
-        self.parent = parent
+        if let parent = parent {
+            self.childContainers.append(parent)
+        }
     }
+
+    /// Adds a child container to this container. Children will be searched if this container fails to find a registration factory
+    /// that matches the desired type.
+    public func add(child: Resolver) {
+        lock.lock()
+        defer { lock.unlock() }
+        self.childContainers.append(child)
+    }
+
     /// Call function to force one-time initialization of the Resolver registries. Usually not needed as functionality
     /// occurs automatically the first time a resolution function is called.
     public final func registerServices() {
@@ -288,8 +299,10 @@ public final class Resolver {
         if let container = registrations[key], let registration = container[containerName] {
             return registration as? ResolverRegistration<Service>
         }
-        if let parent = parent, let registration = parent.lookup(type, name: name) {
-            return registration
+        for child in childContainers {
+            if let registration = child.lookup(type, name: name) {
+                return registration
+            }
         }
         return nil
     }
@@ -305,8 +318,8 @@ public final class Resolver {
     }
 
     private let NONAME = "*"
-    private let parent: Resolver?
     private let lock = Resolver.lock
+    private var childContainers: [Resolver] = []
     private var registrations = [Int : [String : Any]]()
 }
 
