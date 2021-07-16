@@ -33,7 +33,7 @@ Note in particular the additional parameters needed to create a `XYZViewModel` a
 
 ## The Process
 
-Let's kick things off by given a view controller its view model.
+Let's kick things off by giving a view controller its view model.
 
 ```swift
 class MyViewController: UIViewController {
