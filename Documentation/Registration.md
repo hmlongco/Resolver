@@ -2,7 +2,7 @@
 
 ## Introduction
 
-As mention in the introduction , in order for Resolve to *resolve* a request for a paticular service you first need to register a factory that knows how to instantiate an instance of the service.
+As mentioned in the introduction, in order for Resolve to *resolve* a request for a paticular service you first need to register a factory that knows how to instantiate an instance of the service.
 
 ```swift
 Resolver.register { NetworkService() }
