@@ -1,5 +1,9 @@
 # Resolver Changelog
 
+### 1.4.4
+
+* Update registration cache key mechanism to prevent possible registration overwrites
+
 ### 1.4.3
 
 * Add capability for multiple child containers

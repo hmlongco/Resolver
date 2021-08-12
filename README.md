@@ -127,6 +127,7 @@ Resolver is available under the MIT license. See the LICENSE file for more info.
 
 ## Additional Resouces
 
+* [Resolver for iOS Dependency Injection: Getting Started | Ray Wenderlich](https://www.raywenderlich.com/22203552-resolver-for-ios-dependency-injection-getting-started)
 * [API Documentation](./Documentation/API/Classes/Resolver.html)
 * [Inversion of Control Design Pattern ~ Wikipedia](https://en.wikipedia.org/wiki/Inversion_of_control)
 * [Inversion of Control Containers and the Dependency Injection pattern ~ Martin Fowler](https://martinfowler.com/articles/injection.html)
@@ -135,3 +136,4 @@ Resolver is available under the MIT license. See the LICENSE file for more info.
 * [SwinjectStoryboard](https://github.com/Swinject/SwinjectStoryboard)
 * [Swift 5.1 Takes Dependency Injection to the Next Level](https://medium.com/better-programming/taking-swift-dependency-injection-to-the-next-level-b71114c6a9c6)
 * [Builder Demo Application](https://github.com/hmlongco/Builder)
+
