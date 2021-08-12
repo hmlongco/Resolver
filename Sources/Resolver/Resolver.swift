@@ -300,8 +300,8 @@ public final class Resolver {
             return registration as? ResolverRegistration<Service>
         }
         for child in childContainers {
-            if let registration = child.lookup(type, name: name) {
-                return registration
+            if let container = child.registrations[key], let registration = container[containerName] {
+                return registration as? ResolverRegistration<Service>
             }
         }
         return nil
@@ -331,11 +331,11 @@ private final class ResolverRecursiveLock {
         pthread_mutex_init(&recursiveMutex, &recursiveMutexAttr)
     }
     @inline(__always)
-    func lock() {
+    final func lock() {
         pthread_mutex_lock(&recursiveMutex)
     }
     @inline(__always)
-    func unlock() {
+    final func unlock() {
         pthread_mutex_unlock(&recursiveMutex)
     }
     private var recursiveMutex = pthread_mutex_t()
@@ -444,8 +444,7 @@ public class ResolverOptions<Service> {
 
     public var scope: ResolverScope
 
-    fileprivate var mutator: ResolverFactoryMutator<Service>?
-    fileprivate var mutatorWithArgumentsN: ResolverFactoryMutatorArgumentsN<Service>?
+    fileprivate var mutator: ResolverFactoryMutatorArgumentsN<Service>?
     fileprivate weak var resolver: Resolver?
 
     // MARK: - Lifecycle
@@ -479,7 +478,9 @@ public class ResolverOptions<Service> {
     ///
     @discardableResult
     public final func resolveProperties(_ block: @escaping ResolverFactoryMutator<Service>) -> ResolverOptions<Service> {
-        mutator = block
+        mutator = { (_ resolver: Resolver, _ service: Service, _ args: Resolver.Args) in
+            block(resolver, service)
+        }
         return self
     }
 
@@ -491,7 +492,7 @@ public class ResolverOptions<Service> {
     ///
     @discardableResult
     public final func resolveProperties(_ block: @escaping ResolverFactoryMutatorArgumentsN<Service>) -> ResolverOptions<Service> {
-        mutatorWithArgumentsN = block
+        mutator = block
         return self
     }
 
@@ -505,14 +506,6 @@ public class ResolverOptions<Service> {
     public final func scope(_ scope: ResolverScope) -> ResolverOptions<Service> {
         self.scope = scope
         return self
-    }
-
-    /// Internal function to apply mutations with and w/o arguments
-    fileprivate func mutate(_ service: Service, resolver: Resolver, args: Any?) {
-        self.mutator?(resolver, service)
-        if let mutatorWithArgumentsN = mutatorWithArgumentsN {
-            mutatorWithArgumentsN(resolver, service, Resolver.Args(args))
-        }
     }
 }
 
@@ -552,7 +545,7 @@ public final class ResolverRegistrationOnly<Service>: ResolverRegistration<Servi
         guard let service = factory() else {
             return nil
         }
-        mutate(service, resolver: resolver, args: args)
+        self.mutator?(resolver, service, Resolver.Args(args))
         return service
     }
 }
@@ -571,7 +564,7 @@ public final class ResolverRegistrationResolver<Service>: ResolverRegistration<S
         guard let service = factory(resolver) else {
             return nil
         }
-        mutate(service, resolver: resolver, args: args)
+        self.mutator?(resolver, service, Resolver.Args(args))
         return service
     }
 }
@@ -590,7 +583,7 @@ public final class ResolverRegistrationArgumentsN<Service>: ResolverRegistration
         guard let service = factory(resolver, Resolver.Args(args)) else {
             return nil
         }
-        mutate(service, resolver: resolver, args: args)
+        self.mutator?(resolver, service, Resolver.Args(args))
         return service
     }
 }
