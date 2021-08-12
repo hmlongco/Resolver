@@ -166,7 +166,7 @@ public final class Resolver {
                                         factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
         lock.lock()
         defer { lock.unlock() }
-        let key = ObjectIdentifier(Service.self).hashValue
+        let key = Int(bitPattern: ObjectIdentifier(Service.self))
         let registration = ResolverRegistrationOnly(resolver: self, key: key, name: name, factory: factory)
         add(registration: registration, with: key, name: name)
         return registration
@@ -185,7 +185,7 @@ public final class Resolver {
                                         factory: @escaping ResolverFactoryResolver<Service>) -> ResolverOptions<Service> {
         lock.lock()
         defer { lock.unlock() }
-        let key = ObjectIdentifier(Service.self).hashValue
+        let key = Int(bitPattern: ObjectIdentifier(Service.self))
         let registration = ResolverRegistrationResolver(resolver: self, key: key, name: name, factory: factory)
         add(registration: registration, with: key, name: name)
         return registration
@@ -204,7 +204,7 @@ public final class Resolver {
                                         factory: @escaping ResolverFactoryArgumentsN<Service>) -> ResolverOptions<Service> {
         lock.lock()
         defer { lock.unlock() }
-        let key = ObjectIdentifier(Service.self).hashValue
+        let key = Int(bitPattern: ObjectIdentifier(Service.self))
         let registration = ResolverRegistrationArgumentsN(resolver: self, key: key, name: name, factory: factory)
         add(registration: registration, with: key, name: name)
         return registration
@@ -294,7 +294,7 @@ public final class Resolver {
     /// Internal function searches the current and parent registries for a ResolverRegistration<Service> that matches
     /// the supplied type and name.
     private final func lookup<Service>(_ type: Service.Type, name: Resolver.Name?) -> ResolverRegistration<Service>? {
-        let key = ObjectIdentifier(Service.self).hashValue
+        let key = Int(bitPattern: ObjectIdentifier(Service.self))
         let containerName = name?.rawValue ?? NONAME
         if let container = registrations[key], let registration = container[containerName] {
             return registration as? ResolverRegistration<Service>
@@ -869,7 +869,8 @@ public extension UIViewController {
             defer { lock.unlock() }
             if initialize {
                 self.initialize = false
-                self.service = (container?.resolve(Service.self, name: name, args: args) ?? Resolver.resolve(Service.self, name: name, args: args)) as AnyObject
+                self.service = (container?.resolve(Service.self, name: name, args: args)
+                                    ?? Resolver.resolve(Service.self, name: name, args: args)) as AnyObject
             }
             return service as? Service
         }
