@@ -243,6 +243,12 @@ public final class Resolver {
         lock.lock()
         defer { lock.unlock() }
         registrationCheck()
+        
+        if let registrableType = Service.self as? LazyRegistrable.Type,
+           lookup(Service.self, name: name) == nil {
+                registrableType.register(to: self, name: name, args: args)
+        }
+        
         if let registration = lookup(type, name: name),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
@@ -745,6 +751,11 @@ public extension UIViewController {
     // swiftlint:enable unused_setter_value
 }
 #endif
+
+/// A protocol for types that can be registered upon first use
+public protocol LazyRegistrable {
+    static func register(to resolver: Resolver, name: Resolver.Name?, args: Any?)
+}
 
 // Swift Property Wrappers
 
