@@ -167,7 +167,8 @@ public final class Resolver {
         lock.lock()
         defer { lock.unlock() }
         let key = Int(bitPattern: ObjectIdentifier(Service.self))
-        let registration = ResolverRegistrationOnly(resolver: self, key: key, name: name, factory: factory)
+        let anyFactory = ResolverRegistrationFactoryOnly(factory: factory)
+        let registration = ResolverRegistration<Service>(resolver: self, key: key, name: name, factory: anyFactory)
         add(registration: registration, with: key, name: name)
         return ResolverOptions(registration: registration)
     }
@@ -186,7 +187,8 @@ public final class Resolver {
         lock.lock()
         defer { lock.unlock() }
         let key = Int(bitPattern: ObjectIdentifier(Service.self))
-        let registration = ResolverRegistrationResolver(resolver: self, key: key, name: name, factory: factory)
+        let anyFactory = ResolverRegistrationFactoryResolver(factory: factory)
+        let registration = ResolverRegistration<Service>(resolver: self, key: key, name: name, factory: anyFactory)
         add(registration: registration, with: key, name: name)
         return ResolverOptions(registration: registration)
     }
@@ -205,7 +207,8 @@ public final class Resolver {
         lock.lock()
         defer { lock.unlock() }
         let key = Int(bitPattern: ObjectIdentifier(Service.self))
-        let registration = ResolverRegistrationArgumentsN(resolver: self, key: key, name: name, factory: factory)
+        let anyFactory = ResolverRegistrationFactoryArgumentsN(factory: factory)
+        let registration = ResolverRegistration<Service>(resolver: self, key: key, name: name, factory: anyFactory)
         add(registration: registration, with: key, name: name)
         return ResolverOptions(registration: registration)
     }
@@ -502,17 +505,23 @@ public struct ResolverOptions<Service> {
     }
 }
 
-/// ResolverRegistration base class provides storage for the registration keys, scope, and property mutator.
-public class ResolverRegistration<Service> {
+public protocol AnyResolverFactory {
+    func resolve(_ resolver: Resolver, args: Any?) -> Any?
+}
 
-    fileprivate var key: Int
-    fileprivate var cacheKey: String
+/// ResolverRegistration base class provides storage for the registration keys, scope, and property mutator.
+public final class ResolverRegistration<Service> {
+
+    fileprivate let key: Int
+    fileprivate let cacheKey: String
+    fileprivate let factory: AnyResolverFactory
+
     fileprivate var scope: ResolverScope = Resolver.defaultScope
     fileprivate var mutator: ResolverFactoryMutatorArgumentsN<Service>?
     
     fileprivate weak var resolver: Resolver?
 
-    public init(resolver: Resolver, key: Int, name: Resolver.Name?) {
+    public init(resolver: Resolver, key: Int, name: Resolver.Name?, factory: AnyResolverFactory) {
         self.resolver = resolver
         self.key = key
         if let namedService = name {
@@ -520,68 +529,40 @@ public class ResolverRegistration<Service> {
         } else {
             self.cacheKey = String(key)
         }
+        self.factory = factory
     }
 
-    public func resolve(resolver: Resolver, args: Any?) -> Service? {
-        fatalError("abstract function")
+    public final func resolve(resolver: Resolver, args: Any?) -> Service? {
+        guard let service = factory.resolve(resolver, args: args) as? Service else {
+            return nil
+        }
+        self.mutator?(resolver, service, Resolver.Args(args))
+        return service
     }
 
 }
 
 /// ResolverRegistration stores a service definition and its factory closure.
-public final class ResolverRegistrationOnly<Service>: ResolverRegistration<Service> {
-
-    public var factory: ResolverFactory<Service>
-
-    public init(resolver: Resolver, key: Int, name: Resolver.Name?, factory: @escaping ResolverFactory<Service>) {
-        self.factory = factory
-        super.init(resolver: resolver, key: key, name: name)
-    }
-
-    public final override func resolve(resolver: Resolver, args: Any?) -> Service? {
-        guard let service = factory() else {
-            return nil
-        }
-        self.mutator?(resolver, service, Resolver.Args(args))
-        return service
+public struct ResolverRegistrationFactoryOnly<Service>: AnyResolverFactory {
+    public let factory: ResolverFactory<Service>
+    public func resolve(_ resolver: Resolver, args: Any?) -> Any? {
+        factory()
     }
 }
 
 /// ResolverRegistrationResolver stores a service definition and its factory closure which wants a Resolver as argument.
-public final class ResolverRegistrationResolver<Service>: ResolverRegistration<Service> {
-
-    public var factory: ResolverFactoryResolver<Service>
-
-    public init(resolver: Resolver, key: Int, name: Resolver.Name?, factory: @escaping ResolverFactoryResolver<Service>) {
-        self.factory = factory
-        super.init(resolver: resolver, key: key, name: name)
-    }
-
-    public final override func resolve(resolver: Resolver, args: Any?) -> Service? {
-        guard let service = factory(resolver) else {
-            return nil
-        }
-        self.mutator?(resolver, service, Resolver.Args(args))
-        return service
+public struct ResolverRegistrationFactoryResolver<Service>: AnyResolverFactory {
+    public let factory: ResolverFactoryResolver<Service>
+    public func resolve(_ resolver: Resolver, args: Any?) -> Any? {
+        factory(resolver)
     }
 }
 
 /// ResolverRegistrationArguments stores a service definition and its factory closure which wants a Resolver and arguments as parameters.
-public final class ResolverRegistrationArgumentsN<Service>: ResolverRegistration<Service> {
-
-    public var factory: ResolverFactoryArgumentsN<Service>
-
-    public init(resolver: Resolver, key: Int, name: Resolver.Name?, factory: @escaping ResolverFactoryArgumentsN<Service>) {
-        self.factory = factory
-        super.init(resolver: resolver, key: key, name: name)
-    }
-
-    public final override func resolve(resolver: Resolver, args: Any?) -> Service? {
-        guard let service = factory(resolver, Resolver.Args(args)) else {
-            return nil
-        }
-        self.mutator?(resolver, service, Resolver.Args(args))
-        return service
+public struct ResolverRegistrationFactoryArgumentsN<Service>: AnyResolverFactory {
+    public let factory: ResolverFactoryArgumentsN<Service>
+    public func resolve(_ resolver: Resolver, args: Any?) -> Any? {
+        factory(resolver, Resolver.Args(args))
     }
 }
 
