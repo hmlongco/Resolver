@@ -2,6 +2,7 @@
 
 ### 1.4.4
 
+* Reduced code size and improved performance
 * Update registration cache key mechanism to prevent possible registration overwrites
 
 ### 1.4.3
