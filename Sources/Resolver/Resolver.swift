@@ -291,17 +291,20 @@ public final class Resolver {
 
     // MARK: - Internal
 
-    /// Internal function searches the current and parent registries for a ResolverRegistration<Service> that matches
+    /// Internal function searches the current and child registries for a ResolverRegistration<Service> that matches
     /// the supplied type and name.
     private final func lookup<Service>(_ type: Service.Type, name: Resolver.Name?) -> ResolverRegistration<Service>? {
         let key = Int(bitPattern: ObjectIdentifier(Service.self))
-        let containerName = name?.rawValue ?? NONAME
-        if let container = registrations[key], let registration = container[containerName] {
-            return registration as? ResolverRegistration<Service>
+        if let name = name?.rawValue {
+            if let registration = namedRegistrations["\(key):\(name)"] as? ResolverRegistration<Service> {
+                return registration
+            }
+        } else if let registration = typedRegistrations[key] as? ResolverRegistration<Service> {
+            return registration
         }
         for child in childContainers {
-            if let container = child.registrations[key], let registration = container[containerName] {
-                return registration as? ResolverRegistration<Service>
+            if let registration = child.lookup(type, name: name) {
+                return registration
             }
         }
         return nil
@@ -309,18 +312,18 @@ public final class Resolver {
 
     /// Internal function adds a new registration to the proper container.
     private final func add<Service>(registration: ResolverRegistration<Service>, with key: Int, name: Resolver.Name?) {
-         if var container = registrations[key] {
-            container[name?.rawValue ?? NONAME] = registration
-            registrations[key] = container
+        if let name = name?.rawValue {
+            namedRegistrations["\(key):\(name)"] = registration
         } else {
-            registrations[key] = [name?.rawValue ?? NONAME : registration]
+            typedRegistrations[key] = registration
         }
     }
 
     private let NONAME = "*"
     private let lock = Resolver.lock
     private var childContainers: [Resolver] = []
-    private var registrations = [Int : [String : Any]]()
+    private var typedRegistrations = [Int : Any]()
+    private var namedRegistrations = [String : Any]()
 }
 
 /// Resolving an instance of a service is a recursive process (service A needs a B which needs a C).
