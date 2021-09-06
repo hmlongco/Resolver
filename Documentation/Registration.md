@@ -27,7 +27,7 @@ Let's start by adding the master injection file for the entire application.
 
 Add a file named `AppDelegate+Injection.swift` to your project and add the following code:
 
-```
+```swift
 import Resolver
 
 extension Resolver: ResolverRegistering {
@@ -53,7 +53,7 @@ Let's say you have a group in your project folder named "NetworkServices", and y
 
 Go to the NetworkServices folder and add a swift file named: `NetworkServices+Injection.swift`, then add the following to that file...
 
-```
+```swift
 #import Resolver
 
 extension Resolver {
@@ -67,7 +67,7 @@ extension Resolver {
 
 Now, go back to your  `AppDelegate+Injection.swift` file and add a reference to `registerMyNetworkServices`.
 
-```
+```swift
 extension Resolver: ResolverRegistering {
     public static func registerAllServices() {
         registerMyNetworkServices()
@@ -83,7 +83,7 @@ Now, housekeeping completed, return to  `NetworkServices+Injection.swift` and ad
 
 Just as an example:
 
-```
+```swift
 import Resolver
 
 extension Resolver {
