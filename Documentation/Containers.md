@@ -43,9 +43,14 @@ extension Resolver: ResolverRegistering {
 }
 ```
 
-The static register and resolve functions simply pass the buck to main and root, respectively.
+The static (class) register and resolve functions simply pass the buck to main and root, respectively.
 
 ```swift
+public static func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil,
+                                     factory: @escaping ResolverFactoryArgumentsN<Service>) -> ResolverOptions<Service> {
+    return main.register(type, name: name, factory: factory)
+}
+
 public static func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
     return root.resolve(type, name: name, args: args)
 }
@@ -172,3 +177,27 @@ Returning, we switch back and the app again behaves normally.
 
 Nice party trick, don't you think?
 
+## Child Containers
+
+Resolver 1.4.3 adds support for multiple child containers. 
+
+As stated above, you can put thousands of registrations into a single container but, should you desire to do so, you can now segment your registrations into smaller groups of containiners and then add each subcontainer to the main container.
+
+Consider...
+
+```
+extension Resolver {
+    static let containerA = Resolver()
+    static let containerB = Resolver()
+
+    static func registerAllServices() {
+        main.add(child: containerA)
+        main.add(child: containerB)
+        ...
+    }
+}
+```
+
+Now when main is asked to resolve a given service, it will first search its own registrations and then, if not found, will search each of the included child containers to see if one of them contains the needed registration. First match will return, and containers will be searched in the order in which they're added.
+
+This is basically a small change that reworks the "parent" mechanism to support multiple children. Parent (or "nested") containers still work as before.

@@ -149,5 +149,31 @@ class ResolverArgumentTests: XCTestCase {
         XCTAssert(service?.string == "Barney")
     }
 
+    func testGetSingleArgumentPassingInImplements() {
+        resolver.register { (r, arg) -> XYZArgumentService in
+            XCTAssert(arg.get())
+            return XYZArgumentService(condition: arg.get())
+        }
+        .implements(XYZArgumentProtocol.self)
+        let service: XYZArgumentProtocol? = resolver.optional(args: true)
+        XCTAssertNotNil(service)
+        XCTAssert(service?.condition == true)
+        XCTAssert(service?.string == "Barney")
+    }
+
+    func testGetKeyedArgumentPassingInImplements() {
+        resolver.register { (r, args) -> XYZArgumentService in
+            let condition: Bool = args.get("condition")
+            XCTAssert(condition)
+            let string: String = args.get("name")
+            XCTAssert(string == "Fred")
+            return XYZArgumentService(condition: condition, string: string)
+        }
+        .implements(XYZArgumentProtocol.self)
+        let service: XYZArgumentProtocol? = resolver.optional(args: ["condition": true, "name": "Fred"])
+        XCTAssertNotNil(service)
+        XCTAssert(service?.condition == true)
+        XCTAssert(service?.string == "Fred")
+    }
 
 }

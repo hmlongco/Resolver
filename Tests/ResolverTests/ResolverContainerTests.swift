@@ -13,6 +13,7 @@ class ResolverContainerTests: XCTestCase {
 
     var resolver1: Resolver!
     var resolver2: Resolver!
+    var resolver3: Resolver!
 
     override func setUp() {
         super.setUp()
@@ -70,6 +71,32 @@ class ResolverContainerTests: XCTestCase {
         let r2: XYZNameService? = resolver2.optional()
         XCTAssertNotNil(r2)
         XCTAssert(r2?.name == "Resolver 1")
+    }
+    
+    func testResolverChildContainers() {
+        
+        resolver1 = Resolver()
+        resolver2 = Resolver()
+        resolver3 = Resolver()
+        
+        let root: Resolver! = resolver1
+
+        root?.add(child: resolver2)
+        root?.add(child: resolver3)
+
+        resolver1.register() { XYZSessionService() }
+        resolver2.register() { XYZNameService("Resolver 2") }
+        resolver3.register() { XYZService(root.optional()) }
+
+        // should find in resolver in which it was defined
+        let nameService: XYZNameService? = root.optional()
+        XCTAssertNotNil(nameService)
+        XCTAssert(nameService?.name == "Resolver 2")
+
+        // should resolve child and then find
+        let service: XYZService? = root.optional()
+        XCTAssertNotNil(service)
+        XCTAssertNotNil(service?.session)
     }
 
     func testResolverParentContainerOverride() {

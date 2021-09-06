@@ -1,5 +1,21 @@
 # Resolver Changelog
 
+### 1.4.4
+
+* Reduced code size and improved performance
+* Update registration cache key mechanism to prevent possible registration overwrites
+
+### 1.4.3
+
+* Add capability for multiple child containers
+
+### 1.4.2
+
+* Fix threading issue in LazyInjected and WeakLazyInjected property wrappers
+* Fix argument passing in .implements
+* Update projct for Xcode 12.5
+* Update Swift class deprecation  
+
 ### 1.4.1
 
 * Fix bug forwarding new argument structure from factory to factory - PR#89

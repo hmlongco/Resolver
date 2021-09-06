@@ -6,9 +6,11 @@ extension ResolverArgumentTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__ResolverArgumentTests = [
+        ("testGetKeyedArgumentPassingInImplements", testGetKeyedArgumentPassingInImplements),
         ("testGetKeyedArguments", testGetKeyedArguments),
         ("testGetPropertiesKeyedArguments", testGetPropertiesKeyedArguments),
         ("testGetSingleArgument", testGetSingleArgument),
+        ("testGetSingleArgumentPassingInImplements", testGetSingleArgumentPassingInImplements),
         ("testKeyedArgumentsFunction", testKeyedArgumentsFunction),
         ("testOptionalArgument", testOptionalArgument),
         ("testPropertiesGetSingleArgument", testPropertiesGetSingleArgument),
@@ -150,6 +152,7 @@ extension ResolverScopeReferenceTests {
     static let __allTests__ResolverScopeReferenceTests = [
         ("testResolverScopeApplication", testResolverScopeApplication),
         ("testResolverScopeCached", testResolverScopeCached),
+        ("testResolverScopeCachedImplements", testResolverScopeCachedImplements),
         ("testResolverScopeGraph", testResolverScopeGraph),
         ("testResolverScopeShared", testResolverScopeShared),
         ("testResolverScopeUnique", testResolverScopeUnique),
