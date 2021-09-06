@@ -139,5 +139,29 @@ class ResolverNameTests: XCTestCase {
         XCTAssert(fred?.name == "Fred")
 
     }
+    
+    struct AppConfig {
+        let host1 = "https://www.amazon.com"
+        let host2 = "https://www.google.com"
+    }
+    
+    func testResolverNamedStringRegististrations() {
+        
+        Task.init {
+            
+        }
+        
+        resolver.register { AppConfig() }
+        resolver.register(name: "host1") { r in r.resolve(AppConfig.self).host1 }
+        resolver.register(name: "host2") { r in r.resolve(AppConfig.self).host2 }
+
+        let host1: String = resolver.resolve(name: "host1")
+        let host2: String = resolver.resolve(name: "host2")
+        let host3: String? = resolver.optional(name: "host3")
+        
+        XCTAssert(host1 == "https://www.amazon.com")
+        XCTAssert(host2 == "https://www.google.com")
+        XCTAssertNil(host3)
+    }
 
 }
