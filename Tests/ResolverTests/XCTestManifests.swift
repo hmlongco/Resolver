@@ -122,11 +122,11 @@ extension ResolverProtocolTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__ResolverProtocolTests = [
-        ("testMultipeProtocolsWithForwarding", testMultipeProtocolsWithForwarding),
-        ("testMultipeProtocolsWithImplements", testMultipeProtocolsWithImplements),
-        ("testMultipeProtocolsWithOptionalResolution", testMultipeProtocolsWithOptionalResolution),
+        ("testMultipleProtocolsWithForwarding", testMultipleProtocolsWithForwarding),
+        ("testMultipleProtocolsWithImplements", testMultipleProtocolsWithImplements),
+        ("testMultipleProtocolsWithOptionalResolution", testMultipleProtocolsWithOptionalResolution),
         ("testProtocolWithExplicitResolution", testProtocolWithExplicitResolution),
-        ("testProtocolWithInferedResolution", testProtocolWithInferedResolution),
+        ("testProtocolWithInferredResolution", testProtocolWithInferredResolution),
         ("testProtocolWithOptionalResolution", testProtocolWithOptionalResolution),
         ("testScopeSharedProtocols", testScopeSharedProtocols),
     ]

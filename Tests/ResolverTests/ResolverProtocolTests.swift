@@ -29,7 +29,7 @@ class ResolverProtocolTests: XCTestCase {
         XCTAssert(service?.name == "XYZCombinedService")
     }
 
-    func testProtocolWithInferedResolution() {
+    func testProtocolWithInferredResolution() {
         resolver.register { XYZCombinedService() as XYZFetching }
         let service: XYZFetching? = resolver.resolve() as XYZFetching
         XCTAssertNotNil(service)
@@ -43,7 +43,7 @@ class ResolverProtocolTests: XCTestCase {
         XCTAssert(service?.name == "XYZCombinedService")
     }
 
-    func testMultipeProtocolsWithOptionalResolution() {
+    func testMultipleProtocolsWithOptionalResolution() {
         resolver.register { XYZCombinedService() as XYZFetching }
         resolver.register { XYZCombinedService() as XYZUpdating }
 
@@ -56,7 +56,7 @@ class ResolverProtocolTests: XCTestCase {
         XCTAssert(updater?.name == "XYZCombinedService")
     }
 
-    func testMultipeProtocolsWithForwarding() {
+    func testMultipleProtocolsWithForwarding() {
         resolver.register { self.resolver.resolve() as XYZCombinedService as XYZFetching }
         resolver.register { self.resolver.resolve() as XYZCombinedService as XYZUpdating }
         resolver.register { XYZCombinedService() }
@@ -74,7 +74,7 @@ class ResolverProtocolTests: XCTestCase {
         XCTAssert(updater?.name == "XYZCombinedService")
     }
 
-    func testMultipeProtocolsWithImplements() {
+    func testMultipleProtocolsWithImplements() {
         resolver.register { XYZCombinedService() }
             .implements(XYZFetching.self)
             .implements(XYZUpdating.self)
