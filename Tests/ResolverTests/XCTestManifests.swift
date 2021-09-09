@@ -47,7 +47,7 @@ extension ResolverClassTests {
     // to regenerate.
     static let __allTests__ResolverClassTests = [
         ("testRegistrationAndExplicitResolution", testRegistrationAndExplicitResolution),
-        ("testRegistrationAndInferedResolution", testRegistrationAndInferedResolution),
+        ("testRegistrationAndInferredResolution", testRegistrationAndInferredResolution),
         ("testRegistrationAndOptionalResolution", testRegistrationAndOptionalResolution),
         ("testRegistrationAndOptionalResolutionFailure", testRegistrationAndOptionalResolutionFailure),
         ("testRegistrationAndPassedResolver", testRegistrationAndPassedResolver),

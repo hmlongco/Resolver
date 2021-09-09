@@ -26,7 +26,7 @@ class ResolverClassTests: XCTestCase {
         XCTAssertNotNil(session)
     }
 
-    func testRegistrationAndInferedResolution() {
+    func testRegistrationAndInferredResolution() {
         let session: XYZSessionService? = Resolver.resolve() as XYZSessionService
         XCTAssertNotNil(session)
     }
