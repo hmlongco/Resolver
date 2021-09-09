@@ -55,18 +55,18 @@ class OptionalInjectedViewController {
     @OptionalInjected var notRegistered: NotRegistered?
 }
 
-protocol ReturnsSomthing: AnyObject {
+protocol ReturnsSomething: AnyObject {
     func returnSomething() -> Bool
 }
 
-class WeakXYZService: XYZService, ReturnsSomthing {
+class WeakXYZService: XYZService, ReturnsSomething {
     func returnSomething() -> Bool {
         return true
     }
 }
 
 class WeakLazyInjectedProtocolViewController {
-    @WeakLazyInjected var service: ReturnsSomthing?
+    @WeakLazyInjected var service: ReturnsSomething?
 }
 
 class NotRegistered {
@@ -78,7 +78,7 @@ class ResolverInjectedTests: XCTestCase {
         super.setUp()
 
         Resolver.main.register { WeakXYZService(nil) }
-            .implements(ReturnsSomthing.self)
+            .implements(ReturnsSomething.self)
             .scope(.shared)
 
         Resolver.main.register { XYZSessionService() }

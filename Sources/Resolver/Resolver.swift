@@ -125,7 +125,7 @@ public final class Resolver {
         return main.register(type, name: name, factory: factory)
     }
 
-    /// Static shortcut function used to register a specifc Service type and its instantiating factory method.
+    /// Static shortcut function used to register a specific Service type and its instantiating factory method.
     ///
     /// - parameter type: Type of Service being registered. Optional, may be inferred by factory result type.
     /// - parameter name: Named variant of Service being registered.
@@ -139,7 +139,7 @@ public final class Resolver {
         return main.register(type, name: name, factory: factory)
     }
 
-    /// Static shortcut function used to register a specifc Service type and its instantiating factory method with multiple argument support.
+    /// Static shortcut function used to register a specific Service type and its instantiating factory method with multiple argument support.
     ///
     /// - parameter type: Type of Service being registered. Optional, may be inferred by factory result type.
     /// - parameter name: Named variant of Service being registered.
@@ -153,7 +153,7 @@ public final class Resolver {
         return main.register(type, name: name, factory: factory)
     }
 
-    /// Registers a specifc Service type and its instantiating factory method.
+    /// Registers a specific Service type and its instantiating factory method.
     ///
     /// - parameter type: Type of Service being registered. Optional, may be inferred by factory result type.
     /// - parameter name: Named variant of Service being registered.
@@ -173,7 +173,7 @@ public final class Resolver {
         return ResolverOptions(registration: registration)
     }
 
-    /// Registers a specifc Service type and its instantiating factory method.
+    /// Registers a specific Service type and its instantiating factory method.
     ///
     /// - parameter type: Type of Service being registered. Optional, may be inferred by factory result type.
     /// - parameter name: Named variant of Service being registered.
@@ -193,7 +193,7 @@ public final class Resolver {
         return ResolverOptions(registration: registration)
     }
 
-    /// Registers a specifc Service type and its instantiating factory method with multiple argument support.
+    /// Registers a specific Service type and its instantiating factory method with multiple argument support.
     ///
     /// - parameter type: Type of Service being registered. Optional, may be inferred by factory result type.
     /// - parameter name: Named variant of Service being registered.
@@ -444,7 +444,7 @@ public typealias ResolverFactoryAnyArguments<Service> = (_ resolver: Resolver, _
 public typealias ResolverFactoryMutator<Service> = (_ resolver: Resolver, _ service: Service) -> Void
 public typealias ResolverFactoryMutatorArgumentsN<Service> = (_ resolver: Resolver, _ service: Service, _ args: Resolver.Args) -> Void
 
-/// A ResolverOptions instance is returned by a registration function in order to allow additonal configuratiom. (e.g. scopes, etc.)
+/// A ResolverOptions instance is returned by a registration function in order to allow additional configuration. (e.g. scopes, etc.)
 public struct ResolverOptions<Service> {
 
     // MARK: - Parameters

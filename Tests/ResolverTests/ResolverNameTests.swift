@@ -145,7 +145,7 @@ class ResolverNameTests: XCTestCase {
         let host2 = "https://www.google.com"
     }
     
-    func testResolverNamedStringRegististrations() {
+    func testResolverNamedStringRegistrations() {
         
         Task.init {
             
