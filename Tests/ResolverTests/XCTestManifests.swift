@@ -56,7 +56,7 @@ extension ResolverClassTests {
         ("testRegistrationAndResolutionProperties", testRegistrationAndResolutionProperties),
         ("testRegistrationAndResolutionResolve", testRegistrationAndResolutionResolve),
         ("testRegistrationAndResolutionResolveArgs", testRegistrationAndResolutionResolveArgs),
-        ("testRegistrationOverwritting", testRegistrationOverwritting),
+        ("testRegistrationOverwriting", testRegistrationOverwriting),
     ]
 }
 

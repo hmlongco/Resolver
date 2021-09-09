@@ -53,7 +53,7 @@ class ResolverBasicTests: XCTestCase {
         XCTAssertNotNil(service?.session)
     }
 
-    func testRegistrationOverwritting() {
+    func testRegistrationOverwriting() {
         resolver.register() { XYZNameService("Fred") }
         resolver.register() { XYZNameService("Barney") }
         let service: XYZNameService? = resolver.optional()
