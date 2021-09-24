@@ -357,7 +357,7 @@ extension Resolver {
 
     /// Internal class used by Resolver for typed name space support.
     public struct Name: ExpressibleByStringLiteral {
-        let rawValue: String
+        public let rawValue: String
         public init(_ rawValue: String) {
             self.rawValue = rawValue
         }
