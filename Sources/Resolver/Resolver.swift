@@ -61,6 +61,13 @@ public final class Resolver {
     public static var main: Resolver = Resolver()
     /// Default registry used by the static Resolution functions and by the Resolving protocol.
     public static var root: Resolver = main
+
+    public static var context: Resolver {
+        tempContext ?? root
+    }
+
+    internal static var tempContext: Resolver?
+
     /// Default scope applied when registering new objects.
     public static var defaultScope: ResolverScope = .graph
 
@@ -453,6 +460,17 @@ public struct ResolverOptions<Service> {
 
     // MARK: - Fuctionality
 
+    @discardableResult
+    public func context(_ resolver: Resolver) -> ResolverOptions<Service> {
+        let exisitingFactory = registration.factory
+        registration.factory = { [weak resolver] r, a in
+            Resolver.tempContext = resolver
+            defer { Resolver.tempContext = nil }
+            return exisitingFactory(r,a)
+        }
+        return self
+    }
+
     /// Indicates that the registered Service also implements a specific protocol that may be resolved on
     /// its own.
     ///
@@ -511,11 +529,11 @@ public final class ResolverRegistration<Service> {
 
     fileprivate let key: Int
     fileprivate let cacheKey: String
-    fileprivate let factory: ResolverFactoryAnyArguments<Service>
+    internal var factory: ResolverFactoryAnyArguments<Service>
 
     fileprivate var scope: ResolverScope = Resolver.defaultScope
     fileprivate var mutator: ResolverFactoryMutatorArgumentsN<Service>?
-    
+
     fileprivate weak var resolver: Resolver?
 
     public init(resolver: Resolver, key: Int, name: Resolver.Name?, factory: @escaping ResolverFactoryAnyArguments<Service>) {
