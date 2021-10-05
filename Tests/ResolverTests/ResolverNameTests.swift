@@ -147,10 +147,6 @@ class ResolverNameTests: XCTestCase {
     
     func testResolverNamedStringRegistrations() {
         
-        Task.init {
-            
-        }
-        
         resolver.register { AppConfig() }
         resolver.register(name: "host1") { r in r.resolve(AppConfig.self).host1 }
         resolver.register(name: "host2") { r in r.resolve(AppConfig.self).host2 }
@@ -162,6 +158,29 @@ class ResolverNameTests: XCTestCase {
         XCTAssert(host1 == "https://www.amazon.com")
         XCTAssert(host2 == "https://www.google.com")
         XCTAssertNil(host3)
+    }
+
+    func testResolverNameHashableConformance() {
+        
+        let registrations: [Resolver.Name:XYZNameService] = [
+            .fred : XYZNameService("Fred"),
+            .barney : XYZNameService("Barney"),
+        ]
+        
+        registrations.forEach { (name, service) in
+            resolver.register(name: name) { service }
+        }
+
+        let fred: XYZNameService? = resolver.optional(name: .fred)
+        let barney: XYZNameService? = resolver.optional(name: .barney)
+
+        // Check all services resolved
+        XCTAssertNotNil(fred)
+        XCTAssertNotNil(barney)
+
+        // Check correct service factories called
+        XCTAssert(fred?.name == "Fred")
+        XCTAssert(barney?.name == "Barney")
     }
 
 }

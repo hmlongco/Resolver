@@ -1,5 +1,9 @@
 # Resolver Changelog
 
+### 1.4.5
+
+* Resolver.Name conformance to Hashable and Equatable
+
 ### 1.4.4
 
 * Reduced code size and improved performance
