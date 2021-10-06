@@ -881,6 +881,72 @@ public extension UIViewController {
     }
 }
 
+/// Immediate injection property wrapper.
+///
+/// Wrapped dependent service is resolved immediately using Resolver.root upon struct initialization.
+///
+@propertyWrapper public struct MultiInjected<Service> {
+    private var services: [Service]
+    public init() {
+        self.services = Resolver.multiResolve(Service.self)
+    }
+    public init(name: Resolver.Name? = nil, container: Resolver? = nil) {
+        self.services = container?.multiResolve(Service.self, name: name) ?? Resolver.multiResolve(Service.self, name: name)
+    }
+    public var wrappedValue: [Service] {
+        get { return services }
+        mutating set { services = newValue }
+    }
+    public var projectedValue: MultiInjected<Service> {
+        get { return self }
+        mutating set { self = newValue }
+    }
+}
+
+/// Lazy injection property wrapper. Note that embedded container and name properties will be used if set prior to service instantiation.
+///
+/// Wrapped dependent service is not resolved until service is accessed.
+///
+@propertyWrapper public struct MultiLazyInjected<Service> {
+    private var lock = Resolver.lock
+    private var initialize: Bool = true
+    private var services: [Service]!
+    public var container: Resolver?
+    public var name: Resolver.Name?
+    public var args: Any?
+    public init() {}
+    public init(name: Resolver.Name? = nil, container: Resolver? = nil) {
+        self.name = name
+        self.container = container
+    }
+
+    public var wrappedValue: [Service] {
+        mutating get {
+            lock.lock()
+            defer { lock.unlock() }
+            if initialize {
+                self.initialize = false
+                self.services = container?.multiResolve(Service.self, name: name, args: args) ?? Resolver.multiResolve(Service.self, name: name, args: args)
+            }
+            return services
+        }
+        mutating set {
+            lock.lock()
+            defer { lock.unlock() }
+            initialize = false
+            services = newValue
+        }
+    }
+    public var projectedValue: MultiLazyInjected<Service> {
+        get { return self }
+        mutating set { self = newValue }
+    }
+    public mutating func release() {
+        lock.lock()
+        defer { lock.unlock() }
+        self.services = nil
+    }
+}
 #if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 /// Immediate injection property wrapper for SwiftUI ObservableObjects. This wrapper is meant for use in SwiftUI Views and exposes
 /// bindable objects similar to that of SwiftUI @observedObject and @environmentObject.
