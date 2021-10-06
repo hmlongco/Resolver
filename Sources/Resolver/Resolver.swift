@@ -120,9 +120,9 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public static func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil,
+    public static func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, multi: Bool = false,
                                          factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
-        return main.register(type, name: name, factory: factory)
+        return main.register(type, name: name, multi: multi, factory: factory)
     }
 
     /// Static shortcut function used to register a specific Service type and its instantiating factory method.
@@ -134,9 +134,9 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public static func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil,
+    public static func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, multi: Bool = false,
                                          factory: @escaping ResolverFactoryResolver<Service>) -> ResolverOptions<Service> {
-        return main.register(type, name: name, factory: factory)
+        return main.register(type, name: name, multi: multi, factory: factory)
     }
 
     /// Static shortcut function used to register a specific Service type and its instantiating factory method with multiple argument support.
@@ -148,9 +148,9 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public static func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil,
+    public static func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, multi: Bool = false,
                                          factory: @escaping ResolverFactoryArgumentsN<Service>) -> ResolverOptions<Service> {
-        return main.register(type, name: name, factory: factory)
+        return main.register(type, name: name, multi: multi, factory: factory)
     }
 
     /// Registers a specific Service type and its instantiating factory method.
@@ -162,7 +162,7 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public final func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil,
+    public final func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, multi: Bool = false,
                                         factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
         lock.lock()
         defer { lock.unlock() }
@@ -182,7 +182,7 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public final func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil,
+    public final func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, multi: Bool = false,
                                         factory: @escaping ResolverFactoryResolver<Service>) -> ResolverOptions<Service> {
         lock.lock()
         defer { lock.unlock() }
@@ -202,7 +202,7 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public final func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil,
+    public final func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, multi: Bool = false,
                                         factory: @escaping ResolverFactoryArgumentsN<Service>) -> ResolverOptions<Service> {
         lock.lock()
         defer { lock.unlock() }
