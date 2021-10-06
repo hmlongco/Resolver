@@ -169,7 +169,7 @@ public final class Resolver {
         let key = Int(bitPattern: ObjectIdentifier(Service.self))
         let factory: ResolverFactoryAnyArguments = { (_,_) in factory() }
         let registration = ResolverRegistration<Service>(resolver: self, key: key, name: name, factory: factory)
-        add(registration: registration, with: key, name: name)
+        add(registration: registration, with: key, name: name, multi: multi)
         return ResolverOptions(registration: registration)
     }
 
@@ -189,7 +189,7 @@ public final class Resolver {
         let key = Int(bitPattern: ObjectIdentifier(Service.self))
         let factory: ResolverFactoryAnyArguments = { (r,_) in factory(r) }
         let registration = ResolverRegistration<Service>(resolver: self, key: key, name: name, factory: factory)
-        add(registration: registration, with: key, name: name)
+        add(registration: registration, with: key, name: name, multi: multi)
         return ResolverOptions(registration: registration)
     }
 
@@ -209,7 +209,7 @@ public final class Resolver {
         let key = Int(bitPattern: ObjectIdentifier(Service.self))
         let factory: ResolverFactoryAnyArguments = { (r,a) in factory(r, Args(a)) }
         let registration = ResolverRegistration<Service>(resolver: self, key: key, name: name, factory: factory )
-        add(registration: registration, with: key, name: name)
+        add(registration: registration, with: key, name: name, multi: multi)
         return ResolverOptions(registration: registration)
     }
 
@@ -300,11 +300,23 @@ public final class Resolver {
     }
 
     /// Internal function adds a new registration to the proper container.
-    private final func add<Service>(registration: ResolverRegistration<Service>, with key: Int, name: Resolver.Name?) {
-        if let name = name?.rawValue {
-            namedRegistrations["\(key):\(name)"] = registration
-        } else {
-            typedRegistrations[key] = registration
+    private final func add<Service>(registration: ResolverRegistration<Service>, with key: Int, name: Resolver.Name?, multi: Bool) {
+        if multi {
+            if let name = name?.rawValue {
+                var registrations: MultiRegistration<Service> = namedRegistrations["\(key):\(name)"] as? MultiRegistration<Service> ?? .init()
+                registrations.add(registration)
+                namedRegistrations["\(key):\(name)"] = registrations
+            } else {
+                var registrations: MultiRegistration<Service> = typedRegistrations[key] as? MultiRegistration<Service> ?? .init()
+                registrations.add(registration)
+                typedRegistrations[key] = registrations
+            }
+        }else {
+            if let name = name?.rawValue {
+                namedRegistrations["\(key):\(name)"] = registration
+            } else {
+                typedRegistrations[key] = registration
+            }
         }
     }
 
