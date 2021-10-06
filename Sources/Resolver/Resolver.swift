@@ -414,6 +414,19 @@ extension Resolver {
 
 }
 
+/// Resolver Multi Injection Support
+extension Resolver {
+    
+    private struct MultiRegistration<Service> {
+        var registrations: [ResolverRegistration<Service>] = []
+        
+        mutating func add(_ registration: ResolverRegistration<Service>) {
+            registrations.append(registration)
+        }
+    }
+    
+}
+
 // Registration Internals
 
 private var registrationNeeded: Bool = true
