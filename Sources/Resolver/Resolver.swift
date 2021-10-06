@@ -236,14 +236,7 @@ public final class Resolver {
     /// - returns: Instance of specified Service.
     ///
     public final func resolve<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> Service {
-        lock.lock()
-        defer { lock.unlock() }
-        registrationCheck()
-        if let registration = lookup(type, name: name),
-            let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
-            return service
-        }
-        fatalError("RESOLVER: '\(Service.self):\(name?.rawValue ?? "NONAME")' not resolved. To disambiguate optionals use resolver.optional().")
+        return resolve(type, name: name, args: args, isOptional: false)!
     }
 
     /// Static function calls the root registry to resolve an optional Service type.
@@ -268,27 +261,33 @@ public final class Resolver {
     /// - returns: Instance of specified Service.
     ///
     public final func optional<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> Service? {
-        lock.lock()
-        defer { lock.unlock() }
-        registrationCheck()
-        if let registration = lookup(type, name: name),
-            let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
-            return service
-        }
-        return nil
+        return resolve(type, name: name, args: args, isOptional: true)
     }
 
     // MARK: - Internal
+    
+    /// Internal function resolves both Optional and Non-Optional Service
+    private final func resolve<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil, isOptional: Bool) -> Service? {
+        lock.lock()
+        defer { lock.unlock() }
+        registrationCheck()
+        if let registration = lookup(type, name: name) as? ResolverRegistration<Service>,
+           let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
+            return service
+        }
+        if isOptional { return nil }
+        fatalError("RESOLVER: '\(Service.self):\(name?.rawValue ?? "NONAME")' not resolved. To disambiguate optionals use resolver.optional().")
+    }
 
     /// Internal function searches the current and child registries for a ResolverRegistration<Service> that matches
     /// the supplied type and name.
-    private final func lookup<Service>(_ type: Service.Type, name: Resolver.Name?) -> ResolverRegistration<Service>? {
+    private final func lookup<Service>(_ type: Service.Type, name: Resolver.Name?) -> Any? {
         let key = Int(bitPattern: ObjectIdentifier(Service.self))
         if let name = name?.rawValue {
-            if let registration = namedRegistrations["\(key):\(name)"] as? ResolverRegistration<Service> {
+            if let registration = namedRegistrations["\(key):\(name)"] {
                 return registration
             }
-        } else if let registration = typedRegistrations[key] as? ResolverRegistration<Service> {
+        } else if let registration = typedRegistrations[key] {
             return registration
         }
         for child in childContainers {
