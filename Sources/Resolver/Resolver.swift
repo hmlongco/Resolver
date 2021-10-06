@@ -214,6 +214,40 @@ public final class Resolver {
     }
 
     // MARK: - Service Resolution
+    
+    /// Static function calls the root registry to resolve an array of given Service type.
+    ///
+    /// - important: Use this method to resolve an array of Service which are registered separately whith `TRUE` value of `multi` parameter
+    ///
+    /// - parameter type: Type of Service being resolved. Optional, may be inferred by assignment result type.
+    /// - parameter name: Named variant of Service being resolved.
+    /// - parameter args: Optional arguments that may be passed to registration factory.
+    ///
+    /// - returns: Instance of specified Service.
+    public static func multiResolve<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> [Service] {
+        return main.multiResolve(type, name: name, args: args)
+    }
+    
+    /// Resolves and returns an array of the given Service type from the current registry or from its
+    /// parent registries.
+    ///
+    /// - important: Use this method to resolve an array of Service which are registered separately whith `TRUE` value of `multi` parameter
+    ///
+    /// - parameter type: Type of Service being resolved. Optional, may be inferred by assignment result type.
+    /// - parameter name: Named variant of Service being resolved.
+    /// - parameter args: Optional arguments that may be passed to registration factory.
+    ///
+    /// - returns: Instance of specified Service.
+    ///
+    public final func multiResolve<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> [Service] {
+        lock.lock()
+        defer { lock.unlock() }
+        registrationCheck()
+        if let multiRegistrations = lookup(type, name: name) as? MultiRegistration<Service> {
+            return multiRegistrations.registrations.compactMap { $0.scope.resolve(resolver: self, registration: $0, args: args) }
+        }
+        fatalError("RESOLVER: '\(Service.self):\(name?.rawValue ?? "NONAME")' not resolved. To disambiguate optionals use resolver.optional().")
+    }
 
     /// Static function calls the root registry to resolve a given Service type.
     ///
