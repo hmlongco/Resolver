@@ -63,6 +63,8 @@ public final class Resolver {
     public static var root: Resolver = main
     /// Default scope applied when registering new objects.
     public static var defaultScope: ResolverScope = .graph
+    
+    public let cache = ResolverScopeCache()
 
     // MARK: - Lifecycle
 
@@ -558,6 +560,8 @@ public class ResolverScope: ResolverScopeType {
 
     /// All application scoped services exist for lifetime of the app. (e.g Singletons)
     public static let application = ResolverScopeCache()
+    /// Cached services exist for lifetime of the container or until the containr's cache is reset.  (e.g Singleton within the container)
+    public static let container = ResolverScopeContainer()
     /// Cached services exist for lifetime of the app or until their cache is reset.
     public static let cached = ResolverScopeCache()
     /// Graph services are initialized once and only once during a given resolution cycle. This is the default scope.
@@ -669,6 +673,16 @@ public final class ResolverScopeUnique: ResolverScope {
     public override init() {}
     public final override func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
         return registration.resolve(resolver: resolver, args: args)
+    }
+
+}
+
+/// Cached services exist for lifetime of the container or until cache of the container is reset.
+public final class ResolverScopeContainer: ResolverScope {
+    
+    public override init() {}
+    public final override func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
+        return resolver.cache.resolve(resolver: resolver, registration: registration, args: args)
     }
 
 }
