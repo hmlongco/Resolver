@@ -919,7 +919,11 @@ public extension UIViewController {
         self.name = name
         self.container = container
     }
-
+    public var isEmpty: Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        return services == nil || services.isEmpty
+    }
     public var wrappedValue: [Service] {
         mutating get {
             lock.lock()

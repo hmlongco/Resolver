@@ -81,6 +81,11 @@ class XYZSessionService: XYZSessionProtocol {
     var name: String = "XYZSessionService"
 }
 
+class XYZSessionService2: XYZSessionProtocol {
+    let id = UUID()
+    var name: String = "XYZSessionService2"
+}
+
 class XYZNameService {
     let id = UUID()
     var name: String

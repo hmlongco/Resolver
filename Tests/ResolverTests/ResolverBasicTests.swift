@@ -110,4 +110,10 @@ class ResolverBasicTests: XCTestCase {
         XCTAssertNil(session)
     }
 
+    func testMultiRegistrationAndExplicitResolution() {
+        resolver.register(multi: true) { XYZSessionService() as XYZSessionProtocol }
+        resolver.register(multi: true) { XYZSessionService2() as XYZSessionProtocol }
+        let services: [XYZSessionProtocol] = resolver.multiResolve()
+        XCTAssert(services.count == 2)
+    }
 }

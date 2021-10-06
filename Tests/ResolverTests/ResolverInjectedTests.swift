@@ -55,6 +55,10 @@ class OptionalInjectedViewController {
     @OptionalInjected var notRegistered: NotRegistered?
 }
 
+class MultiInjectionViewController {
+    @MultiInjected var services: [XYZSessionProtocol]
+}
+
 protocol ReturnsSomething: AnyObject {
     func returnSomething() -> Bool
 }
@@ -92,6 +96,9 @@ class ResolverInjectedTests: XCTestCase {
         }
         
         Resolver.custom.register { XYZNameService("custom") }
+        
+        Resolver.main.register(multi: true) { XYZSessionService() as XYZSessionProtocol }
+        Resolver.main.register(multi: true) { XYZSessionService2() as XYZSessionProtocol }
     }
 
     override func tearDown() {
@@ -169,6 +176,11 @@ class ResolverInjectedTests: XCTestCase {
         XCTAssertNil(vc.notRegistered)
         vc.service = nil
         XCTAssertNil(vc.service)
+    }
+    
+    func testMultiInjectionViewController() {
+        let vc = MultiInjectionViewController()
+        XCTAssert(vc.services.count == 2)
     }
 }
 
