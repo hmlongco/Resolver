@@ -223,14 +223,7 @@ public final class Resolver {
     ///
     /// - returns: Instance of specified Service.
     public static func resolve<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> Service {
-        lock.lock()
-        defer { lock.unlock() }
-        registrationCheck()
-        if let registration = root.lookup(type, name: name),
-            let service = registration.scope.resolve(resolver: root, registration: registration, args: args) {
-            return service
-        }
-        fatalError("RESOLVER: '\(Service.self):\(name?.rawValue ?? "NONAME")' not resolved. To disambiguate optionals use resolver.optional().")
+        return main.resolve(type, name: name, args: args)
     }
 
     /// Resolves and returns an instance of the given Service type from the current registry or from its
@@ -262,14 +255,7 @@ public final class Resolver {
     /// - returns: Instance of specified Service.
     ///
     public static func optional<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> Service? {
-        lock.lock()
-        defer { lock.unlock() }
-        registrationCheck()
-        if let registration = root.lookup(type, name: name),
-            let service = registration.scope.resolve(resolver: root, registration: registration, args: args) {
-            return service
-        }
-        return nil
+        return main.optional(type, name: name, args: args)
     }
 
     /// Resolves and returns an optional instance of the given Service type from the current registry or
