@@ -124,6 +124,17 @@ register { XYZCombinedService() }
     .scope(.unique)
 ```
 
+## Scope: Container<a name=container></a>
+
+The `container` scope will cause a given object instance to be retained by the `cache` of the `Resolver` instance used for registration. Once it's been resolved the first time, any subsequent resolutions will return the initial instance as long as that container exists, or until its cache is reset or released.
+
+This scope is commonly used in situations where service instances need the same lifecycle as the container.  It's especially handy for mocking and testing where containers may be created on the fly and then disposed.
+
+```swift
+resolver.register { XYZApplicationService() }
+    .scope(.container)
+```
+
 ## The Default Scope<a name=default></a>
 
 The default scope used by Resolver when registering an object is [graph](#graph).
@@ -139,17 +150,6 @@ extension Resolver: ResolverRegistering {
         registerMyNetworkServices()
     }
 }
-```
-
-## Scope: Container<a name=container></a>
-
-The `container` scope will cause a given object instance to be retained by the `cache` of the `Resolver` instance used for registration. Once it's been resolved the first time, any subsequent resolutions will return the initial instance as long as that container exists, or until its cache is reset or released.
-
-This scope is commonly used in situations where service instances need the same lifecycle as the container.  It's especially handy for mocking and testing where containers may be created on the fly and then disposed.
-
-```swift
-resolver.register { XYZApplicationService() }
-    .scope(.container)
 ```
 
 ## Custom Caches<a name=custom></a>
