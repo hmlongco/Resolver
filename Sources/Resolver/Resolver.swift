@@ -64,7 +64,8 @@ public final class Resolver {
     /// Default scope applied when registering new objects.
     public static var defaultScope: ResolverScope = .graph
     
-    public let cache = ResolverScopeCache()
+    /// Internal scope cache used for .scope(.container)
+    public lazy var cache: ResolverScope = ResolverScopeCache()
 
     // MARK: - Lifecycle
 
@@ -560,7 +561,7 @@ public class ResolverScope: ResolverScopeType {
 
     /// All application scoped services exist for lifetime of the app. (e.g Singletons)
     public static let application = ResolverScopeCache()
-    /// Cached services exist for lifetime of the container or until the containr's cache is reset.  (e.g Singleton within the container)
+    /// Proxy to container's scope. Cache type depends on type supplied to container (default .cache)
     public static let container = ResolverScopeContainer()
     /// Cached services exist for lifetime of the app or until their cache is reset.
     public static let cached = ResolverScopeCache()
@@ -677,7 +678,7 @@ public final class ResolverScopeUnique: ResolverScope {
 
 }
 
-/// Cached services exist for lifetime of the container or until cache of the container is reset.
+/// Proxy to container's scope. Cache type depends on type supplied to container (default .cache)
 public final class ResolverScopeContainer: ResolverScope {
     
     public override init() {}
