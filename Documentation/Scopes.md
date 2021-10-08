@@ -10,13 +10,14 @@ This means that *every* service requested from a scope, with the sole exception 
 
 How long? Well, that depends on the scope. Some cached instances exist only during a given [resolution cycle](Cycle.md), while others my stick around and maintain a single instance for the entire lifetime of the app.
 
-Resolver has five built-in scopes, all defined on the type `ResolverScope`:
+Resolver has six built-in scopes, all defined on the type `ResolverScope`:
 
 * [.application](#application)
 * [.cached](#cached)
 * [.graph](#graph) (default)
 * [.shared](#shared)
 * [.unique](#unique)
+* [.container](#container)
 
 Make sure you know and understand the differences between them, becaue if there's one advanced feature of Resolver you absolutely *must* understand, it's this one.
 
@@ -61,19 +62,6 @@ ResolverScope.cached.reset()
 ```
 
 You can also add your own [custom caches](#custom) to Resolver.
-
-## Scope: Container<a name=container></a>
-
-The `container` scope will make a given object instance to be retained, by the `cache` of the `Resolver` instance used for registration. Once it's been resolved the first time, and any subsequent resolutions will return the initial instance, as long as the `Resolver` instance exists, or its cache is reset or released.
-
-This scope is commonly used in project setups where no `static` references are held to user defined `Resolver` intances, in order to grant service instances the same lifecycle as the container.  
-
-```swift
-resolver.register { XYZApplicationService() }
-    .scope(.container)
-```
-
-This effectively makes the object a `Singleton within the container`.
 
 ## Scope: Graph<a name=graph></a>
 
@@ -151,6 +139,17 @@ extension Resolver: ResolverRegistering {
         registerMyNetworkServices()
     }
 }
+```
+
+## Scope: Container<a name=container></a>
+
+The `container` scope will cause a given object instance to be retained by the `cache` of the `Resolver` instance used for registration. Once it's been resolved the first time, any subsequent resolutions will return the initial instance as long as that container exists, or until its cache is reset or released.
+
+This scope is commonly used in situations where service instances need the same lifecycle as the container.  It's especially handy for mocking and testing where containers may be created on the fly and then disposed.
+
+```swift
+resolver.register { XYZApplicationService() }
+    .scope(.container)
 ```
 
 ## Custom Caches<a name=custom></a>
