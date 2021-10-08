@@ -107,4 +107,27 @@ class ResolverScopeValueTests: XCTestCase {
         }
     }
 
+    func testResolverScopeContainer() {
+        resolver.register { XYZValue() }.scope(.container)
+        let value1: XYZValue? = resolver.optional()
+        let value2: XYZValue? = resolver.optional()
+        XCTAssertNotNil(value1)
+        XCTAssertNotNil(value2)
+        if let s1 = value1, let s2 = value2 {
+            XCTAssert(s1.id == s2.id)
+        } else {
+            XCTFail("values not cached")
+        }
+        
+        if let containerCache = resolver.cache as? ResolverScopeCache {
+            let oldID = value1?.id ?? UUID()
+            // Reset and try again
+            containerCache.reset()
+            if let newService: XYZValue = resolver.optional() {
+                XCTAssert(newService.id != oldID)
+            } else {
+                XCTFail("newService not resolved")
+            }
+        }
+    }
 }

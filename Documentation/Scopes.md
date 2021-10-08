@@ -62,6 +62,19 @@ ResolverScope.cached.reset()
 
 You can also add your own [custom caches](#custom) to Resolver.
 
+## Scope: Container<a name=container></a>
+
+The `container` scope will make a given object instance to be retained, by the `cache` of the `Resolver` instance used for registration. Once it's been resolved the first time, and any subsequent resolutions will return the initial instance, as long as the `Resolver` instance exists, or its cache is reset or released.
+
+This scope is commonly used in project setups where no `static` references are held to user defined `Resolver` intances, in order to grant service instances the same lifecycle as the container.  
+
+```swift
+resolver.register { XYZApplicationService() }
+    .scope(.container)
+```
+
+This effectively makes the object a `Singleton within the container`.
+
 ## Scope: Graph<a name=graph></a>
 
 This scope will reuse any object instances resolved during a given [resolution cycle](Cycle.md).
