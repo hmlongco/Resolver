@@ -118,16 +118,13 @@ class ResolverScopeValueTests: XCTestCase {
         } else {
             XCTFail("values not cached")
         }
-        
-        if let containerCache = resolver.cache as? ResolverScopeCache {
-            let oldID = value1?.id ?? UUID()
-            // Reset and try again
-            containerCache.reset()
-            if let newService: XYZValue = resolver.optional() {
-                XCTAssert(newService.id != oldID)
-            } else {
-                XCTFail("newService not resolved")
-            }
+        let oldID = value1?.id ?? UUID()
+        // Reset and try again
+        resolver.cache.reset()
+        if let newService: XYZValue = resolver.optional() {
+            XCTAssert(newService.id != oldID)
+        } else {
+            XCTFail("newService not resolved")
         }
     }
 }

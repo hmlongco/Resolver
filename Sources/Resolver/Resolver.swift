@@ -553,6 +553,7 @@ public final class ResolverRegistration<Service> {
 /// Resolver scopes exist to control when resolution occurs and how resolved instances are cached. (If at all.)
 public protocol ResolverScopeType: AnyObject {
     func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service?
+    func reset()
 }
 
 public class ResolverScope: ResolverScopeType {
@@ -572,9 +573,15 @@ public class ResolverScope: ResolverScopeType {
     /// Unique services are created and initialized each and every time they're resolved.
     public static let unique = ResolverScopeUnique()
 
-    // abstract base for class never called
+    // abstract base for scope classes can not be instantiated
+    fileprivate init() {}
+    
     public func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
-        fatalError("abstract")
+        return registration.resolve(resolver: resolver, args: args)
+    }
+    
+    public func reset() {
+        // nop
     }
 }
 
@@ -610,7 +617,7 @@ public class ResolverScopeCache: ResolverScope {
         return service
     }
 
-    public final func reset() {
+    public final override func reset() {
         cachedServices.removeAll()
     }
 
@@ -657,7 +664,7 @@ public final class ResolverScopeShare: ResolverScope {
         return service
     }
 
-    public final func reset() {
+    public final override func reset() {
         cachedServices.removeAll()
     }
 
@@ -685,7 +692,6 @@ public final class ResolverScopeContainer: ResolverScope {
     public final override func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
         return resolver.cache.resolve(resolver: resolver, registration: registration, args: args)
     }
-
 }
 
 #if os(iOS)
