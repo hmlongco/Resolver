@@ -458,7 +458,7 @@ public struct ResolverOptions<Service> {
 
     // MARK: - Parameters
 
-    internal var registration: ResolverRegistration<Service>
+    public var registration: ResolverRegistration<Service>
 
     // MARK: - Fuctionality
 
@@ -484,8 +484,14 @@ public struct ResolverOptions<Service> {
     ///
     @discardableResult
     public func resolveProperties(_ block: @escaping ResolverFactoryMutator<Service>) -> ResolverOptions<Service> {
-        registration.mutator = { (_ resolver: Resolver, _ service: Service, _ args: Resolver.Args) in
-            block(resolver, service)
+        registration.update { existingFactory in
+            return { (resolver, args) in
+                guard let service = existingFactory(resolver, args) else {
+                    return nil
+                }
+                block(resolver, service)
+                return service
+            }
         }
         return self
     }
@@ -498,7 +504,15 @@ public struct ResolverOptions<Service> {
     ///
     @discardableResult
     public func resolveProperties(_ block: @escaping ResolverFactoryMutatorArgumentsN<Service>) -> ResolverOptions<Service> {
-        registration.mutator = block
+        registration.update { existingFactory in
+            return { (resolver, args) in
+                guard let service = existingFactory(resolver, args) else {
+                    return nil
+                }
+                block(resolver, service, Resolver.Args(args))
+                return service
+            }
+        }
         return self
     }
 
@@ -520,10 +534,9 @@ public final class ResolverRegistration<Service> {
 
     fileprivate let key: Int
     fileprivate let cacheKey: String
-    fileprivate let factory: ResolverFactoryAnyArguments<Service>
-
+    
+    fileprivate var factory: ResolverFactoryAnyArguments<Service>
     fileprivate var scope: ResolverScope = Resolver.defaultScope
-    fileprivate var mutator: ResolverFactoryMutatorArgumentsN<Service>?
     
     fileprivate weak var resolver: Resolver?
 
@@ -539,11 +552,11 @@ public final class ResolverRegistration<Service> {
     }
 
     public final func resolve(resolver: Resolver, args: Any?) -> Service? {
-        guard let service = factory(resolver, args) else {
-            return nil
-        }
-        self.mutator?(resolver, service, Resolver.Args(args))
-        return service
+        return factory(resolver, args)
+    }
+    
+    public func update(factory modifier: (_ factory: @escaping ResolverFactoryAnyArguments<Service>) -> ResolverFactoryAnyArguments<Service>) {
+        self.factory = modifier(factory)
     }
 
 }
