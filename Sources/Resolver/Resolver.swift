@@ -68,10 +68,18 @@ public final class Resolver {
 
     // MARK: - Lifecycle
 
-    public init(parent: Resolver? = nil) {
-        if let parent = parent {
-            self.childContainers.append(parent)
+    /// Initialize with optional child scope.
+    /// If child is provided this container is searched for registrations first, then any of its children.
+    public init(child: Resolver? = nil) {
+        if let child = child {
+            self.childContainers.append(child)
         }
+    }
+
+    /// Initializer which maintained Resolver 1.0's "parent" functionality even when multiple child scopes were added in 1.4.3.
+    @available(swift, deprecated: 5.0, message: "Please use Resolver(child:).")
+    public init(parent: Resolver) {
+        self.childContainers.append(parent)
     }
 
     /// Adds a child container to this container. Children will be searched if this container fails to find a registration factory
