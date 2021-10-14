@@ -3,6 +3,7 @@
 ### 1.5.0
 
 * Added .container scope that lives for the lifetime of a given Resolver container (PR#131)
+* Added init(child:) to replace deprecated init(parent:)
 * Updated ResolverRegistration to give ResolverOptions the ability to add new behaviors to a given registration (Based on PR#130)
 * Updates to ResolverRegistration so external services aren't poking around its internals
 * Removed deprecated scopes from Resolver base class.
