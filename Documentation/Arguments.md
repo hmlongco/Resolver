@@ -2,7 +2,7 @@
 
 ## Resolver 1.2 and Multiple Argument Support
 
-Resolver 1.2 changed how arguments are passed to the registration factory order to provide better support for passing and handling both single and multiple arguments.  This is, unfortunately, a breaking change to Resolver, but as the end result is much cleaner code I think it's worth it. 
+Resolver 1.2 changed how the arguments are passed to the registration factory, in order to provide better support for passing and handling both, single and multiple arguments. This is, unfortunately, a breaking change to Resolver, but as the end result is much cleaner code I think it's worth it. 
 
 **This change only affects factories that expected a passed argument, and that expected that argument to be of type Any?.**
 
