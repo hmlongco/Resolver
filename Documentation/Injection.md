@@ -173,7 +173,7 @@ Method Injection is pretty much what it says, injecting the object needed into a
 ```swift
 class XYZViewModel {
 
-    func load(fetcher: XYZFetching, service: XYZFetching) -> Data {
+    func load(fetcher: XYZFetching, service: XYZService) -> Data {
         return fetcher.getData(service)
     }
 
