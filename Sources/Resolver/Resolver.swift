@@ -176,7 +176,7 @@ public final class Resolver {
                                         factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
         lock.lock()
         defer { lock.unlock() }
-        let key = Int(bitPattern: ObjectIdentifier(Service.self))
+        let key = Int(bitPattern: ObjectIdentifier(type.self))
         let factory: ResolverFactoryAnyArguments = { (_,_) in factory() }
         let registration = ResolverRegistration<Service>(resolver: self, key: key, name: name, factory: factory)
         add(registration: registration, with: key, name: name)
@@ -196,7 +196,7 @@ public final class Resolver {
                                         factory: @escaping ResolverFactoryResolver<Service>) -> ResolverOptions<Service> {
         lock.lock()
         defer { lock.unlock() }
-        let key = Int(bitPattern: ObjectIdentifier(Service.self))
+        let key = Int(bitPattern: ObjectIdentifier(type.self))
         let factory: ResolverFactoryAnyArguments = { (r,_) in factory(r) }
         let registration = ResolverRegistration<Service>(resolver: self, key: key, name: name, factory: factory)
         add(registration: registration, with: key, name: name)
@@ -216,7 +216,7 @@ public final class Resolver {
                                         factory: @escaping ResolverFactoryArgumentsN<Service>) -> ResolverOptions<Service> {
         lock.lock()
         defer { lock.unlock() }
-        let key = Int(bitPattern: ObjectIdentifier(Service.self))
+        let key = Int(bitPattern: ObjectIdentifier(type.self))
         let factory: ResolverFactoryAnyArguments = { (r,a) in factory(r, Args(a)) }
         let registration = ResolverRegistration<Service>(resolver: self, key: key, name: name, factory: factory )
         add(registration: registration, with: key, name: name)
@@ -303,7 +303,7 @@ public final class Resolver {
     /// Internal function searches the current and child registries for a ResolverRegistration<Service> that matches
     /// the supplied type and name.
     private final func lookup<Service>(_ type: Service.Type, name: Resolver.Name?) -> ResolverRegistration<Service>? {
-        let key = Int(bitPattern: ObjectIdentifier(Service.self))
+        let key = Int(bitPattern: ObjectIdentifier(type.self))
         if let name = name?.rawValue {
             if let registration = namedRegistrations["\(key):\(name)"] as? ResolverRegistration<Service> {
                 return registration
