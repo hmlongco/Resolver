@@ -242,7 +242,7 @@ func setupMyRegistrations {
 
 #### Definition
 
-Annotation uses comments or other metadata to indication that dependency injection is required. As of Swift 5.1, we can now perform annotation using Property Wrappers. (See [Annotation](https://github.com/hmlongco/Resolver/blob/master/Documentation/Annotation.md).)
+Annotation uses comments or other metadata to indicate that dependency injection is required. As of Swift 5.1, we can now perform annotation using Property Wrappers. (See [Annotation](https://github.com/hmlongco/Resolver/blob/master/Documentation/Annotation.md).)
 
 #### The Class
 
