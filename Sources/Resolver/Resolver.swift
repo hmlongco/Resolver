@@ -274,7 +274,7 @@ public final class Resolver {
         defer { lock.unlock() }
         registrationCheck()
         if let registrations = root.lookupAll(type) {
-            return registrations.compactMap { reg in return reg.scope.resolve(resolver: root, args: args) }
+            return registrations.compactMap { reg in return reg.resolve(resolver: root, args: args) }
         }
         fatalError("RESOLVER: '\(Service.self)' types not resolved.")
     }
