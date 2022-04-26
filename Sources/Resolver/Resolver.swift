@@ -269,6 +269,24 @@ public final class Resolver {
     ///
     /// - returns: Instances of specified Service.
     ///
+    public static func resolveAll<Service>(_ type: Service.Type = Service.self, args: Any? = nil) -> [Service] {
+        lock.lock()
+        defer { lock.unlock() }
+        registrationCheck()
+        if let registrations = root.lookupAll(type) {
+            return registrations.compactMap { reg in return reg.scope.resolve(registration: reg, resolver: self, args: args) }
+        }
+        fatalError("RESOLVER: '\(Service.self)' types not resolved.")
+    }
+
+    // Resolves and returns all named instances of the given Service type from the current registry or from its
+    /// parent registries.
+    ///
+    /// - parameter type: Type of Services being resolved. Optional, may be inferred by assignment result type.
+    /// - parameter args: Optional arguments that may be passed to registration factory.
+    ///
+    /// - returns: Instances of specified Service.
+    ///
     public final func resolveAll<Service>(_ type: Service.Type = Service.self, args: Any? = nil) -> [Service] {
         lock.lock()
         defer { lock.unlock() }
