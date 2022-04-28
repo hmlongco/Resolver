@@ -183,4 +183,23 @@ class ResolverNameTests: XCTestCase {
         XCTAssert(barney?.name == "Barney")
     }
 
+    func testResolverAllOfType() {
+
+        resolver.register(name: .fred) { XYZNameService("Fred") }
+        resolver.register(name: .barney) { XYZNameService("Barney") }
+
+        let fredAndBarney: [XYZNameService] = resolver.resolveAll()
+
+        // Check all services resolved
+        XCTAssertEqual(fredAndBarney.count, 2)
+        var foundFred = false
+        var foundBarney = false
+        for service in fredAndBarney {
+            foundFred = foundFred || service.name == "Fred"
+            foundBarney = foundBarney || service.name == "Barney"
+        }
+
+        XCTAssertTrue(foundFred)
+        XCTAssertTrue(foundBarney)
+    }
 }
