@@ -359,18 +359,15 @@ public final class Resolver {
     /// the supplied type.
     private final func lookupAll<Service>(_ type: Service.Type) -> [ResolverRegistration<Service>]? {
         let key = Int(bitPattern: ObjectIdentifier(Service.self))
-        let all = namedRegistrations.filter { reg in
-            return reg.key.hasPrefix("\(key):")
-        }.compactMap { key, value in
+        var all = namedRegistrations.filter { registration in
+            return registration.key.hasPrefix("\(key):")
+        }.compactMap { _, value in
             return value as? ResolverRegistration<Service>
         }
-        if all.isEmpty {
-            for child in childContainers {
-                if let registration = child.lookupAll(type) {
-                    return registration
-                }
+        for child in childContainers {
+            if let registrations = child.lookupAll(type) {
+                all.append(contentsOf: registrations)
             }
-            return nil
         }
         return all
     }
