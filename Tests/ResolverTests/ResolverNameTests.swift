@@ -225,4 +225,28 @@ class ResolverNameTests: XCTestCase {
         XCTAssertTrue(foundFred)
         XCTAssertTrue(foundBarney)
     }
+
+    func testResolveAllOfTypeInMultipleContainersWithOverride() {
+
+        let childResolver = Resolver()
+        let parentResolver = Resolver(child: childResolver)
+
+        parentResolver.register(name: .fred) { XYZEnhancedNameService("Fred") as XYZNameProtocol }
+        childResolver.register(name: .fred) { XYZNameService("Fred") as XYZNameProtocol }
+        parentResolver.register(name: .barney) { XYZNameService("Barney") as XYZNameProtocol }
+
+        let fredAndBarney: [XYZNameProtocol] = parentResolver.resolveAll()
+
+        // Check all services resolved
+        XCTAssertEqual(fredAndBarney.count, 2)
+        var foundFredFromParent = false
+        var foundBarney = false
+        for service in fredAndBarney {
+            foundFredFromParent = foundFredFromParent || (service.name == "Fred" && service is XYZEnhancedNameService)
+            foundBarney = foundBarney || service.name == "Barney"
+        }
+
+        XCTAssertTrue(foundFredFromParent)
+        XCTAssertTrue(foundBarney)
+    }
 }

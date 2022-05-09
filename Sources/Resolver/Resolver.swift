@@ -358,18 +358,26 @@ public final class Resolver {
     /// Internal function searches the current and child registries for all ResolverRegistration<Service>s that matches
     /// the supplied type.
     private final func lookupAll<Service>(_ type: Service.Type) -> [ResolverRegistration<Service>]? {
+        guard let values = lookupAllKeyed(type)?.values else {
+            return nil
+        }
+        return Array(values)
+    }
+
+    /// Internal function searches the current and child registries for all ResolverRegistration<Service>s that matches
+    /// the supplied type combind with their registered names.
+    private final func lookupAllKeyed<Service>(_ type: Service.Type) -> [String: ResolverRegistration<Service>]? {
         let key = Int(bitPattern: ObjectIdentifier(Service.self))
-        var all = namedRegistrations.filter { registration in
+        var result = namedRegistrations.filter { registration in
             return registration.key.hasPrefix("\(key):")
-        }.compactMap { _, value in
-            return value as? ResolverRegistration<Service>
         }
         for child in childContainers {
-            if let registrations = child.lookupAll(type) {
-                all.append(contentsOf: registrations)
+            guard let childRegistrations = child.lookupAllKeyed(type) else {
+                continue
             }
+            result.merge(childRegistrations, uniquingKeysWith: { parentEntry, _ in return parentEntry })
         }
-        return all
+        return result as? [String: ResolverRegistration<Service>]
     }
 
     /// Internal function adds a new registration to the proper container.
