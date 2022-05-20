@@ -148,7 +148,9 @@ class ResolverInjectedTests: XCTestCase {
         XCTAssertNotNil(child.weakService)
         XCTAssert(child.$weakService.isEmpty == false)
 
+        ResolverScope.shared.reset()
         parent = nil
+        
         XCTAssert(child.$weakService.isEmpty == true)
         XCTAssertNil(parent?.strongService)
         XCTAssertNil(child.weakService)

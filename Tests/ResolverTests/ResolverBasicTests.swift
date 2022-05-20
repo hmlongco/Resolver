@@ -21,7 +21,7 @@ class ResolverBasicTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
     }
-    
+
     func testRegistrationAndExplicitResolution() {
         resolver.register { XYZSessionService() }
         let session: XYZSessionService? = resolver.resolve(XYZSessionService.self)
@@ -108,6 +108,17 @@ class ResolverBasicTests: XCTestCase {
         resolver.register(XYZSessionProtocol.self) { return nil } // induce internal error
         let session: XYZSessionProtocol? = resolver.optional()
         XCTAssertNil(session)
+    }
+
+    func testRegistrationWithDecorator() {
+        var decorated: AnyObject?
+        Resolver.register { XYZSessionService() }
+        Resolver.decorate = { decorated = $0 as AnyObject }
+        let service1: XYZService = Resolver.resolve()
+        XCTAssertNotNil(decorated)
+        XCTAssert(ObjectIdentifier(service1) == ObjectIdentifier(decorated!))
+        let service2: XYZService? = Resolver.optional()
+        XCTAssert(ObjectIdentifier(service2!) == ObjectIdentifier(decorated!))
     }
 
 }

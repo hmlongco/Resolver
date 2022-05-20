@@ -65,6 +65,8 @@ public final class Resolver {
     public static var defaultScope: ResolverScope = .graph
     /// Internal scope cache used for .scope(.container)
     public lazy var cache: ResolverScope = ResolverScopeCache()
+    /// Deorator applied to all resolved objects
+    public static var decorate: ((_ service: Any) -> Void)?
 
     // MARK: - Lifecycle
 
@@ -237,6 +239,9 @@ public final class Resolver {
         defer { lock.unlock() }
         registrationCheck()
         if let registration = root.lookup(type, name: name), let service = registration.resolve(resolver: root, args: args) {
+#if DEBUG
+            Resolver.decorate?(service)
+#endif
             return service
         }
         fatalError("RESOLVER: '\(Service.self):\(name?.rawValue ?? "NONAME")' not resolved. To disambiguate optionals use resolver.optional().")
@@ -256,6 +261,9 @@ public final class Resolver {
         defer { lock.unlock() }
         registrationCheck()
         if let registration = lookup(type, name: name), let service = registration.resolve(resolver: self, args: args) {
+#if DEBUG
+            Resolver.decorate?(service)
+#endif
             return service
         }
         fatalError("RESOLVER: '\(Service.self):\(name?.rawValue ?? "NONAME")' not resolved. To disambiguate optionals use resolver.optional().")
@@ -274,6 +282,9 @@ public final class Resolver {
         defer { lock.unlock() }
         registrationCheck()
         if let registration = root.lookup(type, name: name), let service = registration.resolve(resolver: root, args: args) {
+#if DEBUG
+            Resolver.decorate?(service)
+#endif
             return service
         }
         return nil
@@ -293,6 +304,9 @@ public final class Resolver {
         defer { lock.unlock() }
         registrationCheck()
         if let registration = lookup(type, name: name), let service = registration.resolve(resolver: self, args: args) {
+#if DEBUG
+            Resolver.decorate?(service)
+#endif
             return service
         }
         return nil
@@ -402,7 +416,7 @@ extension Resolver {
             }
         }
 
-        #if swift(>=5.2)
+#if swift(>=5.2)
         public func callAsFunction<T>() -> T {
             assert(args.count == 1, "argument order indeterminate, use keyed arguments")
             return (args.first?.value as? T)!
@@ -411,7 +425,7 @@ extension Resolver {
         public func callAsFunction<T>(_ key: String) -> T {
             return (args[key] as? T)!
         }
-        #endif
+#endif
 
         public func optional<T>() -> T? {
             return args.first?.value as? T
@@ -537,10 +551,10 @@ public final class ResolverRegistration<Service> {
 
     public let key: Int
     public let cacheKey: String
-    
+
     fileprivate var factory: ResolverFactoryAnyArguments<Service>
     fileprivate var scope: ResolverScope = Resolver.defaultScope
-    
+
     fileprivate weak var resolver: Resolver?
 
     public init(resolver: Resolver, key: Int, name: Resolver.Name?, factory: @escaping ResolverFactoryAnyArguments<Service>) {
@@ -558,12 +572,12 @@ public final class ResolverRegistration<Service> {
     public final func resolve(resolver: Resolver, args: Any?) -> Service? {
         return scope.resolve(registration: self, resolver: resolver, args: args)
     }
-    
+
     /// Called by Resolver scopes to instantiate a new instance of a service.
     public final func instantiate(resolver: Resolver, args: Any?) -> Service? {
         return factory(resolver, args)
     }
-    
+
     /// Called by ResolverOptions to wrap a given service factory with new behavior.
     public final func update(factory modifier: (_ factory: @escaping ResolverFactoryAnyArguments<Service>) -> ResolverFactoryAnyArguments<Service>) {
         self.factory = modifier(factory)
@@ -597,12 +611,12 @@ public class ResolverScope: ResolverScopeType {
     public static let unique = ResolverScope()
 
     public init() {}
-    
+
     /// Core scope resolution simply instantiates new instance every time it's called (e.g. .unique)
     public func resolve<Service>(registration: ResolverRegistration<Service>, resolver: Resolver, args: Any?) -> Service? {
         return registration.instantiate(resolver: resolver, args: args)
     }
-    
+
     public func reset() {
         // nothing to see here. move along.
     }
@@ -645,12 +659,12 @@ public final class ResolverScopeGraph: ResolverScope {
         resolutionDepth = resolutionDepth - 1
         if resolutionDepth == 0 {
             graph.removeAll()
-        } else if let service = service, type(of: service as Any) is AnyClass {
+        } else if let service = service {
             graph[registration.cacheKey] = service
         }
         return service
     }
-    
+
     public override final func reset() {}
 
     private var graph = [String : Any?](minimumCapacity: 32)
@@ -667,7 +681,7 @@ public final class ResolverScopeShare: ResolverScope {
             return service
         }
         let service = registration.instantiate(resolver: resolver, args: args)
-        if let service = service, type(of: service as Any) is AnyClass {
+        if let service = service {
             cachedServices[registration.cacheKey] = BoxWeak(service: service as AnyObject)
         }
         return service
@@ -689,13 +703,13 @@ public typealias ResolverScopeUnique = ResolverScope
 
 /// Proxy to container's scope. Cache type depends on type supplied to container (default .cache)
 public final class ResolverScopeContainer: ResolverScope {
-    
+
     public override init() {}
-    
+
     public override final func resolve<Service>(registration: ResolverRegistration<Service>, resolver: Resolver, args: Any?) -> Service? {
         return resolver.cache.resolve(registration: registration, resolver: resolver, args: args)
     }
-    
+
 }
 
 
@@ -846,7 +860,7 @@ public extension UIViewController {
             if initialize {
                 self.initialize = false
                 self.service = (container?.resolve(Service.self, name: name, args: args)
-                                    ?? Resolver.resolve(Service.self, name: name, args: args)) as AnyObject
+                                ?? Resolver.resolve(Service.self, name: name, args: args)) as AnyObject
             }
             return service as? Service
         }
@@ -890,3 +904,4 @@ public extension UIViewController {
 }
 #endif
 #endif
+
