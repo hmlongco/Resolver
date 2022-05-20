@@ -110,4 +110,19 @@ class ResolverBasicTests: XCTestCase {
         XCTAssertNil(session)
     }
 
+    func testRegistrationWithDecorator() {
+        var decorated: Decorated?
+        Resolver.register { Decorated() }
+        Resolver.decorate = { decorated = $0 as? Decorated }
+        let service1: Decorated = Resolver.resolve()
+        XCTAssertNotNil(decorated)
+        XCTAssert(decorated?.id == service1.id)
+        let service2: Decorated? = Resolver.optional()
+        XCTAssert(decorated?.id == service2?.id)
+    }
+
+}
+
+private class Decorated {
+    let id = UUID()
 }

@@ -65,6 +65,8 @@ public final class Resolver {
     public static var defaultScope: ResolverScope = .graph
     /// Internal scope cache used for .scope(.container)
     public lazy var cache: ResolverScope = ResolverScopeCache()
+    /// Deorator applied to all resolved objects
+    public static var decorate: ((_ service: Any) -> Void)?
 
     // MARK: - Lifecycle
 
@@ -237,6 +239,9 @@ public final class Resolver {
         defer { lock.unlock() }
         registrationCheck()
         if let registration = root.lookup(type, name: name), let service = registration.resolve(resolver: root, args: args) {
+#if DEBUG
+            Resolver.decorate?(service)
+#endif
             return service
         }
         fatalError("RESOLVER: '\(Service.self):\(name?.rawValue ?? "NONAME")' not resolved. To disambiguate optionals use resolver.optional().")
@@ -256,6 +261,9 @@ public final class Resolver {
         defer { lock.unlock() }
         registrationCheck()
         if let registration = lookup(type, name: name), let service = registration.resolve(resolver: self, args: args) {
+#if DEBUG
+            Resolver.decorate?(service)
+#endif
             return service
         }
         fatalError("RESOLVER: '\(Service.self):\(name?.rawValue ?? "NONAME")' not resolved. To disambiguate optionals use resolver.optional().")
@@ -274,6 +282,9 @@ public final class Resolver {
         defer { lock.unlock() }
         registrationCheck()
         if let registration = root.lookup(type, name: name), let service = registration.resolve(resolver: root, args: args) {
+#if DEBUG
+            Resolver.decorate?(service)
+#endif
             return service
         }
         return nil
@@ -293,6 +304,9 @@ public final class Resolver {
         defer { lock.unlock() }
         registrationCheck()
         if let registration = lookup(type, name: name), let service = registration.resolve(resolver: self, args: args) {
+#if DEBUG
+            Resolver.decorate?(service)
+#endif
             return service
         }
         return nil
@@ -402,7 +416,7 @@ extension Resolver {
             }
         }
 
-        #if swift(>=5.2)
+#if swift(>=5.2)
         public func callAsFunction<T>() -> T {
             assert(args.count == 1, "argument order indeterminate, use keyed arguments")
             return (args.first?.value as? T)!
@@ -411,7 +425,7 @@ extension Resolver {
         public func callAsFunction<T>(_ key: String) -> T {
             return (args[key] as? T)!
         }
-        #endif
+#endif
 
         public func optional<T>() -> T? {
             return args.first?.value as? T
@@ -846,7 +860,7 @@ public extension UIViewController {
             if initialize {
                 self.initialize = false
                 self.service = (container?.resolve(Service.self, name: name, args: args)
-                                    ?? Resolver.resolve(Service.self, name: name, args: args)) as AnyObject
+                                ?? Resolver.resolve(Service.self, name: name, args: args)) as AnyObject
             }
             return service as? Service
         }
