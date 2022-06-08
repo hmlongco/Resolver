@@ -570,7 +570,7 @@ public final class ResolverRegistration<Service> {
 
     /// Called by Resolver containers to resolve a registration. Depending on scope may return a previously cached instance.
     public final func resolve(resolver: Resolver, args: Any?) -> Service? {
-        return scope.resolve(registration: self, resolver: resolver, args: args)
+        return scope.resolve(registration: self, resolver: self.resolver ?? resolver, args: args)
     }
     
     /// Called by Resolver scopes to instantiate a new instance of a service.
