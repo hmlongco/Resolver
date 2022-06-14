@@ -2,7 +2,7 @@
 
 An ultralight Dependency Injection / Service Locator framework for Swift 5.x on iOS.
 
-**Note that several recent updates to Resolver may break earlier code that used [argument passing](./Documentation/Arguments.md#multiple) and/or [named services](./Documentation/Names.md). For more see the [Updates](#updates) section below.**
+**Note: Later in 2022 Resolver will be deprecated and replaced by my new dependency injection system, [Factory](https://github.com/hmlongco/Factory). Factory is compile-time safe and is smaller, lighter, and faster than Resolver.**
 
 ## Introduction
 
