@@ -2,7 +2,7 @@
 
 An ultralight Dependency Injection / Service Locator framework for Swift 5.x on iOS.
 
-**Note: Later in 2022 Resolver will be deprecated and replaced by my new dependency injection system, [Factory](https://github.com/hmlongco/Factory). Factory is compile-time safe and is smaller, lighter, and faster than Resolver.**
+**Note: Later in 2022 Resolver will be deprecated and replaced by my new dependency injection system, [Factory](https://github.com/hmlongco/Factory). Factory is compile-time safe and is smaller, lighter, and faster than Resolver. As good as Resolver is, Factory is better.**
 
 ## Introduction
 
@@ -132,6 +132,7 @@ Resolver is available under the MIT license. See the LICENSE file for more info.
 
 ## Additional Resouces
 
+* [Factory: A Swift Dependency Injection System](https://github.com/hmlongco/Factory)
 * [Resolver for iOS Dependency Injection: Getting Started | Ray Wenderlich](https://www.raywenderlich.com/22203552-resolver-for-ios-dependency-injection-getting-started)
 * [API Documentation](./Documentation/API/Classes/Resolver.html)
 * [Inversion of Control Design Pattern ~ Wikipedia](https://en.wikipedia.org/wiki/Inversion_of_control)
