@@ -164,7 +164,7 @@ func setupMyRegistrations {
 
 #### Definition
 
-This is listed for competeness, even though it's not a pattern that uses Resolver directly.
+This is listed for completeness, even though it's not a pattern that uses Resolver directly.
 
 Method Injection is pretty much what it says, injecting the object needed into a given method.
 
