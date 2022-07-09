@@ -141,5 +141,5 @@ Resolver is available under the MIT license. See the LICENSE file for more info.
 * [Dependency Injection in Swift](https://cocoacasts.com/dependency-injection-in-swift)
 * [SwinjectStoryboard](https://github.com/Swinject/SwinjectStoryboard)
 * [Swift 5.1 Takes Dependency Injection to the Next Level](https://medium.com/better-programming/taking-swift-dependency-injection-to-the-next-level-b71114c6a9c6)
-* [Builder Demo Application](https://github.com/hmlongco/Builder)
+* [Builder Demo Application](https://github.com/hmlongco/Builder)[ (Now uses Factory)](https://github.com/hmlongco/Factory)
 
