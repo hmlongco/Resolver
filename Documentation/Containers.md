@@ -2,7 +2,7 @@
 
 ## What are containers?
 
-In a Dependency Injection system, a container *contains* alll of the service registrations. When a service is being *resolved*, the container is searched to find the correct registration and corresponding factory.
+In a Dependency Injection system, a container *contains* all of the service registrations. When a service is being *resolved*, the container is searched to find the correct registration and corresponding factory.
 
 In Resolver, a resolver instance contains its registration code, its resolution code, and a corresponding container. Put another way, each and every instance of a Resolver *is* a container.
 
