@@ -276,7 +276,7 @@ public final class Resolver {
         if let registrations = root.lookupAll(type) {
             return registrations.compactMap { reg in return reg.resolve(resolver: root, args: args) }
         }
-        fatalError("RESOLVER: '\(Service.self)' types not resolved.")
+        return []
     }
 
     // Resolves and returns all named instances of the given Service type from the current registry or from its
@@ -294,7 +294,7 @@ public final class Resolver {
         if let registrations = lookupAll(type) {
             return registrations.compactMap { reg in return reg.scope.resolve(registration: reg, resolver: self, args: args) }
         }
-        fatalError("RESOLVER: '\(Service.self)' types not resolved.")
+        return []
     }
 
     /// Static function calls the root registry to resolve an optional Service type.
@@ -367,7 +367,7 @@ public final class Resolver {
     /// Internal function searches the current and child registries for all ResolverRegistration<Service>s that matches
     /// the supplied type combind with their registered names.
     private final func lookupAllKeyed<Service>(_ type: Service.Type) -> [String: ResolverRegistration<Service>]? {
-        let key = Int(bitPattern: ObjectIdentifier(Service.self))
+        let key = Int(bitPattern: ObjectIdentifier(type))
         var result = namedRegistrations.filter { registration in
             return registration.key.hasPrefix("\(key):")
         }
