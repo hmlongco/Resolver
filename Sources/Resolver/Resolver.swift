@@ -65,7 +65,7 @@ public final class Resolver {
     public static var defaultScope: ResolverScope = .graph
     /// Internal scope cache used for .scope(.container)
     public lazy var cache: ResolverScope = ResolverScopeCache()
-    /// Deorator applied to all resolved objects
+    /// Decorator applied to all resolved objects
     public static var decorate: ((_ service: Any) -> Void)?
 
     // MARK: - Lifecycle
