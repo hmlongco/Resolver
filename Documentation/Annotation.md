@@ -90,7 +90,7 @@ protocol Loader {
 }
 
 class InjectedViewController: UIViewController {
-    @njected var loader: Loader
+    @Injected var loader: Loader
     func load() {
         loader.load()
     }
