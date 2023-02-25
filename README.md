@@ -117,6 +117,12 @@ It's possible that recent updates to Resolver could cause breaking changes in yo
 
 * Resolver 1.5 updated several of the registration and caching mechanisms used within Resolver. This one probably isn't an issue unless you wrote something that depended upon Resolver's internal behavior.
 
+## Sponsor Resolver
+
+If you want to support my work on Factory and Resolver, consider a [GitHub Sponsorship](https://github.com/sponsors/hmlongco)! Many levels exist for increased support and even for mentorship and company training. 
+
+Or you can just buy me a cup of coffee!
+
 ## Author
 
 Resolver is designed, implemented, documented, and maintained by [Michael Long](https://www.linkedin.com/in/hmlong/), a Lead iOS Software Engineer and a Top 1,000 Technology Writer on Medium.
