@@ -269,6 +269,42 @@ public final class Resolver {
         fatalError("RESOLVER: '\(Service.self):\(name?.rawValue ?? "NONAME")' not resolved. To disambiguate optionals use resolver.optional().")
     }
 
+    // Resolves and returns all named instances of the given Service type from the current registry or from its
+    /// parent registries.
+    ///
+    /// - parameter type: Type of Services being resolved. Optional, may be inferred by assignment result type.
+    /// - parameter args: Optional arguments that may be passed to registration factory.
+    ///
+    /// - returns: Instances of specified Service.
+    ///
+    public static func resolveAll<Service>(_ type: Service.Type = Service.self, args: Any? = nil) -> [Service] {
+        lock.lock()
+        defer { lock.unlock() }
+        registrationCheck()
+        if let registrations = root.lookupAll(type) {
+            return registrations.compactMap { reg in return reg.resolve(resolver: root, args: args) }
+        }
+        return []
+    }
+
+    // Resolves and returns all named instances of the given Service type from the current registry or from its
+    /// parent registries.
+    ///
+    /// - parameter type: Type of Services being resolved. Optional, may be inferred by assignment result type.
+    /// - parameter args: Optional arguments that may be passed to registration factory.
+    ///
+    /// - returns: Instances of specified Service.
+    ///
+    public final func resolveAll<Service>(_ type: Service.Type = Service.self, args: Any? = nil) -> [Service] {
+        lock.lock()
+        defer { lock.unlock() }
+        registrationCheck()
+        if let registrations = lookupAll(type) {
+            return registrations.compactMap { reg in return reg.scope.resolve(registration: reg, resolver: self, args: args) }
+        }
+        return []
+    }
+
     /// Static function calls the root registry to resolve an optional Service type.
     ///
     /// - parameter type: Type of Service being resolved. Optional, may be inferred by assignment result type.
@@ -331,6 +367,31 @@ public final class Resolver {
             }
         }
         return nil
+    }
+
+    /// Internal function searches the current and child registries for all ResolverRegistration<Service>s that matches
+    /// the supplied type.
+    private final func lookupAll<Service>(_ type: Service.Type) -> [ResolverRegistration<Service>]? {
+        guard let values = lookupAllKeyed(type)?.values else {
+            return nil
+        }
+        return Array(values)
+    }
+
+    /// Internal function searches the current and child registries for all ResolverRegistration<Service>s that matches
+    /// the supplied type combind with their registered names.
+    private final func lookupAllKeyed<Service>(_ type: Service.Type) -> [String: ResolverRegistration<Service>]? {
+        let key = Int(bitPattern: ObjectIdentifier(type))
+        var result = namedRegistrations.filter { registration in
+            return registration.key.hasPrefix("\(key):")
+        }
+        for child in childContainers {
+            guard let childRegistrations = child.lookupAllKeyed(type) else {
+                continue
+            }
+            result.merge(childRegistrations, uniquingKeysWith: { parentEntry, _ in return parentEntry })
+        }
+        return result as? [String: ResolverRegistration<Service>]
     }
 
     /// Internal function adds a new registration to the proper container.
