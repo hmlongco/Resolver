@@ -352,20 +352,26 @@ public final class Resolver {
 /// Resolving an instance of a service is a recursive process (service A needs a B which needs a C).
 private final class ResolverRecursiveLock {
     init() {
-        pthread_mutexattr_init(&recursiveMutexAttr)
-        pthread_mutexattr_settype(&recursiveMutexAttr, PTHREAD_MUTEX_RECURSIVE)
-        pthread_mutex_init(&recursiveMutex, &recursiveMutexAttr)
+        mutexAttr = UnsafeMutablePointer<pthread_mutexattr_t>.allocate(capacity: 1)
+        pthread_mutexattr_init(mutexAttr)
+        pthread_mutexattr_settype(mutexAttr, Int32(PTHREAD_MUTEX_RECURSIVE))
+        mutex = UnsafeMutablePointer<pthread_mutex_t>.allocate(capacity: 1)
+        pthread_mutex_init(mutex, mutexAttr)
     }
-    @inline(__always)
-    final func lock() {
-        pthread_mutex_lock(&recursiveMutex)
+    deinit {
+        pthread_mutex_destroy(mutex)
+        mutex.deallocate()
+        pthread_mutexattr_destroy(mutexAttr)
+        mutexAttr.deallocate()
     }
-    @inline(__always)
-    final func unlock() {
-        pthread_mutex_unlock(&recursiveMutex)
+    @inlinable func lock() {
+        pthread_mutex_lock(mutex)
     }
-    private var recursiveMutex = pthread_mutex_t()
-    private var recursiveMutexAttr = pthread_mutexattr_t()
+    @inlinable func unlock() {
+        pthread_mutex_unlock(mutex)
+    }
+    private var mutex: UnsafeMutablePointer<pthread_mutex_t>
+    private var mutexAttr: UnsafeMutablePointer<pthread_mutexattr_t>
 }
 
 extension Resolver {
