@@ -2,7 +2,7 @@
 
 An ultralight Dependency Injection / Service Locator framework for Swift 5.x on iOS.
 
-**Note: Later in 2023 Resolver will be deprecated and replaced by my new dependency injection system, [Factory](https://github.com/hmlongco/Factory). Factory 2.0 is a true container-based dependency injection system that's compile-time safe and is smaller, lighter, and faster than Resolver. As good as Resolver is, Factory is better.**
+**Note: Resolver is now officially deprecated and replaced by my new dependency injection system, [Factory](https://github.com/hmlongco/Factory). Factory is a true container-based dependency injection system that's compile-time safe and is smaller, lighter, and faster than Resolver. As good as Resolver is, Factory is better.**
 
 ## Introduction
 

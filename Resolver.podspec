@@ -1,13 +1,14 @@
 Pod::Spec.new do |s|
   s.name         = "Resolver"
-  s.version      = "1.5.0"
+  s.version      = "1.5.1"
   s.summary      = "An ultralight Dependency Injection / Service Locator framework for Swift on iOS."
   s.homepage     = "https://github.com/hmlongco/Resolver"
   s.license      = "MIT"
   s.author       = "Michael Long"
   s.source       = { :git => "https://github.com/hmlongco/Resolver.git", :tag => "#{s.version}" }
   s.source_files  = "Classes", "Sources/Resolver/*.swift"
-  s.swift_version = '5.1'
+  s.resources     = "Sources/**/*.xcprivacy"
+  s.swift_version = '5.9'
 
   s.ios.deployment_target = "11.0"
   s.ios.framework  = 'UIKit'

@@ -1,5 +1,9 @@
 # Resolver Changelog
 
+### 1.5.1
+
+* Added privacy manifest.
+
 ### 1.5.0
 
 * Added .container scope that lives for the lifetime of a given Resolver container (PR#131)
