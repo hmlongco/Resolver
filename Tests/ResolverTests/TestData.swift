@@ -81,12 +81,20 @@ class XYZSessionService: XYZSessionProtocol {
     var name: String = "XYZSessionService"
 }
 
-class XYZNameService {
+protocol XYZNameProtocol {
+    var id: UUID { get }
+    var name: String { get set }
+}
+
+class XYZNameService: XYZNameProtocol {
     let id = UUID()
     var name: String
     init(_ name: String) {
         self.name = name
     }
+}
+class XYZEnhancedNameService: XYZNameService {
+    let isEnhanced: Bool = true
 }
 
 class XYZNeverService {
