@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.author       = "Michael Long"
   s.source       = { :git => "https://github.com/hmlongco/Resolver.git", :tag => "#{s.version}" }
   s.source_files  = "Classes", "Sources/Resolver/*.swift"
-  s.resources     = "Sources/**/*.xcprivacy"
+  s.resource_bundles = {"Resolver" => ["Sources/PrivacyInfo.xcprivacy"]}
   s.swift_version = '5.9'
 
   s.ios.deployment_target = "11.0"
