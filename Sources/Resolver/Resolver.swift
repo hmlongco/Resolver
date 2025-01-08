@@ -24,7 +24,7 @@
 // THE SOFTWARE.
 //
 
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 import UIKit
 import SwiftUI
 #elseif os(macOS) || os(tvOS) || os(watchOS)
@@ -877,7 +877,7 @@ public extension UIViewController {
     }
 }
 
-#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS) || os(visionOS)
 /// Immediate injection property wrapper for SwiftUI ObservableObjects. This wrapper is meant for use in SwiftUI Views and exposes
 /// bindable objects similar to that of SwiftUI @observedObject and @environmentObject.
 ///
@@ -885,7 +885,7 @@ public extension UIViewController {
 ///
 /// Wrapped dependent service is resolved immediately using Resolver.root upon struct initialization.
 ///
-@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, visionOS 1.0, *)
 @propertyWrapper public struct InjectedObject<Service>: DynamicProperty where Service: ObservableObject {
     @ObservedObject private var service: Service
     public init() {
