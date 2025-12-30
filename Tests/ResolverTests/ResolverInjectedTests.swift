@@ -12,15 +12,15 @@ import XCTest
 #if swift(>=5.1)
 
 class BasicInjectedViewController {
-    @Injected var service: XYZService
+    @ResolverInjected var service: XYZService
 }
 
 class NamedInjectedViewController {
-    @Injected(name: "fred") var service: XYZNameService
+    @ResolverInjected(name: "fred") var service: XYZNameService
 }
 
 class NamedInjectedViewController2 {
-    @Injected(name: "barney") var service: XYZNameService
+    @ResolverInjected(name: "barney") var service: XYZNameService
 }
 
 extension Resolver {
@@ -28,31 +28,31 @@ extension Resolver {
 }
 
 class ContainerInjectedViewController {
-    @Injected(container: .custom) var service: XYZNameService
+    @ResolverInjected(container: .custom) var service: XYZNameService
 }
 
 class LazyInjectedViewController {
-    @LazyInjected var service: XYZService
+    @ResolverLazyInjected var service: XYZService
 }
 
 class LazyInjectedArgumentsViewController {
-    @LazyInjected var service: XYZArgumentService
+    @ResolverLazyInjected var service: XYZArgumentService
     init() {
         $service.args = ["condition": true, "string": "betty"]
     }
 }
 
 class WeakLazyInjectedParentViewController {
-    @Injected var strongService: WeakXYZService
+    @ResolverInjected var strongService: WeakXYZService
 }
 
 class WeakLazyInjectedChildViewController {
-    @WeakLazyInjected var weakService: WeakXYZService?
+    @ResolverWeakLazyInjected var weakService: WeakXYZService?
 }
 
 class OptionalInjectedViewController {
-    @OptionalInjected var service: XYZService?
-    @OptionalInjected var notRegistered: NotRegistered?
+    @ResolverOptionalInjected var service: XYZService?
+    @ResolverOptionalInjected var notRegistered: NotRegistered?
 }
 
 protocol ReturnsSomething: AnyObject {
@@ -66,7 +66,7 @@ class WeakXYZService: XYZService, ReturnsSomething {
 }
 
 class WeakLazyInjectedProtocolViewController {
-    @WeakLazyInjected var service: ReturnsSomething?
+    @ResolverWeakLazyInjected var service: ReturnsSomething?
 }
 
 class NotRegistered {

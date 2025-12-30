@@ -750,7 +750,7 @@ public extension UIViewController {
 ///
 /// Wrapped dependent service is resolved immediately using Resolver.root upon struct initialization.
 ///
-@propertyWrapper public struct Injected<Service> {
+@propertyWrapper public struct ResolverInjected<Service> {
     private var service: Service
     public init() {
         self.service = Resolver.resolve(Service.self)
@@ -762,7 +762,7 @@ public extension UIViewController {
         get { return service }
         mutating set { service = newValue }
     }
-    public var projectedValue: Injected<Service> {
+    public var projectedValue: ResolverInjected<Service> {
         get { return self }
         mutating set { self = newValue }
     }
@@ -772,7 +772,7 @@ public extension UIViewController {
 ///
 /// If available, wrapped dependent service is resolved immediately using Resolver.root upon struct initialization.
 ///
-@propertyWrapper public struct OptionalInjected<Service> {
+@propertyWrapper public struct ResolverOptionalInjected<Service> {
     private var service: Service?
     public init() {
         self.service = Resolver.optional(Service.self)
@@ -784,7 +784,7 @@ public extension UIViewController {
         get { return service }
         mutating set { service = newValue }
     }
-    public var projectedValue: OptionalInjected<Service> {
+    public var projectedValue: ResolverOptionalInjected<Service> {
         get { return self }
         mutating set { self = newValue }
     }
@@ -794,7 +794,7 @@ public extension UIViewController {
 ///
 /// Wrapped dependent service is not resolved until service is accessed.
 ///
-@propertyWrapper public struct LazyInjected<Service> {
+@propertyWrapper public struct ResolverLazyInjected<Service> {
     private var lock = Resolver.lock
     private var initialize: Bool = true
     private var service: Service!
@@ -828,7 +828,7 @@ public extension UIViewController {
             service = newValue
         }
     }
-    public var projectedValue: LazyInjected<Service> {
+    public var projectedValue: ResolverLazyInjected<Service> {
         get { return self }
         mutating set { self = newValue }
     }
@@ -843,7 +843,7 @@ public extension UIViewController {
 ///
 /// Wrapped dependent service is not resolved until service is accessed.
 ///
-@propertyWrapper public struct WeakLazyInjected<Service> {
+@propertyWrapper public struct ResolverWeakLazyInjected<Service> {
     private var lock = Resolver.lock
     private var initialize: Bool = true
     private weak var service: AnyObject?
@@ -878,7 +878,7 @@ public extension UIViewController {
             service = newValue as AnyObject
         }
     }
-    public var projectedValue: WeakLazyInjected<Service> {
+    public var projectedValue: ResolverWeakLazyInjected<Service> {
         get { return self }
         mutating set { self = newValue }
     }
@@ -893,7 +893,7 @@ public extension UIViewController {
 /// Wrapped dependent service is resolved immediately using Resolver.root upon struct initialization.
 ///
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-@propertyWrapper public struct InjectedObject<Service>: DynamicProperty where Service: ObservableObject {
+@propertyWrapper public struct ResolverInjectedObject<Service>: DynamicProperty where Service: ObservableObject {
     @ObservedObject private var service: Service
     public init() {
         self.service = Resolver.resolve(Service.self)

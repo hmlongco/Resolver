@@ -106,13 +106,13 @@ class CyclicC {
 
 
 class InjectedCyclicA {
-    @Injected(container: resolver) var b: InjectedCyclicB
+    @ResolverInjected(container: resolver) var b: InjectedCyclicB
 }
 
 class InjectedCyclicB {
-    @Injected(container: resolver) var c: InjectedCyclicC
+    @ResolverInjected(container: resolver) var c: InjectedCyclicC
 }
 
 class InjectedCyclicC {
-    @WeakLazyInjected(container: resolver) var a: InjectedCyclicA?
+    @ResolverWeakLazyInjected(container: resolver) var a: InjectedCyclicA?
 }
