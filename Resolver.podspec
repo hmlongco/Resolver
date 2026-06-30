@@ -10,12 +10,8 @@ Pod::Spec.new do |s|
   s.resources     = "Sources/**/*.xcprivacy"
   s.swift_version = '5.9'
 
-  s.ios.deployment_target = "11.0"
-  s.ios.framework  = 'UIKit'
-
-  s.tvos.deployment_target = "11.0"
-  s.tvos.framework  = 'UIKit'
-
-  s.osx.deployment_target = "10.15"
-  s.osx.framework  = 'AppKit'
+  s.ios.deployment_target = "12.0"
+  s.tvos.deployment_target = "13.0"
+  s.watchos.deployment_target = "8.2"
+  s.osx.deployment_target = "10.14"
 end
